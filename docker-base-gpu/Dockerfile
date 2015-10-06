@@ -20,3 +20,6 @@ RUN VERSION=6_5 && \
     #wget -q --header="Host: $MIRROR_HOST" "$MIRROR_URL/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE -silent -toolkit && \
     rm -- $CUDA_RUN_FILE
+
+ENV PATH="$PATH:/usr/local/cuda/bin"
+ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64"

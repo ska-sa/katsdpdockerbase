@@ -1,25 +1,34 @@
-FROM sdp-ingest5.kat.ac.za:5000/docker-base
+FROM sdp-ingest5.kat.ac.za:5000/docker-base:docker-refactor
 
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 
-RUN VERSION=346.35 && \
+USER root
+
+RUN apt-get -y update && apt-get install --no-install-recommends -y \
+        opencl-headers
+
+RUN VERSION=355.11 && \
     DRIVER_RUN_FILE=NVIDIA-Linux-x86_64-$VERSION.run && \
-    MIRROR_HOST=mirror.kat.ac.za && \
-    MIRROR_URL=http://192.168.1.25/nvidia && \
     wget "http://uk.download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$DRIVER_RUN_FILE" && \
-    #wget -q --header="Host: $MIRROR_HOST" "$MIRROR_URL/$DRIVER_RUN_FILE" && \
     sh ./$DRIVER_RUN_FILE --no-kernel-module --silent --no-network && \
     rm -- $DRIVER_RUN_FILE
 
-RUN VERSION=6_5 && \
-    CUDA_RUN_FILE=cuda_6.5.19_linux_64.run && \
-    MIRROR_HOST=mirror.kat.ac.za && \
-    MIRROR_URL=http://192.168.1.25/nvidia && \
-    wget "http://developer.download.nvidia.com/compute/cuda/$VERSION/rel/installers/$CUDA_RUN_FILE" && \
-    #wget "http://developer.download.nvidia.com/compute/cuda/$VERSION/Prod/local_installers/$CUDA_RUN_FILE" && \
-    #wget -q --header="Host: $MIRROR_HOST" "$MIRROR_URL/$CUDA_RUN_FILE" && \
+RUN CUDA_RUN_FILE=cuda_7.5.18_linux.run && \
+    wget "http://developer.download.nvidia.com/compute/cuda/7.5/Prod/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE -silent -toolkit && \
     rm -- $CUDA_RUN_FILE
 
 ENV PATH="$PATH:/usr/local/cuda/bin"
 ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64"
+
+USER kat
+
+# Create wheels for GPU-related packages. First we need to disable the
+# already-configured virtualenv, then create a new temporary one.
+COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
+RUN PATH="`echo $PATH | sed -e 's!:$HOME/ve/bin:!:!'`" && \
+    virtualenv ~/tmp-ve && \
+    . ~/tmp-ve/bin/activate && \
+    pip install --no-deps -r ~/docker-base/pre-requirements.txt && \
+    install-requirements.py -d ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
+    rm -rf ~/tmp-ve

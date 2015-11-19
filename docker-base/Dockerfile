@@ -52,5 +52,8 @@ RUN virtualenv ~/ve && \
     . ~/ve/bin/activate && \
     pip install --no-deps -r ~/docker-base/pre-requirements.txt && \
     ~/bin/install-requirements.py -d ~/docker-base/base-requirements.txt manhole
+# Activate it. We can't use ~/ve/bin/activate, because any environment set in a
+# RUN step is lost at the end of the step. We also add ~/bin to PATH so that
+# install-requirements.py can be found.
 ENV PATH "/home/kat/ve/bin:/home/kat/bin:$PATH"
 ENV VIRTUAL_ENV "/home/kat/ve"

@@ -24,7 +24,9 @@ ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64"
 USER kat
 
 # Create wheels for GPU-related packages. First we need to disable the
-# already-configured virtualenv, then create a new temporary one.
+# already-configured virtualenv, then create a new temporary one. Note that we
+# don't need to reactivate the old one, because the environment only lasts to
+# the end of the RUN step.
 COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
 RUN PATH="`echo $PATH | sed -e 's!:$HOME/ve/bin:!:!'`" && \
     virtualenv ~/tmp-ve && \

@@ -9,12 +9,14 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install some system packages used by multiple images.
 RUN apt-get -y update && apt-get -y install \
+    apt-transport-https \
     build-essential pkg-config git-core software-properties-common wget \
     python python-dev libffi-dev libssl-dev python-pip python-virtualenv \
     libboost-python1.55-dev \
     libboost-system1.55-dev \
     gfortran libatlas-dev libblas-dev liblapack-dev \
-    libhdf5-dev libfreetype6-dev libpng-dev
+    libhdf5-dev libfreetype6-dev libpng-dev \
+    llvm-3.6-dev libedit-dev
 
 # Install python-casacore build dependencies. Note that this cannot be
 # combined into the previous step because apt-add-repository is part of
@@ -38,6 +40,7 @@ RUN chmod -R go-rwx ~/.ssh
 
 COPY *-requirements.txt /home/kat/docker-base/
 COPY install-requirements.py /home/kat/bin/
+ENV LLVM_CONFIG="llvm-config-3.6"
 # Pre-build a number of wheels to speed up building of dependent images. These
 # are all the latest versions at the time of writing.
 RUN virtualenv ~/tmp-ve && \
@@ -55,5 +58,5 @@ RUN virtualenv ~/ve && \
 # Activate it. We can't use ~/ve/bin/activate, because any environment set in a
 # RUN step is lost at the end of the step. We also add ~/bin to PATH so that
 # install-requirements.py can be found.
-ENV PATH "/home/kat/ve/bin:/home/kat/bin:$PATH"
-ENV VIRTUAL_ENV "/home/kat/ve"
+ENV PATH="/home/kat/ve/bin:/home/kat/bin:$PATH" \
+    VIRTUAL_ENV="/home/kat/ve"

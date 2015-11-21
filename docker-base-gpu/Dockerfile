@@ -28,7 +28,7 @@ USER kat
 # don't need to reactivate the old one, because the environment only lasts to
 # the end of the RUN step.
 COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
-RUN PATH="`echo $PATH | sed -e 's!:$HOME/ve/bin:!:!'`" && \
+RUN PATH="`echo $PATH | sed -e 's!/home/kat/ve/bin:!!'`" && \
     virtualenv ~/tmp-ve && \
     . ~/tmp-ve/bin/activate && \
     pip install --no-deps -r ~/docker-base/pre-requirements.txt && \

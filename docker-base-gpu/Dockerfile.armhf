@@ -15,6 +15,7 @@ RUN BSP=Tegra210_Linux_R23.1.1_armhf.tbz2 && \
     rm -rf Linux_for_Tegra "$BSP" && \
     ln -s libcuda.so.1.1 /usr/lib/arm-linux-gnueabihf/tegra/libcuda.so && \
     ln -s tegra/libcuda.so /usr/lib/arm-linux-gnueabihf/libcuda.so && \
+    echo /usr/lib/arm-linux-gnueabihf/tegra > /etc/ld.so.conf.d/nvidia-tegra.conf && \
     ldconfig
 
 RUN CUDA_DEB="cuda-repo-l4t-r23.1-7-0-local_7.0-71_armhf.deb" && \
@@ -33,9 +34,9 @@ RUN CUDA_DEB="cuda-repo-l4t-r23.1-7-0-local_7.0-71_armhf.deb" && \
     apt-get -y purge cuda-repo-l4t-r23.1-7-0-local && \
     ln -s /usr/local/cuda-7.0 /usr/local/cuda
 
-ENV PATH="$PATH:/usr/local/cuda/bin"
-ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64"
+ENV PATH="$PATH:/usr/local/cuda/bin" LD_LIBRARY_PATH="/usr/local/cuda/lib"
 
+RUN adduser kat video
 USER kat
 
 # Create wheels for GPU-related packages. First we need to disable the

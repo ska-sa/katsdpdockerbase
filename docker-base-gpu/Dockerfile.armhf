@@ -1,0 +1,51 @@
+FROM sdp-ingest5.kat.ac.za:5000/docker-base-armhf
+
+MAINTAINER Bruce Merry "bmerry@ska.ac.za"
+
+USER root
+
+RUN apt-get -y update && apt-get install --no-install-recommends -y \
+        opencl-headers ocl-icd-opencl-dev
+
+# Install BSP. NVIDIA provides it wrapped inside a bigger tarball.
+RUN BSP=Tegra210_Linux_R23.1.1_armhf.tbz2 && \
+    wget "http://developer.download.nvidia.com/embedded/L4T/r23_Release_v1.0/$BSP" && \
+    tar -jxf "$BSP" Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2 && \
+    tar -jxvf Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2 -C / && \
+    rm -rf Linux_for_Tegra "$BSP" && \
+    ln -s libcuda.so.1.1 /usr/lib/arm-linux-gnueabihf/tegra/libcuda.so && \
+    ln -s tegra/libcuda.so /usr/lib/arm-linux-gnueabihf/libcuda.so && \
+    ldconfig
+
+RUN CUDA_DEB="cuda-repo-l4t-r23.1-7-0-local_7.0-71_armhf.deb" && \
+    wget "http://developer.download.nvidia.com/embedded/L4T/r23_Release_v1.0/$CUDA_DEB" && \
+    dpkg -i "$CUDA_DEB" && \
+    rm "$CUDA_DEB" && \
+    apt-get -y update && \
+    apt-get -y install --no-install-recommends \
+        cuda-core-7-0 \
+        cuda-command-line-tools-7-0 \
+        cuda-cudart-dev-7-0 \
+        cuda-cufft-dev-7-0 \
+        cuda-curand-dev-7-0 \
+        cuda-driver-dev-7-0 \
+        cuda-misc-headers-7-0 && \
+    apt-get -y purge cuda-repo-l4t-r23.1-7-0-local && \
+    ln -s /usr/local/cuda-7.0 /usr/local/cuda
+
+ENV PATH="$PATH:/usr/local/cuda/bin"
+ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64"
+
+USER kat
+
+# Create wheels for GPU-related packages. First we need to disable the
+# already-configured virtualenv, then create a new temporary one. Note that we
+# don't need to reactivate the old one, because the environment only lasts to
+# the end of the RUN step.
+COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
+RUN PATH="`echo $PATH | sed -e 's!/home/kat/ve/bin:!!'`" && \
+    virtualenv ~/tmp-ve && \
+    . ~/tmp-ve/bin/activate && \
+    pip install --no-deps -r ~/docker-base/pre-requirements.txt && \
+    install-requirements.py -d ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
+    rm -rf ~/tmp-ve

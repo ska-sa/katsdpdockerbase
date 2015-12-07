@@ -27,6 +27,7 @@ RUN CUDA_DEB="cuda-repo-l4t-r23.1-7-0-local_7.0-71_armhf.deb" && \
         cuda-core-7-0 \
         cuda-command-line-tools-7-0 \
         cuda-cudart-dev-7-0 \
+        cuda-cublas-dev-7-0 \
         cuda-cufft-dev-7-0 \
         cuda-curand-dev-7-0 \
         cuda-driver-dev-7-0 \

@@ -45,15 +45,14 @@ ENV LLVM_CONFIG="llvm-config-3.6"
 # are all the latest versions at the time of writing.
 RUN virtualenv ~/tmp-ve && \
     . ~/tmp-ve/bin/activate && \
-    pip install --no-deps -r ~/docker-base/pre-requirements.txt && \
-    pip install --no-index -r ~/docker-base/pre-requirements.txt && \
+    ~/bin/install-requirements.py -r ~/docker-base/pre-requirements.txt && \
     ~/bin/install-requirements.py -r ~/docker-base/base-requirements.txt && \
     rm -r ~/tmp-ve
 
 # Create a virtual environment for use in child images
 RUN virtualenv ~/ve && \
     . ~/ve/bin/activate && \
-    pip install --no-deps -r ~/docker-base/pre-requirements.txt && \
+    ~/bin/install-requirements.py -r ~/docker-base/pre-requirements.txt && \
     ~/bin/install-requirements.py -d ~/docker-base/base-requirements.txt manhole
 # Activate it. We can't use ~/ve/bin/activate, because any environment set in a
 # RUN step is lost at the end of the step. We also add ~/bin to PATH so that

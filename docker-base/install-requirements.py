@@ -17,11 +17,11 @@ import sys
 import pkg_resources
 import re
 import argparse
-import pip
 import warnings
 import codecs
 import tempfile
 import itertools
+import subprocess
 
 COMMENT_RE = re.compile(r'(^|\s)+#.*$')
 
@@ -129,7 +129,7 @@ def run_pip(args, dry_run):
         with codecs.open(args[-1], encoding='utf-8') as f:
             sys.stdout.write(f.read())
     else:
-        ret = pip.main(args)
+        ret = subprocess.call(['pip'] + args)
         if ret:
             sys.exit(ret)
 
@@ -139,7 +139,7 @@ def main():
     parser.add_argument('--default-versions', '-d', type=str, action='append', default=[], help='Requirements file that is consulted for unversioned requirements')
     parser.add_argument('--requirements', '-r', type=str, action='append', default=[], help='Requirements file')
     parser.add_argument('--dry-run', '-n', action='store_true', help='Just report what would be done')
-    parser.add_argument('package', type=str, nargs='*', help='Package names')
+    parser.add_argument('package', type=parse_requirement, nargs='*', help='Package names')
     args = parser.parse_args()
 
     req = make_requirements(args)

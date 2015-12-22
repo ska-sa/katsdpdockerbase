@@ -53,8 +53,7 @@ ENV LLVM_CONFIG="llvm-config-3.6"
 # Work around a numpy bug where it assumes x86-64.
 RUN virtualenv ~/tmp-ve && \
     . ~/tmp-ve/bin/activate && \
-    pip install --no-deps -r ~/docker-base/pre-requirements.txt && \
-    pip install --no-index -r ~/docker-base/pre-requirements.txt && \
+    ~/bin/install-requirements.py -r ~/docker-base/pre-requirements.txt && \
     ~/bin/install-requirements.py -d ~/docker-base/base-requirements.txt numpy && \
     sed -i 's/-O2 -march=x86-64 -DMS_WIN64 -mtune=generic -msse2/-O2/' ~/tmp-ve/lib/python2.7/site-packages/numpy/distutils/fcompiler/gnu.py && \
     ~/bin/install-requirements.py -r ~/docker-base/base-requirements.txt && \

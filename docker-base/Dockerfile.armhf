@@ -33,6 +33,17 @@ RUN mkdir -p /tmp/builds && \
     make -j4 && \
     make install
 
+# Install tini (a mini-init) and set it as entrypoint so that we don't
+# accumulate zombie processes.
+RUN cd /tmp && \
+    git clone https://github.com/krallin/tini && \
+    cd tini && \
+    cmake . &&
+    make &&
+    cp tini /sbin/tini && \
+    cd .. && rm -rf /tmp/tini
+ENTRYPOINT ["/sbin/tini", "--"]
+
 # Create and switch to a user which will be used to run commands with reduced
 # privileges.
 RUN adduser --disabled-password --gecos 'unprivileged user' kat

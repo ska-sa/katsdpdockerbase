@@ -26,6 +26,12 @@ RUN add-apt-repository -y ppa:radio-astro/main && \
     apt-get -y update && \
     apt-get -y install libcasacore2-dev libcfitsio3-dev
 
+# Install tini (a mini-init) and set it as entrypoint so that we don't
+# accumulate zombie processes.
+RUN wget https://github.com/krallin/tini/releases/download/v0.9.0/tini -O /sbin/tini && \
+    chmod +x /sbin/tini
+ENTRYPOINT ["/sbin/tini", "--"]
+
 # Create and switch to a user which will be used to run commands with reduced
 # privileges.
 RUN adduser --disabled-password --gecos 'unprivileged user' kat

@@ -38,8 +38,8 @@ RUN mkdir -p /tmp/builds && \
 RUN cd /tmp && \
     git clone https://github.com/krallin/tini && \
     cd tini && \
-    cmake . &&
-    make &&
+    cmake . && \
+    make && \
     cp tini /sbin/tini && \
     cd .. && rm -rf /tmp/tini
 ENTRYPOINT ["/sbin/tini", "--"]

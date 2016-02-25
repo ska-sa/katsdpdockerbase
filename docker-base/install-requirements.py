@@ -46,7 +46,7 @@ EPOCH = {
 def parse_requirement(requirement):
     try:
         return pkg_resources.Requirement.parse(requirement)
-    except pkg_resources.RequirementParseError:
+    except ValueError:
         if '://' not in requirement:
             warnings.warn('Requirement {} could not be parsed and is not an URL'.format(requirement))
         return requirement

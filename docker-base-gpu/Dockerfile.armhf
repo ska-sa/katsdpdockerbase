@@ -19,7 +19,7 @@ RUN BSP=Tegra210_Linux_R23.2.0_armhf.tbz2 && \
     ldconfig
 
 RUN CUDA_DEB="cuda-repo-l4t-r23.1-7-0-local_7.0-73_armhf.deb" && \
-    wget "http://developer.download.nvidia.com/embedded/L4T/r23_Release_v1.0/$CUDA_DEB" && \
+    wget "http://developer.download.nvidia.com/embedded/L4T/r23_Release_v2.0/$CUDA_DEB" && \
     dpkg -i "$CUDA_DEB" && \
     rm "$CUDA_DEB" && \
     apt-get -y update && \
@@ -32,7 +32,7 @@ RUN CUDA_DEB="cuda-repo-l4t-r23.1-7-0-local_7.0-73_armhf.deb" && \
         cuda-curand-dev-7-0 \
         cuda-driver-dev-7-0 \
         cuda-misc-headers-7-0 && \
-    apt-get -y purge cuda-repo-l4t-r23.3-7-0-local && \
+    apt-get -y purge cuda-repo-l4t-r23.1-7-0-local && \
     ln -s /usr/local/cuda-7.0 /usr/local/cuda
 
 ENV PATH="$PATH:/usr/local/cuda/bin" LD_LIBRARY_PATH="/usr/local/cuda/lib"

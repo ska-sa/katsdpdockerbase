@@ -8,8 +8,8 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
         opencl-headers ocl-icd-opencl-dev
 
 # Install BSP. NVIDIA provides it wrapped inside a bigger tarball.
-RUN BSP=Tegra210_Linux_R23.1.1_armhf.tbz2 && \
-    wget "http://developer.download.nvidia.com/embedded/L4T/r23_Release_v1.0/$BSP" && \
+RUN BSP=Tegra210_Linux_R23.2.0_armhf.tbz2 && \
+    wget "http://developer.download.nvidia.com/embedded/L4T/r23_Release_v2.0/$BSP" && \
     tar -jxf "$BSP" Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2 && \
     tar -jxvf Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2 -C / && \
     rm -rf Linux_for_Tegra "$BSP" && \
@@ -18,7 +18,7 @@ RUN BSP=Tegra210_Linux_R23.1.1_armhf.tbz2 && \
     echo /usr/lib/arm-linux-gnueabihf/tegra > /etc/ld.so.conf.d/nvidia-tegra.conf && \
     ldconfig
 
-RUN CUDA_DEB="cuda-repo-l4t-r23.1-7-0-local_7.0-71_armhf.deb" && \
+RUN CUDA_DEB="cuda-repo-l4t-r23.1-7-0-local_7.0-73_armhf.deb" && \
     wget "http://developer.download.nvidia.com/embedded/L4T/r23_Release_v1.0/$CUDA_DEB" && \
     dpkg -i "$CUDA_DEB" && \
     rm "$CUDA_DEB" && \
@@ -32,7 +32,7 @@ RUN CUDA_DEB="cuda-repo-l4t-r23.1-7-0-local_7.0-71_armhf.deb" && \
         cuda-curand-dev-7-0 \
         cuda-driver-dev-7-0 \
         cuda-misc-headers-7-0 && \
-    apt-get -y purge cuda-repo-l4t-r23.1-7-0-local && \
+    apt-get -y purge cuda-repo-l4t-r23.3-7-0-local && \
     ln -s /usr/local/cuda-7.0 /usr/local/cuda
 
 ENV PATH="$PATH:/usr/local/cuda/bin" LD_LIBRARY_PATH="/usr/local/cuda/lib"

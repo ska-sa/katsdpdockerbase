@@ -1,5 +1,3 @@
-# katsdpinfrastructure
+# katsdpdockerbase
 
-A repository for configuration files for internal infrastructure, including
-Dockerfiles for services that are part of the development infrastructure but
-not part of the SDP software deliverables.
+Base Docker images, from which other SDP Docker images are built.

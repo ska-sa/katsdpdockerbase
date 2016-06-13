@@ -26,6 +26,16 @@ RUN add-apt-repository -y ppa:radio-astro/main && \
     apt-get -y update && \
     apt-get -y install libcasacore2-dev libcfitsio3-dev
 
+# Install some components of MLNX_OFED
+RUN cd /tmp && \
+    wget http://www.mellanox.com/downloads/ofed/MLNX_OFED-3.2-2.0.0.0/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz && \
+    tar -zxf MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz && \
+    echo 'deb file:///tmp/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64 ./' > /etc/apt/sources.list.d/mlnx-ofed.list && \
+    wget -qO - http://www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | sudo apt-key add - && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends libibverbs-dev librdmacm-dev libvma-dev && \
+    rm -rf /tmp/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64 /etc/apt/sources.list.d/mlnx-ofed.list
+
 # Install tini (a mini-init) and set it as entrypoint so that we don't
 # accumulate zombie processes.
 RUN wget https://github.com/krallin/tini/releases/download/v0.9.0/tini -O /sbin/tini && \

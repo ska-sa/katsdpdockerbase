@@ -33,8 +33,11 @@ RUN cd /tmp && \
     echo 'deb file:///tmp/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64 ./' > /etc/apt/sources.list.d/mlnx-ofed.list && \
     wget -qO - http://www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | sudo apt-key add - && \
     apt-get update && \
-    apt-get install -y --no-install-recommends libibverbs-dev librdmacm-dev libvma-dev && \
-    rm -rf /tmp/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64 /etc/apt/sources.list.d/mlnx-ofed.list
+    apt-get install -y --no-install-recommends \
+        libibverbs-dev librdmacm-dev libvma-dev libmlx4-1 && \
+    rm -rf /tmp/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64 \
+        /tmp/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz \
+        /etc/apt/sources.list.d/mlnx-ofed.list
 
 # Install tini (a mini-init) and set it as entrypoint so that we don't
 # accumulate zombie processes.

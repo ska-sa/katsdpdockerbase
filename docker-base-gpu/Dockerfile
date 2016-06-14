@@ -1,4 +1,4 @@
-FROM sdp-docker-registry.kat.ac.za:5000/docker-base:ibverbs
+FROM sdp-docker-registry.kat.ac.za:5000/docker-base
 
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 

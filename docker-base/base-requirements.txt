@@ -17,7 +17,7 @@ futures==3.0.3
 h5py==2.5.0
 iniparse==0.4
 Jinja2==2.8
-katcp==0.5.5
+katcp==0.6.0
 linecache2==1.0.0
 llvmlite==0.8.0
 Mako==1.0.3
@@ -43,7 +43,7 @@ scipy==0.16.1
 singledispatch==3.4.0.3
 six==1.10.0
 snowballstemmer==1.2.0
-spead2==0.10.3
+spead2==0.10.4
 Sphinx==1.3.1
 sphinx-rtd-theme==0.1.9
 tornado==4.3

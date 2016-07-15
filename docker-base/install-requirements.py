@@ -38,7 +38,9 @@ EPOCH = {
     'cython': -50,
     'cffi': -50,
     'enum34': -50,   # Needed by llvmlite
+    'katversion': -50,
     'git+ssh://git@github.com/ska-sa/katversion': -50,
+    'pkginfo': -51,  # Needed by katversion
     # Has a lot of setup dependencies
     'mplh5canvas': 50
 }

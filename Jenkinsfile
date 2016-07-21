@@ -1,6 +1,6 @@
 #!groovy
 
-def katsdp = fileLoader.fromGit('jenkins/scripts/katsdp.groovy', 'git@github.com:ska-sa/katsdpinfrastructure', 'master', 'katpull', '')
+def katsdp = fileLoader.fromGit('scripts/katsdp.groovy', 'git@github.com:ska-sa/katsdpjenkins', 'master', 'katpull', '')
 
 katsdp.commonBuild(maintainer: 'bmerry@ska.ac.za') {
     stage name: 'docker-base image', concurrency: 1

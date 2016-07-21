@@ -29,7 +29,7 @@ RUN add-apt-repository -y ppa:radio-astro/main && \
 
 # Install some components of MLNX_OFED
 RUN cd /tmp && \
-    wget http://www.mellanox.com/downloads/ofed/MLNX_OFED-3.2-2.0.0.0/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz && \
+    wget --progress=dot:mega http://www.mellanox.com/downloads/ofed/MLNX_OFED-3.2-2.0.0.0/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz && \
     tar -zxf MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz && \
     echo 'deb file:///tmp/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64 ./' > /etc/apt/sources.list.d/mlnx-ofed.list && \
     wget -qO - http://www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | sudo apt-key add - && \

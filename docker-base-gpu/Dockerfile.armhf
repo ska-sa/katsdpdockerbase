@@ -9,7 +9,7 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
 
 # Install BSP. NVIDIA provides it wrapped inside a bigger tarball.
 RUN BSP=Tegra210_Linux_R23.2.0_armhf.tbz2 && \
-    wget "http://developer.download.nvidia.com/embedded/L4T/r23_Release_v2.0/$BSP" && \
+    wget --progress=dot:mega "http://developer.download.nvidia.com/embedded/L4T/r23_Release_v2.0/$BSP" && \
     tar -jxf "$BSP" Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2 && \
     tar -jxvf Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2 -C / && \
     rm -rf Linux_for_Tegra "$BSP" && \
@@ -19,7 +19,7 @@ RUN BSP=Tegra210_Linux_R23.2.0_armhf.tbz2 && \
     ldconfig
 
 RUN CUDA_DEB="cuda-repo-l4t-r23.1-7-0-local_7.0-73_armhf.deb" && \
-    wget "http://developer.download.nvidia.com/embedded/L4T/r23_Release_v2.0/CUDA/$CUDA_DEB" && \
+    wget --progress=dot:mega "http://developer.download.nvidia.com/embedded/L4T/r23_Release_v2.0/CUDA/$CUDA_DEB" && \
     dpkg -i "$CUDA_DEB" && \
     rm "$CUDA_DEB" && \
     apt-get -y update && \

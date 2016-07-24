@@ -7,14 +7,13 @@ katsdp.commonBuild(maintainer: 'bmerry@ska.ac.za') {
     katsdp.simpleNode(timeout: [time: 180, units: 'MINUTES']) {
         deleteDir()
         checkout scm
-        stash 'source'
         katsdp.makeDocker('docker-base', 'docker-base')
     }
 
     stage name: 'docker-base-gpu image', concurrency: 1
     katsdp.simpleNode(timeout: [time: 180, units: 'MINUTES']) {
         deleteDir()
-        unstash 'source'
+        checkout scm
         katsdp.makeDocker('docker-base-gpu', 'docker-base-gpu')
     }
 }

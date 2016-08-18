@@ -12,6 +12,7 @@ RUN apt-get -y update && apt-get -y install \
     apt-transport-https \
     build-essential pkg-config git-core software-properties-common wget \
     python python-dev libffi-dev libssl-dev python-pip python-virtualenv \
+    libboost-program-options1.55-dev \
     libboost-python1.55-dev \
     libboost-system1.55-dev \
     libboost-regex1.55-dev \

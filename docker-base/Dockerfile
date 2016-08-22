@@ -64,9 +64,12 @@ RUN chown -R kat:kat /home/kat/.ssh
 USER kat
 
 # Set up access to github private repositories and set up git-lfs
+# git lfs install has a bug (https://github.com/github/git-lfs/issues/1231)
+# that makes it create a 'lfs' subdirectory. We let it create it in /tmp and
+# then delete it again.
 RUN echo "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config && \
     chmod -R go-rwx ~/.ssh && \
-    git lfs install --skip-smudge
+    cd /tmp && git lfs install --skip-smudge && rm -rf lfs
 
 COPY *-requirements.txt /home/kat/docker-base/
 COPY install-requirements.py /home/kat/bin/

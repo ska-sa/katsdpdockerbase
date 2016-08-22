@@ -41,6 +41,14 @@ RUN cd /tmp && \
         /tmp/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz \
         /etc/apt/sources.list.d/mlnx-ofed.list
 
+# Install git-lfs
+RUN cd /tmp && \
+    VERSION=1.4.0 && \
+    wget --progress=dot:mega https://github.com/github/git-lfs/releases/download/v$VERSION/git-lfs-linux-amd64-$VERSION.tar.gz && \
+    tar -zxf git-lfs-linux-amd64-$VERSION.tar.gz && \
+    cp git-lfs-$VERSION/git-lfs /usr/local/bin && \
+    rm git-lfs-linux-amd64-$VERSION.tar.gz
+
 # Install tini (a mini-init) and set it as entrypoint so that we don't
 # accumulate zombie processes.
 RUN wget https://github.com/krallin/tini/releases/download/v0.9.0/tini -O /sbin/tini && \
@@ -55,9 +63,10 @@ COPY id_rsa /home/kat/.ssh/
 RUN chown -R kat:kat /home/kat/.ssh
 USER kat
 
-# Set up access to github private repositories
-RUN echo "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-RUN chmod -R go-rwx ~/.ssh
+# Set up access to github private repositories and set up git-lfs
+RUN echo "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config && \
+    chmod -R go-rwx ~/.ssh && \
+    git lfs install --skip-smudge
 
 COPY *-requirements.txt /home/kat/docker-base/
 COPY install-requirements.py /home/kat/bin/

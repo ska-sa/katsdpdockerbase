@@ -1,6 +1,6 @@
 # Base Dockerfile for SDP images
 
-FROM ubuntu:trusty-20151028
+FROM ubuntu:trusty-20160819
 
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 

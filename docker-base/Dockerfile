@@ -51,7 +51,7 @@ RUN cd /tmp && \
 
 # Install tini (a mini-init) and set it as entrypoint so that we don't
 # accumulate zombie processes.
-RUN wget http://sdp-services.kat.ac.za/github.com/krallin/tini/releases/download/v0.9.0/tini -O /sbin/tini && \
+RUN wget http://sdp-services.kat.ac.za/mirror/github.com/krallin/tini/releases/download/v0.9.0/tini -O /sbin/tini && \
     chmod +x /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 

@@ -16,6 +16,7 @@ RUN apt-get -y update && apt-get -y install \
     libboost-python1.55-dev \
     libboost-system1.55-dev \
     libboost-regex1.55-dev \
+    libeigen3-dev \
     gfortran libatlas-dev libblas-dev liblapack-dev \
     libhdf5-dev libfreetype6-dev libpng-dev \
     llvm-3.6-dev libedit-dev

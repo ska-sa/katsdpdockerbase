@@ -31,10 +31,10 @@ RUN add-apt-repository -y ppa:radio-astro/main && \
 
 # Install some components of MLNX_OFED
 RUN cd /tmp && \
-    wget --progress=dot:mega http://www.mellanox.com/downloads/ofed/MLNX_OFED-3.2-2.0.0.0/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz && \
+    wget --progress=dot:mega http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/MLNX_OFED-3.2-2.0.0.0/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz && \
     tar -zxf MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz && \
     echo 'deb file:///tmp/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64 ./' > /etc/apt/sources.list.d/mlnx-ofed.list && \
-    wget -qO - http://www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | sudo apt-key add - && \
+    wget -qO - http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | sudo apt-key add - && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         libibverbs-dev librdmacm-dev libvma-dev libmlx4-1 && \
@@ -45,14 +45,14 @@ RUN cd /tmp && \
 # Install git-lfs
 RUN cd /tmp && \
     VERSION=1.4.0 && \
-    wget --progress=dot:mega https://github.com/github/git-lfs/releases/download/v$VERSION/git-lfs-linux-amd64-$VERSION.tar.gz && \
+    wget --progress=dot:mega http://sdp-services.kat.ac.za/mirror/github.com/github/git-lfs/releases/download/v$VERSION/git-lfs-linux-amd64-$VERSION.tar.gz && \
     tar -zxf git-lfs-linux-amd64-$VERSION.tar.gz && \
     cp git-lfs-$VERSION/git-lfs /usr/local/bin && \
     rm git-lfs-linux-amd64-$VERSION.tar.gz
 
 # Install tini (a mini-init) and set it as entrypoint so that we don't
 # accumulate zombie processes.
-RUN wget https://github.com/krallin/tini/releases/download/v0.9.0/tini -O /sbin/tini && \
+RUN wget http://sdp-services.kat.ac.za/mirror/github.com/krallin/tini/releases/download/v0.9.0/tini -O /sbin/tini && \
     chmod +x /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 

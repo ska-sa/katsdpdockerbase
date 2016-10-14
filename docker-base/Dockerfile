@@ -25,7 +25,7 @@ RUN apt-get -y update && apt-get -y install \
 # combined into the previous step because apt-add-repository is part of
 # software-properties-common, installed above.
 RUN add-apt-repository -y ppa:radio-astro/main && \
-    add-apt-repository -y 'deb http://ubuntu.mirror.ac.za/ubuntu/ trusty multiverse' && \
+    add-apt-repository -y 'deb http://archive.ubuntu.com/ubuntu/ trusty multiverse' && \
     apt-get -y update && \
     apt-get -y install libcasacore2-dev libcfitsio3-dev
 

@@ -19,7 +19,8 @@ RUN apt-get -y update && apt-get -y install \
     libeigen3-dev \
     gfortran libatlas-dev libblas-dev liblapack-dev \
     libhdf5-dev libfreetype6-dev libpng-dev \
-    llvm-3.6-dev libedit-dev
+    llvm-3.6-dev libedit-dev \
+    autoconf automake
 
 # Install python-casacore build dependencies. Note that this cannot be
 # combined into the previous step because apt-add-repository is part of

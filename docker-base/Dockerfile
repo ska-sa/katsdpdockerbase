@@ -1,6 +1,6 @@
 # Base Dockerfile for SDP images
 
-FROM ubuntu:trusty-20160819
+FROM ubuntu:xenial-20161010
 
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 
@@ -10,50 +10,46 @@ ENV DEBIAN_FRONTEND noninteractive
 # Install some system packages used by multiple images.
 RUN apt-get -y update && apt-get -y install \
     apt-transport-https \
-    build-essential pkg-config git-core software-properties-common wget \
+    build-essential pkg-config git-core software-properties-common wget curl \
     python python-dev libffi-dev libssl-dev python-pip python-virtualenv \
-    libboost-program-options1.55-dev \
-    libboost-python1.55-dev \
-    libboost-system1.55-dev \
-    libboost-regex1.55-dev \
+    libboost-program-options-dev \
+    libboost-python-dev \
+    libboost-system-dev \
+    libboost-regex-dev \
     libeigen3-dev \
     gfortran libatlas-dev libblas-dev liblapack-dev \
     libhdf5-dev libfreetype6-dev libpng-dev \
-    llvm-3.6-dev libedit-dev \
+    llvm-dev libedit-dev \
     autoconf automake
 
 # Install python-casacore build dependencies. Note that this cannot be
 # combined into the previous step because apt-add-repository is part of
 # software-properties-common, installed above.
-RUN add-apt-repository -y ppa:radio-astro/main && \
-    add-apt-repository -y 'deb http://archive.ubuntu.com/ubuntu/ trusty multiverse' && \
+RUN add-apt-repository -y ppa:kernsuite/kern-1 && \
+    add-apt-repository -y multiverse && \
     apt-get -y update && \
-    apt-get -y install libcasacore2-dev libcfitsio3-dev
+    apt-get -y install casacore-dev libcfitsio3-dev wcslib-dev
 
 # Install some components of MLNX_OFED
 RUN cd /tmp && \
-    wget --progress=dot:mega http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/MLNX_OFED-3.2-2.0.0.0/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz && \
-    tar -zxf MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz && \
-    echo 'deb file:///tmp/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64 ./' > /etc/apt/sources.list.d/mlnx-ofed.list && \
-    wget -qO - http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | sudo apt-key add - && \
+    wget --progress=dot:mega http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/MLNX_OFED-3.4-1.0.0.0/MLNX_OFED_LINUX-3.4-1.0.0.0-ubuntu16.04-x86_64.tgz && \
+    tar -zxf MLNX_OFED_LINUX-3.4-1.0.0.0-ubuntu16.04-x86_64.tgz && \
+    echo 'deb file:///tmp/MLNX_OFED_LINUX-3.4-1.0.0.0-ubuntu16.04-x86_64/DEBS ./' > /etc/apt/sources.list.d/mlnx-ofed.list && \
+    wget -qO - http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | apt-key add - && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         libibverbs-dev librdmacm-dev libvma-dev libmlx4-1 && \
-    rm -rf /tmp/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64 \
-        /tmp/MLNX_OFED_LINUX-3.2-2.0.0.0-ubuntu14.04-x86_64.tgz \
+    rm -rf /tmp/MLNX_OFED_LINUX-3.4-1.0.0.0-ubuntu16.04-x86_64 \
+        /tmp/MLNX_OFED_LINUX-3.4-1.0.0.0-ubuntu16.04-x86_64.tgz \
         /etc/apt/sources.list.d/mlnx-ofed.list
 
 # Install git-lfs
-RUN cd /tmp && \
-    VERSION=1.4.0 && \
-    wget --progress=dot:mega http://sdp-services.kat.ac.za/mirror/github.com/github/git-lfs/releases/download/v$VERSION/git-lfs-linux-amd64-$VERSION.tar.gz && \
-    tar -zxf git-lfs-linux-amd64-$VERSION.tar.gz && \
-    cp git-lfs-$VERSION/git-lfs /usr/local/bin && \
-    rm git-lfs-linux-amd64-$VERSION.tar.gz
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+    apt-get install git-lfs
 
 # Install tini (a mini-init) and set it as entrypoint so that we don't
 # accumulate zombie processes.
-RUN wget http://sdp-services.kat.ac.za/mirror/github.com/krallin/tini/releases/download/v0.9.0/tini -O /sbin/tini && \
+RUN wget http://sdp-services.kat.ac.za/mirror/github.com/krallin/tini/releases/download/v0.10.0/tini -O /sbin/tini && \
     chmod +x /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
@@ -75,7 +71,6 @@ RUN echo "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config && \
 
 COPY *-requirements.txt /home/kat/docker-base/
 COPY install-requirements.py /home/kat/bin/
-ENV LLVM_CONFIG="llvm-config-3.6"
 # Pre-build a number of wheels to speed up building of dependent images. These
 # are all the latest versions at the time of writing.
 RUN virtualenv ~/tmp-ve && \

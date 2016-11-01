@@ -1,11 +1,11 @@
-FROM sdp-docker-registry.kat.ac.za:5000/docker-base
+FROM sdp-docker-registry.kat.ac.za:5000/docker-base:xenial
 
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 
 USER root
 
 RUN apt-get -y update && apt-get install --no-install-recommends -y \
-        opencl-headers
+        opencl-headers module-init-tools
 
 RUN VERSION=358.16 && \
     DRIVER_RUN_FILE=NVIDIA-Linux-x86_64-$VERSION.run && \
@@ -15,7 +15,7 @@ RUN VERSION=358.16 && \
 
 RUN CUDA_RUN_FILE=cuda_7.5.18_linux.run && \
     wget --progress=dot:mega "http://sdp-services.kat.ac.za/mirror/developer.download.nvidia.com/compute/cuda/7.5/Prod/local_installers/$CUDA_RUN_FILE" && \
-    sh ./$CUDA_RUN_FILE -silent -toolkit && \
+    sh ./$CUDA_RUN_FILE --silent --toolkit --override && \
     rm -- $CUDA_RUN_FILE
 
 ENV PATH="$PATH:/usr/local/cuda/bin"

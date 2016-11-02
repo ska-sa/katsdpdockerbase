@@ -7,15 +7,15 @@ USER root
 RUN apt-get -y update && apt-get install --no-install-recommends -y \
         opencl-headers module-init-tools
 
-RUN VERSION=358.16 && \
+RUN VERSION=367.57 && \
     DRIVER_RUN_FILE=NVIDIA-Linux-x86_64-$VERSION.run && \
     wget --progress=dot:mega "http://sdp-services.kat.ac.za/mirror/uk.download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$DRIVER_RUN_FILE" && \
     sh ./$DRIVER_RUN_FILE --no-kernel-module --silent --no-network && \
     rm -- $DRIVER_RUN_FILE
 
-RUN CUDA_RUN_FILE=cuda_7.5.18_linux.run && \
-    wget --progress=dot:mega "http://sdp-services.kat.ac.za/mirror/developer.download.nvidia.com/compute/cuda/7.5/Prod/local_installers/$CUDA_RUN_FILE" && \
-    sh ./$CUDA_RUN_FILE --silent --toolkit --override && \
+RUN CUDA_RUN_FILE=cuda_8.0.44_linux-run && \
+    wget --progress=dot:mega "http://sdp-services.kat.ac.za/mirror/developer.nvidia.com/compute/cuda/8.0/prod/local_installers/$CUDA_RUN_FILE" && \
+    sh ./$CUDA_RUN_FILE --silent --toolkit && \
     rm -- $CUDA_RUN_FILE
 
 ENV PATH="$PATH:/usr/local/cuda/bin"

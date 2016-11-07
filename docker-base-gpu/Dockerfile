@@ -7,7 +7,7 @@ USER root
 RUN apt-get -y update && apt-get install --no-install-recommends -y \
         opencl-headers
 
-RUN VERSION=358.16 && \
+RUN VERSION=367.57 && \
     DRIVER_RUN_FILE=NVIDIA-Linux-x86_64-$VERSION.run && \
     wget --progress=dot:mega "http://sdp-services.kat.ac.za/mirror/uk.download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$DRIVER_RUN_FILE" && \
     sh ./$DRIVER_RUN_FILE --no-kernel-module --silent --no-network && \

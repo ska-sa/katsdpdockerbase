@@ -152,12 +152,7 @@ def main():
             req_file.flush()
             run_pip(['install', '--no-deps', '-r', req_file.name], args.dry_run)
     # Check that all dependencies were found
-    with tempfile.NamedTemporaryFile(suffix='.txt') as req_file:
-        for epoch in req:
-            for item in epoch:
-                print(item, file=req_file)
-        req_file.flush()
-        run_pip(['install', '--no-cache', '--no-index', '--quiet', '-r', req_file.name], args.dry_run)
+    run_pip(['check'], args.dry_run)
 
 if __name__ == '__main__':
     sys.exit(main())

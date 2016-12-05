@@ -5,7 +5,7 @@ MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 USER root
 
 RUN apt-get -y update && apt-get install --no-install-recommends -y \
-        opencl-headers module-init-tools
+        opencl-headers ocl-icd-libopencl1 module-init-tools
 
 RUN VERSION=367.57 && \
     DRIVER_RUN_FILE=NVIDIA-Linux-x86_64-$VERSION.run && \

@@ -23,6 +23,14 @@ ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64"
 
 USER kat
 
+# Force PyOpenCL not to use OpenCL 2.0 features. Ubuntu 16.04 ships
+# opencl-headers, which includes OpenCL 2.0 functions, and on this basis
+# PyOpenCL tries to use OpenCL 2.0 functions. But ocl-icd-libopencl1 is an
+# ICD with only OpenCL 1.2 support, so there are missing symbols (and actually
+# libOpenCL.so.1 is found from CUDA, but that doesn't help because CUDA 8.0
+# also only ships 1.2 support).
+RUN echo "CL_PRETEND_VERSION = '1.2'" >> ~/.aksetup-defaults.py
+
 # Create wheels for GPU-related packages. First we need to disable the
 # already-configured virtualenv, then create a new temporary one. Note that we
 # don't need to reactivate the old one, because the environment only lasts to

@@ -42,7 +42,9 @@ EPOCH = {
     'git+ssh://git@github.com/ska-sa/katversion': -50,
     'pkginfo': -51,  # Needed by katversion
     # Has a lot of setup dependencies
-    'mplh5canvas': 50
+    'mplh5canvas': 50,
+    # Has setup dependencies, and doesn't properly declare its own dependencies
+    'astro-tigger': 50
 }
 
 def parse_requirement(requirement):

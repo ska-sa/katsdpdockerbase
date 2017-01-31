@@ -18,7 +18,7 @@ h5py==2.5.0
 hiredis==0.2.0
 iniparse==0.4
 Jinja2==2.8
-katcp==0.6.0
+katcp==0.6.1
 katversion==0.6.0
 linecache2==1.0.0
 llvmlite==0.14.0

@@ -53,6 +53,11 @@ RUN wget http://sdp-services.kat.ac.za/mirror/github.com/krallin/tini/releases/d
     chmod +x /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
+# Create a setuid binary to assist with realtime scheduling
+COPY schedrr.c /usr/local/src
+RUN gcc -o /usr/local/bin/schedrr /usr/local/src/schedrr.c -Wall -Wextra -s -O2 && \
+    chmod u+s /usr/local/bin/schedrr
+
 # Create and switch to a user which will be used to run commands with reduced
 # privileges.
 RUN adduser --disabled-password --gecos 'unprivileged user' kat

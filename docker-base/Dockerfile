@@ -25,7 +25,7 @@ RUN apt-get -y update && apt-get -y install \
 # Install python-casacore build dependencies. Note that this cannot be
 # combined into the previous step because apt-add-repository is part of
 # software-properties-common, installed above.
-RUN add-apt-repository -y ppa:kernsuite/kern-1 && \
+RUN add-apt-repository -y ppa:kernsuite/kern-2 && \
     add-apt-repository -y multiverse && \
     apt-get -y update && \
     apt-get -y install casacore-dev libcfitsio3-dev wcslib-dev

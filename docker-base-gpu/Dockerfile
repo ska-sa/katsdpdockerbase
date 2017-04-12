@@ -5,31 +5,25 @@ MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 USER root
 
 RUN apt-get -y update && apt-get install --no-install-recommends -y \
-        opencl-headers ocl-icd-libopencl1 module-init-tools
-
-RUN VERSION=367.57 && \
-    DRIVER_RUN_FILE=NVIDIA-Linux-x86_64-$VERSION.run && \
-    wget --progress=dot:mega "http://sdp-services.kat.ac.za/mirror/uk.download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$DRIVER_RUN_FILE" && \
-    sh ./$DRIVER_RUN_FILE --no-kernel-module --silent --no-network && \
-    rm -- $DRIVER_RUN_FILE
+        opencl-headers ocl-icd-libopencl1 ocl-icd-opencl-dev module-init-tools
 
 RUN CUDA_RUN_FILE=cuda_8.0.44_linux-run && \
     wget --progress=dot:mega "http://sdp-services.kat.ac.za/mirror/developer.nvidia.com/compute/cuda/8.0/prod/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
     rm -- $CUDA_RUN_FILE
 
-ENV PATH="$PATH:/usr/local/cuda/bin"
-ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64"
+ENV PATH="$PATH:/usr/local/nvidia/bin:/usr/local/cuda/bin"
+# /usr/lib/x86_64-linux-gnu is explicitly added to the front to prevent the
+# NVIDIA driver version of libOpenCL.so.1 (which is outdated) from overriding
+# the version installed by ocl-icd-opencl-dev.
+ENV LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda/lib64"
+
+# Create information for locating the NVIDIA driver components. This isn't handled
+# by nvidia-docker.
+RUN mkdir -p /etc/OpenCL/vendors && \
+    echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd
 
 USER kat
-
-# Force PyOpenCL not to use OpenCL 2.0 features. Ubuntu 16.04 ships
-# opencl-headers, which includes OpenCL 2.0 functions, and on this basis
-# PyOpenCL tries to use OpenCL 2.0 functions. But ocl-icd-libopencl1 is an
-# ICD with only OpenCL 1.2 support, so there are missing symbols (and actually
-# libOpenCL.so.1 is found from CUDA, but that doesn't help because CUDA 8.0
-# also only ships 1.2 support).
-RUN echo "CL_PRETEND_VERSION = '1.2'" >> ~/.aksetup-defaults.py
 
 # Create wheels for GPU-related packages. First we need to disable the
 # already-configured virtualenv, then create a new temporary one. Note that we
@@ -42,3 +36,5 @@ RUN PATH="`echo $PATH | sed -e 's!/home/kat/ve/bin:!!'`" && \
     pip install --no-deps -r ~/docker-base/pre-requirements.txt && \
     install-requirements.py -d ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
     rm -rf ~/tmp-ve
+
+LABEL com.nvidia.volumes.needed="nvidia_driver" com.nvidia.cuda.version="8.0"

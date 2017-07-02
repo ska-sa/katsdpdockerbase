@@ -12,6 +12,7 @@ RUN apt-get -y update && apt-get -y install \
     apt-transport-https \
     build-essential pkg-config git-core software-properties-common wget curl \
     python python-dev libffi-dev libssl-dev python-pip python-virtualenv \
+    python3 python3-dev python3-pip python3-virtualenv \
     libboost-program-options-dev \
     libboost-python-dev \
     libboost-system-dev \
@@ -83,14 +84,26 @@ RUN virtualenv ~/tmp-ve && \
     ~/bin/install-requirements.py -r ~/docker-base/pre-requirements.txt && \
     ~/bin/install-requirements.py -r ~/docker-base/base-requirements.txt && \
     rm -r ~/tmp-ve
+# Same against for Python 3
+RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
+    . ~/tmp-ve3/bin/activate && \
+    ~/bin/install-requirements.py -r ~/docker-base/pre-requirements.txt && \
+    ~/bin/install-requirements.py -r ~/docker-base/base-requirements.txt && \
+    rm -r ~/tmp-ve3
 
-# Create a virtual environment for use in child images
+# Create virtual environments for use in child images
 RUN virtualenv ~/ve && \
     . ~/ve/bin/activate && \
     ~/bin/install-requirements.py -r ~/docker-base/pre-requirements.txt && \
     ~/bin/install-requirements.py -d ~/docker-base/base-requirements.txt manhole
-# Activate it. We can't use ~/ve/bin/activate, because any environment set in a
-# RUN step is lost at the end of the step. We also add ~/bin to PATH so that
-# install-requirements.py can be found.
-ENV PATH="/home/kat/ve/bin:/home/kat/bin:$PATH" \
-    VIRTUAL_ENV="/home/kat/ve"
+RUN virtualenv -p /usr/bin/python3 ~/ve3 && \
+    . ~/ve3/bin/activate && \
+    ~/bin/install-requirements.py -r ~/docker-base/pre-requirements.txt && \
+    ~/bin/install-requirements.py -d ~/docker-base/base-requirements.txt manhole
+# Activate the Python 2 environment. We can't use ~/ve/bin/activate, because
+# any environment set in a RUN step is lost at the end of the step. We also add
+# ~/bin to PATH so that install-requirements.py can be found.
+ENV PATH_PYTHON3="/home/kat/ve3/bin:/home/kat/bin:$PATH" \
+    PATH="/home/kat/ve/bin:/home/kat/bin:$PATH" \
+    VIRTUAL_ENV="/home/kat/ve" \
+    VIRTUAL_ENV_PYTHON3="/home/kat/v3"

@@ -12,7 +12,7 @@ pip that handles a few details:
   declare, and performs several phases of installation.
 """
 
-from __future__ import print_function, unicode_literals
+from __future__ import division, print_function, absolute_import, unicode_literals
 import sys
 import pkg_resources
 import re
@@ -118,7 +118,10 @@ def make_requirements(args):
                     if not args.allow_unversioned:
                         raise RuntimeError('{} is not version-pinned'.format(item.project_name))
             key = item.key
-            value = unicode(item)
+            if sys.version_info.major >= 3:
+                value = str(item)
+            else:
+                value = unicode(item)
         else:
             key = item
             value = item
@@ -148,7 +151,7 @@ def main():
 
     req = make_requirements(args)
     for epoch in req:
-        with tempfile.NamedTemporaryFile(suffix='.txt') as req_file:
+        with tempfile.NamedTemporaryFile('w', suffix='.txt') as req_file:
             for item in epoch:
                 print(item, file=req_file)
             req_file.flush()

@@ -36,5 +36,12 @@ RUN PATH="`echo $PATH | sed -e 's!/home/kat/ve/bin:!!'`" && \
     pip install --no-deps -r ~/docker-base/pre-requirements.txt && \
     install-requirements.py -d ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
     rm -rf ~/tmp-ve
+# Same for Python3
+RUN PATH="`echo $PATH | sed -e 's!/home/kat/ve/bin:!!'`" && \
+    virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
+    . ~/tmp-ve3/bin/activate && \
+    pip install --no-deps -r ~/docker-base/pre-requirements.txt && \
+    install-requirements.py -d ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
+    rm -rf ~/tmp-ve3
 
 LABEL com.nvidia.volumes.needed="nvidia_driver" com.nvidia.cuda.version="8.0"

@@ -33,15 +33,15 @@ RUN add-apt-repository -y ppa:kernsuite/kern-2 && \
 
 # Install some components of MLNX_OFED
 RUN cd /tmp && \
-    wget --progress=dot:mega http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/MLNX_OFED-3.4-2.0.0.0/MLNX_OFED_LINUX-3.4-2.0.0.0-ubuntu16.04-x86_64.tgz && \
-    tar -zxf MLNX_OFED_LINUX-3.4-2.0.0.0-ubuntu16.04-x86_64.tgz && \
-    echo 'deb file:///tmp/MLNX_OFED_LINUX-3.4-2.0.0.0-ubuntu16.04-x86_64/DEBS ./' > /etc/apt/sources.list.d/mlnx-ofed.list && \
+    wget --progress=dot:mega http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/MLNX_OFED-4.1-1.0.2.0/MLNX_OFED_LINUX-4.1-1.0.2.0-ubuntu16.04-x86_64.tgz && \
+    tar -zxf MLNX_OFED_LINUX-4.1-1.0.2.0-ubuntu16.04-x86_64.tgz && \
+    echo 'deb file:///tmp/MLNX_OFED_LINUX-4.1-1.0.2.0-ubuntu16.04-x86_64/DEBS ./' > /etc/apt/sources.list.d/mlnx-ofed.list && \
     wget -qO - http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | apt-key add - && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         libibverbs-dev librdmacm-dev libvma-dev libmlx4-1 && \
-    rm -rf /tmp/MLNX_OFED_LINUX-3.4-2.0.0.0-ubuntu16.04-x86_64 \
-        /tmp/MLNX_OFED_LINUX-3.4-2.0.0.0-ubuntu16.04-x86_64.tgz \
+    rm -rf /tmp/MLNX_OFED_LINUX-4.1-1.0.2.0-ubuntu16.04-x86_64 \
+        /tmp/MLNX_OFED_LINUX-4.1-1.0.2.0-ubuntu16.04-x86_64.tgz \
         /etc/apt/sources.list.d/mlnx-ofed.list
 
 # Install git-lfs

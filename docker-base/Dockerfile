@@ -106,4 +106,4 @@ RUN virtualenv -p /usr/bin/python3 ~/ve3 && \
 ENV PATH_PYTHON3="/home/kat/ve3/bin:/home/kat/bin:$PATH" \
     PATH="/home/kat/ve/bin:/home/kat/bin:$PATH" \
     VIRTUAL_ENV="/home/kat/ve" \
-    VIRTUAL_ENV_PYTHON3="/home/kat/v3"
+    VIRTUAL_ENV_PYTHON3="/home/kat/ve3"

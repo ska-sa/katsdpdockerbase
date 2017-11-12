@@ -13,6 +13,7 @@ RUN CUDA_RUN_FILE=cuda_8.0.44_linux-run && \
     rm -- $CUDA_RUN_FILE
 
 ENV PATH="$PATH:/usr/local/nvidia/bin:/usr/local/cuda/bin"
+ENV PATH_PYTHON3="$PATH_PYTHON3:/usr/local/nvidia/bin:/usr/local/cuda/bin"
 # /usr/lib/x86_64-linux-gnu is explicitly added to the front to prevent the
 # NVIDIA driver version of libOpenCL.so.1 (which is outdated) from overriding
 # the version installed by ocl-icd-opencl-dev.

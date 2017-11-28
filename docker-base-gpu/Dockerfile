@@ -9,7 +9,7 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
 
 RUN CUDA_RUN_FILE=cuda_8.0.44_linux-run && \
     wget --progress=dot:mega "http://sdp-services.kat.ac.za/mirror/developer.nvidia.com/compute/cuda/8.0/prod/local_installers/$CUDA_RUN_FILE" && \
-    sh ./$CUDA_RUN_FILE --silent --toolkit && \
+    sh ./$CUDA_RUN_FILE --silent --toolkit --samples && \
     rm -- $CUDA_RUN_FILE
 
 ENV PATH="$PATH:/usr/local/nvidia/bin:/usr/local/cuda/bin"

@@ -39,7 +39,7 @@ RUN cd /tmp && \
     wget -qO - http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | apt-key add - && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-        libibverbs-dev librdmacm-dev libvma-dev libmlx4-1 && \
+        libibverbs-dev librdmacm-dev libvma-dev libmlx4-1 libmlx5-1 && \
     rm -rf /tmp/MLNX_OFED_LINUX-4.1-1.0.2.0-ubuntu16.04-x86_64 \
         /tmp/MLNX_OFED_LINUX-4.1-1.0.2.0-ubuntu16.04-x86_64.tgz \
         /etc/apt/sources.list.d/mlnx-ofed.list

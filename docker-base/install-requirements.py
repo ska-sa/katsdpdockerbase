@@ -155,7 +155,9 @@ def main():
             for item in epoch:
                 print(item, file=req_file)
             req_file.flush()
-            run_pip(['install', '--no-deps', '-r', req_file.name], args.dry_run)
+            run_pip(['install',
+                     '--retries', '10', '--timeout', '30',
+                     '--no-deps', '-r', req_file.name], args.dry_run)
     # Check that all dependencies were found
     run_pip(['check'], args.dry_run)
 

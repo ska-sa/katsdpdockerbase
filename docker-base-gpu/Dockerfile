@@ -45,4 +45,7 @@ RUN PATH="`echo $PATH | sed -e 's!/home/kat/ve/bin:!!'`" && \
     install-requirements.py -d ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
     rm -rf ~/tmp-ve3
 
+# For nvidia-docker 1.0
 LABEL com.nvidia.volumes.needed="nvidia_driver" com.nvidia.cuda.version="8.0"
+# For nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=8.0

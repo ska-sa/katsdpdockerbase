@@ -50,7 +50,9 @@ Pygments==2.0.2
 pyparsing==2.2.0
 python-casacore==2.0.0
 python-dateutil==2.6.0
+python-lzf==0.2.4
 pytz==2015.7
+rdbtools==0.1.12
 redis==2.10.6
 requests==2.8.1
 scipy==0.19.1

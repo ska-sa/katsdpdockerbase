@@ -1,0 +1,14 @@
+appdirs
+cffi
+decorator
+Mako
+MarkupSafe
+numpy
+py==1.5.3
+pycparser
+pycuda==2017.1.1
+pyopencl==2018.1.1
+pytest==3.0.3
+pytools==2018.4
+scikit-cuda==0.5.1
+six

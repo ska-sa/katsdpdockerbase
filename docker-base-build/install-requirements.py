@@ -147,7 +147,7 @@ def main():
     parser.add_argument('--requirements', '-r', type=str, action='append', default=[], help='Requirements file')
     parser.add_argument('--dry-run', '-n', action='store_true', help='Just report what would be done')
     parser.add_argument('package', type=parse_requirement, nargs='*', help='Package names')
-    args = parser.parse_args()
+    args, extra_args = parser.parse_known_args()
 
     req = make_requirements(args)
     for epoch in req:
@@ -157,7 +157,7 @@ def main():
             req_file.flush()
             run_pip(['install',
                      '--retries', '10', '--timeout', '30',
-                     '--no-deps', '-r', req_file.name], args.dry_run)
+                     '--no-deps', '-r', req_file.name] + extra_args, args.dry_run)
     # Check that all dependencies were found
     run_pip(['check'], args.dry_run)
 

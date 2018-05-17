@@ -3,21 +3,17 @@
 @Library('katsdpjenkins') _
 
 catchError {
-    stage('docker-base image') {
-        katsdp.simpleNode(timeout: [time: 3, unit: 'HOURS']) {
-            deleteDir()
-            checkout scm
-            sh 'ln -s . katsdpdockerbase'   // So that build-docker-image.sh can be found
-            katsdp.makeDocker('docker-base', 'docker-base')
-        }
-    }
-
-    stage('docker-base-gpu image') {
-        katsdp.simpleNode(timeout: [time: 3, unit: 'HOURS']) {
-            deleteDir()
-            checkout scm
-            sh 'ln -s . katsdpdockerbase'   // So that build-docker-image.sh can be found
-            katsdp.makeDocker('docker-base-gpu', 'docker-base-gpu')
+    def images = ["docker-base", "docker-base-gpu",
+                  "docker-base-runtime", "docker-base-build",
+                  "docker-base-gpu-build", "docker-base-gpu-runtime"]
+    for (image in images) {
+        stage(image + ' image') {
+            katsdp.simpleNode(timeout: [time: 1, unit: 'HOURS']) {
+                deleteDir()
+                checkout scm
+                sh 'ln -s . katsdpdockerbase'   // So that build-docker-image.sh can be found
+                katsdp.makeDocker(image, image)
+            }
         }
     }
 }

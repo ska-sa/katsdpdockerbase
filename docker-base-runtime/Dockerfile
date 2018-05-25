@@ -50,7 +50,8 @@ RUN cd /tmp && \
     rm -rf "/tmp/$MLNX_OFED_PATH" \
         "/tmp/$MLNX_OFED_PATH.tgz" \
         /etc/apt/sources.list.d/mlnx-ofed.list \
-        /var/lib/apt/lists/*
+        /var/lib/apt/lists/* \
+        /tmp/vma
 
 # Install tini (a mini-init) and set it as entrypoint so that we don't
 # accumulate zombie processes.

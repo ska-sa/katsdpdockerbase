@@ -27,7 +27,8 @@ RUN cd /tmp && \
     rm -rf "/tmp/$MLNX_OFED_PATH" \
         "/tmp/$MLNX_OFED_PATH.tgz" \
         /etc/apt/sources.list.d/mlnx-ofed.list \
-        /var/lib/apt/lists/*
+        /var/lib/apt/lists/* \
+        /tmp/vma
 
 # Install git-lfs
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \

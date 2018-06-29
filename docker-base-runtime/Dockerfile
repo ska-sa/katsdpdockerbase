@@ -14,6 +14,8 @@ MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install some system packages used by multiple images.
+# (netbase installs /etc/services and /etc/protocols, which some packages
+# fail without).
 RUN apt-get -y update && apt-get --no-install-recommends -y install \
         apt-transport-https \
         software-properties-common wget curl \
@@ -21,7 +23,8 @@ RUN apt-get -y update && apt-get --no-install-recommends -y install \
         libboost-program-options1.58.0 \
         libboost-python1.58.0 \
         libboost-system1.58.0 \
-        libboost-regex1.58.0 && \
+        libboost-regex1.58.0 \
+        netbase && \
     rm -rf /var/lib/apt/lists/*
 
 # Install python-casacore run-time dependencies. Note that this cannot be

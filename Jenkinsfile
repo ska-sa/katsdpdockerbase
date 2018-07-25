@@ -3,8 +3,7 @@
 @Library('katsdpjenkins') _
 
 catchError {
-    def images = ["docker-base", "docker-base-gpu",
-                  "docker-base-runtime", "docker-base-build",
+    def images = ["docker-base-runtime", "docker-base-build",
                   "docker-base-gpu-build", "docker-base-gpu-runtime"]
     for (image in images) {
         stage(image + ' image') {

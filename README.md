@@ -3,12 +3,6 @@
 This repository containers Dockerfiles to build some base images, from which
 other SDP Docker images are built.
 
-## Legacy images
-
-There are two "old" images that are retained for now for backwards
-compatibility: docker-base and docker-base-gpu. These are single-stage builds
-that are somewhat heavier-weight than necessary.
-
 ## Multi-stage build images
 
 The "new" images are intended to be used for [multi-stage

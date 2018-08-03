@@ -29,7 +29,7 @@ funcsigs==0.4
 functools32==3.2.3.post2; python_version<'3'
 future==0.16
 futures==3.0.3
-h5py==2.7.0
+h5py==2.8.0
 hiredis==0.2.0
 iniparse==0.4
 idna==2.7

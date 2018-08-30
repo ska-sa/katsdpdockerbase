@@ -1,6 +1,6 @@
 aioconsole==0.1.8; python_version>='3'
 aiohttp==2.3.10; python_version>='3'
-aiokatcp==0.4.0; python_version>='3'
+aiokatcp==0.4.1; python_version>='3'
 aiomonitor==0.3.1; python_version>='3'
 alabaster==0.7.6
 ansicolors==1.0.2

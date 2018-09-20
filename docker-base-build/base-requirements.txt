@@ -18,7 +18,7 @@ chardet==3.0.4
 coverage==4.4.1
 cycler==0.10.0
 Cython==0.23.4
-dask==0.17.4
+dask==0.19.2
 decorator==4.2.1
 defusedxml==0.5.0
 docutils==0.12

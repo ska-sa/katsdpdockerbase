@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+import argparse
+import signal
+import subprocess
+import sys
+import atexit
+import pathlib
+
+
+SIGNALS = [signal.SIGINT, signal.SIGTERM, signal.SIGHUP, signal.SIGQUIT,
+           signal.SIGUSR1, signal.SIGUSR2]
+
+
+def cleanup(path):
+    subprocess.call(['/bin/rm', '-rf', '--', path])
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Run a command and delete a path when it terminates. '
+                    'Signals are forwarded to the executed process.',
+        usage='%(prog)s path -- command [args...]')
+    parser.add_argument('path', help='Path to clean up')
+    parser.add_argument('command', nargs='+', help='Command to run')
+    args = parser.parse_args()
+    atexit.register(cleanup, args.path)
+
+    try:
+        sub = subprocess.Popen(sys.argv[2:])
+    except OSError as exc:
+        print(exc, file=sys.stderr)
+        sys.exit(127)
+
+    def handler(sig, frame):
+        sub.send_signal(sig)
+
+    for sig in SIGNALS:
+        signal.signal(sig, handler)
+    retcode = sub.wait()
+    if retcode < 0:
+        # Child was killed by signal -retcode
+        sys.exit(128 - retcode)
+    else:
+        sys.exit(retcode)
+
+
+if __name__ == '__main__':
+    main()

@@ -65,6 +65,8 @@ ENTRYPOINT ["/sbin/tini", "--"]
 # Create a setuid binary to assist with realtime scheduling
 COPY --from=build-schedrr /usr/local/bin/schedrr /usr/local/bin/schedrr
 RUN chmod u+s /usr/local/bin/schedrr
+# A helper script to run a program then clean up its scratch space
+COPY run-and-cleanup /usr/local/bin/run-and-cleanup
 
 # Create and switch to a user which will be used to run commands with reduced
 # privileges.

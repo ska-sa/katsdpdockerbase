@@ -1,47 +1,48 @@
-aioconsole==0.1.8; python_version>='3'
+aioconsole==0.1.10; python_version>='3'
 aiohttp==2.3.10; python_version>='3'
 aiokatcp==0.4.1; python_version>='3'
 aiomonitor==0.3.1; python_version>='3'
-alabaster==0.7.6
-ansicolors==1.0.2
-appdirs==1.4.0
+alabaster==0.7.12
+ansicolors==1.1.8
+appdirs==1.4.3
 argparse==1.4.0
+# Note: async-timeout 3.x only supports Python 3.5.3+
 async-timeout==2.0.1; python_version>='3'
 asynctest==0.12.2; python_version>='3'
-Babel==2.1.1
-backports-abc==0.4
+Babel==2.6.0
+backports-abc==0.5
 backports.ssl-match-hostname==3.5.0.1
 blinker==1.4
-botocore==1.10.77
-certifi==2018.1.18
-cffi==1.10.0
+botocore==1.10.78
+certifi==2018.10.15
+cffi==1.11.5
 chardet==3.0.4
-coverage==4.4.1
+coverage==4.5.1
 cycler==0.10.0
-Cython==0.23.4
-dask==0.19.2
-decorator==4.2.1
+Cython==0.29
+dask==0.19.4
+decorator==4.3.0
 defusedxml==0.5.0
-docutils==0.12
+docutils==0.14
 enum34==1.1.6
-fakenewsredis==0.10.0    # For backwards compatibility; remove later
-fakeredis==0.11.0
+fakeredis==0.13.1
 funcsigs==0.4
 functools32==3.2.3.post2; python_version<'3'
 future==0.16
-futures==3.0.3
+futures==3.1.1
 h5py==2.8.0
 hiredis==0.2.0
 iniparse==0.4
 idna==2.7
 idna-ssl==1.1.0
-ipaddress==1.0.18
+imagesize==1.1.0
+ipaddress==1.0.22
 Jinja2==2.8
 jmespath==0.9.3
 katcp==0.6.2; python_version<'3'
-katversion==0.8
+katversion==0.9
 linecache2==1.0.0
-llvmlite==0.22.0
+llvmlite==0.25.0
 Mako==1.0.3
 manhole==1.3.0
 MarkupSafe==0.23
@@ -49,40 +50,43 @@ matplotlib==2.0.2
 mock==1.3.0
 msgpack==0.5.6
 multidict==4.1.0; python_version>='3'
-netifaces==0.10.4
+netifaces==0.10.7
 nose==1.3.7
-numba==0.37.0
+numba==0.40.1
 numpy==1.13.1
-pandas==0.20.1
+packaging==18.0
+pandas==0.23.4
 pbr==1.8.1
-pkginfo==1.3.2
-ply==3.8
+pkginfo==1.4.2
+ply==3.11
 pycparser==2.14
 pyephem==3.7.6.0
-pygelf==0.3.3
+pygelf==0.3.4
 Pygments==2.0.2
-pyparsing==2.2.0
+pyparsing==2.2.2
 python-casacore==2.0.0
-python-dateutil==2.6.0
+python-dateutil==2.7.4
 python-lzf==0.2.4
-pytz==2015.7
-rdbtools==0.1.12
+pytz==2018.6
+rdbtools==0.1.13
 redis==2.10.6
-requests==2.19.1
+requests==2.20.0
 scipy==0.19.1
 singledispatch==3.4.0.3
-six==1.10.0
-snowballstemmer==1.2.0
-spead2==1.9.1
-sphinx-rtd-theme==0.1.9
-Sphinx==1.3.1
-subprocess32==3.2.7; python_version<'3'
+six==1.11.0
+snowballstemmer==1.2.1
+spead2==1.9.2
+sphinxcontrib-websupport==1.1.0
+sphinx-rtd-theme==0.4.2
+Sphinx==1.8.1
+subprocess32==3.5.3
 terminaltables==3.1.0; python_version>='3'
 toolz==0.9.0
 tornado==4.5.3
 traceback2==1.4.0
-trollius==2.1
+trollius==2.2
+typing==3.6.6; python_version<'3'
 unittest2==1.1.0
-urllib3==1.23
+urllib3==1.24
 # Note: yarl 1.2+ requires Python 3.5.3+
 yarl==1.1.1; python_version>='3'

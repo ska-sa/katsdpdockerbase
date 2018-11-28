@@ -10,5 +10,5 @@ pycuda==2017.1.1
 pyopencl==2018.1.1
 pytest==3.0.3
 pytools==2018.4
-scikit-cuda==0.5.1
+scikit-cuda==0.5.2
 six

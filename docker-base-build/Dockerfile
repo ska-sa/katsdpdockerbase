@@ -1,4 +1,4 @@
-FROM sdp-docker-registry.kat.ac.za:5000/docker-base-runtime
+FROM sdp-docker-registry.kat.ac.za:5000/docker-base-runtime:18.04
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 
 USER root

@@ -82,7 +82,7 @@ scipy==1.1.0
 singledispatch==3.4.0.3
 six==1.11.0
 snowballstemmer==1.2.1
-spead2==1.9.2
+spead2==1.10.1
 sphinxcontrib-websupport==1.1.0
 sphinx-rtd-theme==0.4.2
 Sphinx==1.8.1

@@ -1,5 +1,5 @@
 # A temporary stage just to compile schedrr
-FROM ubuntu:xenial-20180417 as build-schedrr
+FROM ubuntu:bionic-20181112 as build-schedrr
 RUN apt-get -y update && apt-get -y install gcc
 # Create a setuid binary to assist with realtime scheduling
 COPY schedrr.c /usr/local/src
@@ -7,7 +7,7 @@ RUN gcc -o /usr/local/bin/schedrr /usr/local/src/schedrr.c -Wall -Wextra -s -O2
 
 #######################################################################
 
-FROM ubuntu:xenial-20180417
+FROM ubuntu:bionic-20181112
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 
 # Suppress debconf warnings
@@ -17,24 +17,24 @@ ENV DEBIAN_FRONTEND noninteractive
 # (netbase installs /etc/services and /etc/protocols, which some packages
 # fail without).
 RUN apt-get -y update && apt-get --no-install-recommends -y install \
-        apt-transport-https \
+        apt-transport-https gpg-agent \
         software-properties-common wget curl \
         python python3 virtualenv \
-        libboost-program-options1.58.0 \
-        libboost-python1.58.0 \
-        libboost-system1.58.0 \
-        libboost-regex1.58.0 \
+        libboost-program-options1.65 \
+        libboost-python1.65 \
+        libboost-system1.65 \
+        libboost-regex1.65 \
         netbase && \
     rm -rf /var/lib/apt/lists/*
 
 # Install python-casacore run-time dependencies. Note that this cannot be
 # combined into the previous step because apt-add-repository is part of
 # software-properties-common, installed above.
-RUN add-apt-repository -y ppa:kernsuite/kern-3 && \
+RUN add-apt-repository -y ppa:kernsuite/kern-4 && \
     add-apt-repository -y multiverse && \
     apt-get -y update && \
     apt-get --no-install-recommends -y install \
-        libcfitsio2 libwcs5 \
+        libcfitsio5 libwcs5 \
         libcasa-casa2 libcasa-images2 libcasa-measures2 libcasa-ms2 \
         libcasa-python2 libcasa-scimath2 libcasa-tables2 casacore-data && \
     rm -rf /var/lib/apt/lists/*
@@ -42,7 +42,7 @@ RUN add-apt-repository -y ppa:kernsuite/kern-3 && \
 # Install some components of MLNX_OFED
 ENV MLNX_OFED_VERSION=4.3-1.0.1.0
 RUN cd /tmp && \
-    MLNX_OFED_PATH=MLNX_OFED_LINUX-$MLNX_OFED_VERSION-ubuntu16.04-x86_64 && \
+    MLNX_OFED_PATH=MLNX_OFED_LINUX-$MLNX_OFED_VERSION-ubuntu18.04-x86_64 && \
     wget --progress=dot:mega http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/MLNX_OFED-$MLNX_OFED_VERSION/$MLNX_OFED_PATH.tgz && \
     tar -zxf $MLNX_OFED_PATH.tgz && \
     echo "deb file:///tmp/$MLNX_OFED_PATH/DEBS ./" > /etc/apt/sources.list.d/mlnx-ofed.list && \

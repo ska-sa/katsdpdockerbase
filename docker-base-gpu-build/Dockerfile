@@ -1,4 +1,4 @@
-FROM sdp-docker-registry.kat.ac.za:5000/docker-base-build
+FROM sdp-docker-registry.kat.ac.za:5000/docker-base-build:18.04
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 
 USER root
@@ -7,8 +7,8 @@ USER root
 RUN apt-get -y update && apt-get install --no-install-recommends -y \
         opencl-headers ocl-icd-libopencl1 ocl-icd-opencl-dev
 
-RUN CUDA_RUN_FILE=cuda_9.1.85_387.26_linux && \
-    wget --progress=dot:mega "http://sdp-services.kat.ac.za/mirror/developer.nvidia.com/compute/cuda/9.1/Prod/local_installers/$CUDA_RUN_FILE" && \
+RUN CUDA_RUN_FILE=cuda_10.0.130_410.48_linux && \
+    wget --progress=dot:mega "http://sdp-services.kat.ac.za/mirror/developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
     rm -- $CUDA_RUN_FILE /tmp/cuda* && \
     rm -r /usr/local/cuda/doc && \
@@ -50,6 +50,6 @@ RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     rm -rf ~/tmp-ve3
 
 # For nvidia-docker 1.0
-LABEL com.nvidia.volumes.needed="nvidia_driver" com.nvidia.cuda.version="9.1"
+LABEL com.nvidia.volumes.needed="nvidia_driver" com.nvidia.cuda.version="10.0"
 # For nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=9.1
+ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=10.0

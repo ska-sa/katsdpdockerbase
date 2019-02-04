@@ -1,4 +1,4 @@
-FROM sdp-docker-registry.kat.ac.za:5000/docker-base-runtime
+FROM sdp-docker-registry.kat.ac.za:5000/docker-base-runtime:18.04
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 
 USER root
@@ -16,7 +16,7 @@ RUN apt-get -y update && apt-get --no-install-recommends -y install \
 
 # Install dev libraries from MLNX OFED
 RUN cd /tmp && \
-    MLNX_OFED_PATH=MLNX_OFED_LINUX-$MLNX_OFED_VERSION-ubuntu16.04-x86_64 && \
+    MLNX_OFED_PATH=MLNX_OFED_LINUX-$MLNX_OFED_VERSION-ubuntu18.04-x86_64 && \
     wget --progress=dot:mega http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/MLNX_OFED-$MLNX_OFED_VERSION/$MLNX_OFED_PATH.tgz && \
     tar -zxf $MLNX_OFED_PATH.tgz && \
     echo "deb file:///tmp/$MLNX_OFED_PATH/DEBS ./" > /etc/apt/sources.list.d/mlnx-ofed.list && \

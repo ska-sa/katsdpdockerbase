@@ -1,4 +1,4 @@
-FROM sdp-docker-registry.kat.ac.za:5000/docker-base-build
+FROM sdp-docker-registry.kat.ac.za:5000/docker-base-build:16.04
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 
 USER root

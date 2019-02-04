@@ -1,4 +1,4 @@
-FROM sdp-docker-registry.kat.ac.za:5000/docker-base-runtime
+FROM sdp-docker-registry.kat.ac.za:5000/docker-base-runtime:16.04
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 
 USER root
@@ -8,7 +8,7 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
         g++ ocl-icd-libopencl1 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=sdp-docker-registry.kat.ac.za:5000/docker-base-gpu-build /usr/local/cuda-9.1 /usr/local/cuda-9.1
+COPY --from=sdp-docker-registry.kat.ac.za:5000/docker-base-gpu-build:16.04 /usr/local/cuda-9.1 /usr/local/cuda-9.1
 RUN ln -s /usr/local/cuda-9.1 /usr/local/cuda
 
 ENV PATH="$PATH:/usr/local/cuda/bin" \

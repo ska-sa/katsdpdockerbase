@@ -30,3 +30,6 @@ USER kat
 LABEL com.nvidia.volumes.needed="nvidia_driver" com.nvidia.cuda.version="10.0"
 # For nvidia-container-runtime
 ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=10.0
+
+# Just so that if the user passes the --build-arg they don't get a warning
+ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror

@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+if [ -z "$KATSDPDOCKERBASE_MIRROR" ]; then
+    exec wget "$@"
+fi
+
+if ! curl -s -f -o /dev/null "$KATSDPDOCKERBASE_MIRROR"; then
+    echo "Warning: could not reach mirror $KATSDPDOCKERBASE_MIRROR; using original" 1>&2
+    exec wget "$@"
+fi
+
+declare -a args
+for arg; do
+    if [ "${arg#http://}" != "$arg" ]; then
+        arg="$KATSDPDOCKERBASE_MIRROR/${arg#http://}"
+    elif [ "${arg#https://}" != "$arg" ]; then
+        arg="$KATSDPDOCKERBASE_MIRROR/${arg#https://}"
+    fi
+    args+=("$arg")
+done
+exec wget "${args[@]}"

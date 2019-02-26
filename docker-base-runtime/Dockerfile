@@ -39,14 +39,17 @@ RUN add-apt-repository -y ppa:kernsuite/kern-4 && \
         libcasa-python2 libcasa-scimath2 libcasa-tables2 casacore-data && \
     rm -rf /var/lib/apt/lists/*
 
+COPY mirror_wget /usr/local/bin/mirror_wget
+ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
+
 # Install some components of MLNX_OFED
 ENV MLNX_OFED_VERSION=4.3-1.0.1.0
 RUN cd /tmp && \
     MLNX_OFED_PATH=MLNX_OFED_LINUX-$MLNX_OFED_VERSION-ubuntu18.04-x86_64 && \
-    wget --progress=dot:mega http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/MLNX_OFED-$MLNX_OFED_VERSION/$MLNX_OFED_PATH.tgz && \
+    mirror_wget --progress=dot:mega https://www.mellanox.com/downloads/ofed/MLNX_OFED-$MLNX_OFED_VERSION/$MLNX_OFED_PATH.tgz && \
     tar -zxf $MLNX_OFED_PATH.tgz && \
     echo "deb file:///tmp/$MLNX_OFED_PATH/DEBS ./" > /etc/apt/sources.list.d/mlnx-ofed.list && \
-    wget -qO - http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | apt-key add - && \
+    mirror_wget -qO - https://www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | apt-key add - && \
     apt-get -y update && \
     apt-get install -y --no-install-recommends \
         libibverbs1 librdmacm1 libvma libmlx4-1 libmlx5-1 && \
@@ -58,7 +61,7 @@ RUN cd /tmp && \
 
 # Install tini (a mini-init) and set it as entrypoint so that we don't
 # accumulate zombie processes.
-RUN wget http://sdp-services.kat.ac.za/mirror/github.com/krallin/tini/releases/download/v0.18.0/tini -O /sbin/tini && \
+RUN mirror_wget https://github.com/krallin/tini/releases/download/v0.18.0/tini -O /sbin/tini && \
     chmod +x /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 

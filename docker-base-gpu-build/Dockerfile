@@ -7,8 +7,10 @@ USER root
 RUN apt-get -y update && apt-get install --no-install-recommends -y \
         opencl-headers ocl-icd-libopencl1 ocl-icd-opencl-dev
 
+ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
+
 RUN CUDA_RUN_FILE=cuda_10.0.130_410.48_linux && \
-    wget --progress=dot:mega "http://sdp-services.kat.ac.za/mirror/developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/$CUDA_RUN_FILE" && \
+    mirror_wget --progress=dot:mega "https://developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
     rm -- $CUDA_RUN_FILE /tmp/cuda* && \
     rm -r /usr/local/cuda/doc && \

@@ -14,13 +14,15 @@ RUN apt-get -y update && apt-get --no-install-recommends -y install \
     autoconf automake \
     casacore-dev libcfitsio-dev wcslib-dev
 
+ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
+
 # Install dev libraries from MLNX OFED
 RUN cd /tmp && \
     MLNX_OFED_PATH=MLNX_OFED_LINUX-$MLNX_OFED_VERSION-ubuntu18.04-x86_64 && \
-    wget --progress=dot:mega http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/MLNX_OFED-$MLNX_OFED_VERSION/$MLNX_OFED_PATH.tgz && \
+    mirror_wget --progress=dot:mega https://www.mellanox.com/downloads/ofed/MLNX_OFED-$MLNX_OFED_VERSION/$MLNX_OFED_PATH.tgz && \
     tar -zxf $MLNX_OFED_PATH.tgz && \
     echo "deb file:///tmp/$MLNX_OFED_PATH/DEBS ./" > /etc/apt/sources.list.d/mlnx-ofed.list && \
-    wget -qO - http://sdp-services.kat.ac.za/mirror/www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | apt-key add - && \
+    mirror_wget -qO - https://www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | apt-key add - && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         libibverbs-dev librdmacm-dev libvma-dev && \

@@ -14,14 +14,21 @@ pip that handles a few details:
 
 from __future__ import division, print_function, absolute_import, unicode_literals
 import sys
-import pkg_resources
 import re
 import argparse
 import warnings
 import codecs
+import copy
 import tempfile
 import itertools
 import subprocess
+from six.moves import urllib
+
+import six
+from packaging.requirements import Requirement
+from packaging.specifiers import SpecifierSet
+from packaging.utils import canonicalize_name
+
 
 COMMENT_RE = re.compile(r'(^|\s)+#.*$')
 
@@ -47,18 +54,53 @@ EPOCH = {
     'astro-tigger': 50
 }
 
+
 def parse_requirement(requirement):
+    """Parse a single requirement.
+
+    It will handle
+    - requirements handled by packaging.requirements.Requirement
+    - URLs, which are turned into PEP 508 URL specifications (using the #egg
+      fragment to identify the package).
+
+    Anything not handled is returned as a string (with a warning).
+
+    >>> parse_requirement('requests [security,tests] >= 2.8.1, == 2.8.* ; python_version < "2.7"')
+    <Requirement('requests[security,tests]==2.8.*,>=2.8.1; python_version < "2.7"')>
+    >>> parse_requirement('https://github.com/pypa/pip/archive/1.3.1.zip#egg=pip')
+    <Requirement('pip@ https://github.com/pypa/pip/archive/1.3.1.zip#egg=pip')>
+    >>> parse_requirement('git+ssh://git@github.com/ska-sa/katdal')
+    <Requirement('katdal@ git+ssh://git@github.com/ska-sa/katdal')>
+    >>> parse_requirement('--no-binary :all:')
+    '--no-binary :all:'
+
+    Returns
+    -------
+    :class:`packaging.requirements.Requirement` or str
+        The parsed requirement
+    """
     try:
-        return pkg_resources.Requirement.parse(requirement)
+        return Requirement(requirement)
     except ValueError:
         if '://' not in requirement:
-            warnings.warn('Requirement {} could not be parsed and is not an URL'.format(requirement))
-        return requirement
+            warnings.warn('Requirement {} could not be parsed and is not an URL'
+                          .format(requirement))
+            return requirement
+        url = urllib.parse.urlparse(requirement)
+        frag_params = urllib.parse.parse_qs(url.fragment)
+        if 'egg' in frag_params:
+            name = frag_params['egg'][0]
+        else:
+            name = url.path.split('/')[-1]
+        requirement = name + ' @ ' + requirement
+        return Requirement(requirement)
+
 
 def parse_requirements(filename):
-    """Parse a requirements file for lines that contain requirements that
-    can be parsed by pkg_resources.Requirement.parse. Any lines that cannot
-    be parsed in this way are returned as-is (although comments are removed).
+    """Parse a requirements file.
+
+    Comments are stripped, and the remaining non-blank lines are passed
+    through :func:`parse_requirement`.
     """
     with codecs.open(filename, encoding='utf-8') as f:
         for line in f:
@@ -66,6 +108,7 @@ def parse_requirements(filename):
             line = line.strip()
             if line:
                 yield parse_requirement(line)
+
 
 def make_requirements(args):
     """Split up requirements by epoch.
@@ -83,7 +126,7 @@ def make_requirements(args):
     reqs = []
     for requirements_file in args.requirements:
         reqs.append(parse_requirements(requirements_file))
-    reqs.append(args.package)
+    reqs.append([parse_requirement(req) for req in args.package])
     # Convert from list of iterables to an iterable
     reqs = itertools.chain(*reqs)
     defaults = []
@@ -92,61 +135,77 @@ def make_requirements(args):
     # Convert defaults from a list to a dictionary
     default_for = {}
     for item in defaults:
-        if isinstance(item, pkg_resources.Requirement):
+        if isinstance(item, Requirement):
+            if item.marker and not item.marker.evaluate():
+                continue
+            name = canonicalize_name(item.name)
             pin = None
-            for (op, version) in item.specs:
-                if op == '==' or op == '===':
-                    pin = (op, version)
+            for spec in item.specifier:
+                if spec.operator in {'==', '==='}:
+                    pin = spec
             if pin is not None:
-                if item.key in default_for and default_for[item.key] != pin:
-                    raise KeyError('{} is listed twice in {} with conflicting versions'.format(item.project_name, args.default_versions))
-                default_for[item.key] = pin
+                if name in default_for and default_for[name] != pin:
+                    raise KeyError('{} is listed twice in {} with conflicting versions'
+                                   .format(name, args.default_versions))
+                default_for[name] = pin
 
     by_epoch = {}
     for item in reqs:
-        if isinstance(item, pkg_resources.Requirement):
-            pinned = False
-            for (op, version) in item.specs:
-                if op == '==' or op == '===':
+        if isinstance(item, Requirement):
+            if item.marker and not item.marker.evaluate():
+                continue
+            pinned = (item.url is not None)
+            name = canonicalize_name(item.name)
+            for spec in item.specifier:
+                if spec.operator in {'==', '==='}:
                     pinned = True
             if not pinned:
-                try:
-                    (op, version) = default_for[item.key]
-                    item = pkg_resources.Requirement.parse('{0}{1}{2[0]}{2[1]}'.format(
-                        item, ',' if item.specs else '', default_for[item.key]))
-                except KeyError:
+                if name not in default_for:
                     if not args.allow_unversioned:
-                        raise RuntimeError('{} is not version-pinned'.format(item.project_name))
-            key = item.key
-            if sys.version_info.major >= 3:
-                value = str(item)
-            else:
-                value = unicode(item)
+                        raise RuntimeError('{} is not version-pinned'.format(name))
+                else:
+                    pin = default_for[name]
+                    item = copy.deepcopy(item)
+                    item.specifier &= SpecifierSet(six.text_type(pin))
+            value = six.text_type(item)
         else:
-            key = item
+            name = item
             value = item
-        epoch = EPOCH.get(key, 0)
+        epoch = EPOCH.get(name, 0)
         by_epoch.setdefault(epoch, []).append(value)
     return [by_epoch[x] for x in sorted(by_epoch.keys())]
+
 
 def run_pip(args, dry_run):
     if dry_run:
         print('pip {}'.format(' '.join(args)))
-        print('Contents of {}:'.format(args[-1]))
-        with codecs.open(args[-1], encoding='utf-8') as f:
-            sys.stdout.write(f.read())
+        if args != ['check']:
+            print('Contents of {}:'.format(args[-1]))
+            with codecs.open(args[-1], encoding='utf-8') as f:
+                sys.stdout.write(f.read())
     else:
         ret = subprocess.call(['pip'] + args)
         if ret:
             sys.exit(ret)
 
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--allow-unversioned', action='store_true', help='Do not complain if requirements do not have an exact version specified')
-    parser.add_argument('--default-versions', '-d', type=str, action='append', default=[], help='Requirements file that is consulted for unversioned requirements')
-    parser.add_argument('--requirements', '-r', type=str, action='append', default=[], help='Requirements file')
-    parser.add_argument('--dry-run', '-n', action='store_true', help='Just report what would be done')
-    parser.add_argument('package', type=parse_requirement, nargs='*', help='Package names')
+    parser.add_argument(
+        '--allow-unversioned', action='store_true',
+        help='Do not complain if requirements do not have an exact version specified')
+    parser.add_argument(
+        '--default-versions', '-d', type=str, action='append', default=[],
+        help='Requirements file that is consulted for unversioned requirements')
+    parser.add_argument(
+        '--requirements', '-r', type=str, action='append', default=[],
+        help='Requirements file')
+    parser.add_argument(
+        '--dry-run', '-n', action='store_true',
+        help='Just report what would be done')
+    parser.add_argument(
+        'package', type=parse_requirement, nargs='*',
+        help='Extra requirements')
     args, extra_args = parser.parse_known_args()
 
     req = make_requirements(args)

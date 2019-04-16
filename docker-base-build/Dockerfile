@@ -49,20 +49,20 @@ COPY install-requirements.py /usr/local/bin/
 # Pre-build a number of wheels to speed up building of dependent images.
 RUN virtualenv ~/tmp-ve && \
     . ~/tmp-ve/bin/activate && \
-    install-requirements.py -r ~/docker-base/pre-requirements.txt && \
+    pip install -r ~/docker-base/pre-requirements.txt && \
     install-requirements.py -r ~/docker-base/base-requirements.txt && \
     rm -r ~/tmp-ve
 # Same again for Python 3
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
-    install-requirements.py -r ~/docker-base/pre-requirements.txt && \
+    pip install -r ~/docker-base/pre-requirements.txt && \
     install-requirements.py -r ~/docker-base/base-requirements.txt && \
     rm -r ~/tmp-ve3
 
 # Create empty virtual environments for child images to install to
 RUN virtualenv ~/ve && \
     . ~/ve/bin/activate && \
-    install-requirements.py -r ~/docker-base/pre-requirements.txt
+    pip install -r ~/docker-base/pre-requirements.txt
 RUN virtualenv -p /usr/bin/python3 ~/ve3 && \
     . ~/ve3/bin/activate && \
-    install-requirements.py -r ~/docker-base/pre-requirements.txt
+    pip install -r ~/docker-base/pre-requirements.txt

@@ -41,13 +41,13 @@ USER kat
 COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
 RUN virtualenv ~/tmp-ve && \
     . ~/tmp-ve/bin/activate && \
-    install-requirements.py -r ~/docker-base/pre-requirements.txt && \
+    pip install -r ~/docker-base/pre-requirements.txt && \
     install-requirements.py -d ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
     rm -rf ~/tmp-ve
 # Same for Python3
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
-    install-requirements.py -r ~/docker-base/pre-requirements.txt && \
+    pip install -r ~/docker-base/pre-requirements.txt && \
     install-requirements.py -d ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
     rm -rf ~/tmp-ve3
 

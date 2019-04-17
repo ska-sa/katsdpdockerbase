@@ -36,7 +36,7 @@ RUN add-apt-repository -y ppa:kernsuite/kern-4 && \
     apt-get --no-install-recommends -y install \
         libcfitsio5 libwcs5 \
         libcasa-casa2 libcasa-images2 libcasa-measures2 libcasa-ms2 \
-        libcasa-python2 libcasa-scimath2 libcasa-tables2 casacore-data && \
+        libcasa-python2 libcasa-python3-2 libcasa-scimath2 libcasa-tables2 casacore-data && \
     rm -rf /var/lib/apt/lists/*
 
 COPY mirror_wget /usr/local/bin/mirror_wget

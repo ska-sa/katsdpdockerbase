@@ -41,7 +41,7 @@ $docker_build --label=org.label-schema.schema-version=1.0 \
 # Remove the image, whether push is successful or not, to avoid accumulating
 # more and more images on the build slaves. This is skipped for Jenkins
 # images, since they are actually used on the build machines.
-if [[ "$NAME" != jenkins-* ]]; then
+if [[ "$NAME" != jenkins-* || "$NAME" != latest ]]; then
     trap "docker rmi $DOCKER_REGISTRY/$NAME:$LABEL" EXIT
 fi
 rm -f ___version___

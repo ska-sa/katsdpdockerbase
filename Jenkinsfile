@@ -1,6 +1,7 @@
 #!groovy
 
 @Library('katsdpjenkins') _
+katsdp.killOldJobs()
 
 catchError {
     def images = ["docker-base-runtime", "docker-base-build",

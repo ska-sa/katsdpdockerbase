@@ -30,13 +30,10 @@ RUN apt-get -y update && apt-get --no-install-recommends -y install \
 # Install python-casacore run-time dependencies. Note that this cannot be
 # combined into the previous step because apt-add-repository is part of
 # software-properties-common, installed above.
-RUN add-apt-repository -y ppa:kernsuite/kern-4 && \
-    add-apt-repository -y multiverse && \
+RUN add-apt-repository -y ppa:kernsuite/kern-5 && \
     apt-get -y update && \
     apt-get --no-install-recommends -y install \
-        libcfitsio5 libwcs5 \
-        libcasa-casa2 libcasa-images2 libcasa-measures2 libcasa-ms2 \
-        libcasa-python2 libcasa-python3-2 libcasa-scimath2 libcasa-tables2 casacore-data && \
+        casacore-data && \
     rm -rf /var/lib/apt/lists/*
 
 COPY mirror_wget /usr/local/bin/mirror_wget

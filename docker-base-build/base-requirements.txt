@@ -44,6 +44,7 @@ Jinja2==2.10.1
 jmespath==0.9.3
 jsonschema==2.6.0
 katcp==0.6.3; python_version<'3'
+katportalclient==0.1.1
 katversion==0.9
 linecache2==1.0.0
 llvmlite==0.25.0
@@ -58,6 +59,7 @@ netifaces==0.10.7
 nose==1.3.7
 numba==0.40.1
 numpy==1.16.4
+omnijson==0.1.2
 packaging==19.1
 pandas==0.23.4
 pbr==1.8.1
@@ -94,6 +96,7 @@ tornado==4.5.3
 traceback2==1.4.0
 trollius==2.1.post2
 typing==3.6.6; python_version<'3'
+ujson==1.35
 unittest2==1.1.0
 urllib3==1.24
 # Note: yarl 1.2+ requires Python 3.5.3+

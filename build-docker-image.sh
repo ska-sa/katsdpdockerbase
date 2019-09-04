@@ -15,6 +15,8 @@ fi
 NAME="$1"
 shift
 LABEL="${BRANCH_NAME#origin/}"
+# Replace characters not legal in Docker tags with underscores
+LABEL="$(echo -n "$LABEL" | tr -c '[:alnum:]-.' _)"
 if [ "$LABEL" = "master" ]; then
     LABEL=latest
 fi

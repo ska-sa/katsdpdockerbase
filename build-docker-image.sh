@@ -15,6 +15,7 @@ fi
 NAME="$1"
 shift
 LABEL="${BRANCH_NAME#origin/}"
+LABEL="${LABEL//\//_}"    # Replaces all /'s with underscores - / is not allowed in docker tags
 if [ "$LABEL" = "master" ]; then
     LABEL=latest
 fi

@@ -1,5 +1,5 @@
 # A temporary stage just to compile schedrr
-FROM ubuntu:bionic-20181112 as build-schedrr
+FROM ubuntu:bionic-20190807 as build-schedrr
 RUN apt-get -y update && apt-get -y install gcc
 # Create a setuid binary to assist with realtime scheduling
 COPY schedrr.c /usr/local/src
@@ -7,7 +7,7 @@ RUN gcc -o /usr/local/bin/schedrr /usr/local/src/schedrr.c -Wall -Wextra -s -O2
 
 #######################################################################
 
-FROM ubuntu:bionic-20181112
+FROM ubuntu:bionic-20190807
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 
 # Suppress debconf warnings

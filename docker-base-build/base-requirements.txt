@@ -79,7 +79,7 @@ pyyaml==5.1.2
 rdbtools==0.1.13
 # Note: katsdptelstate doesn't yet support redis-py 3
 redis==2.10.6
-requests==2.20.0
+requests==2.22.0
 scipy==1.1.0
 singledispatch==3.4.0.3
 six==1.12.0
@@ -98,6 +98,6 @@ trollius==2.1.post2
 typing==3.6.6; python_version<'3'
 ujson==1.35
 unittest2==1.1.0
-urllib3==1.24
+urllib3==1.25.3
 # Note: yarl 1.2+ requires Python 3.5.3+
 yarl==1.1.1; python_version>='3'

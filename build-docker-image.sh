@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Helper for building Docker images on Jenkins. It uses environment
+# variables set by Jenkins to affect the build.
+
 set -e
 if [ "$#" -lt 1 ]; then
     echo "Usage: build-docker-image.sh image-name [args]" 1>&2
@@ -35,9 +39,19 @@ if [ -x "scripts/docker_build.sh" ]; then
 else
     docker_build="docker build"
 fi
+
+declare -a build_args
+if grep -q '^ARG KATSDPDOCKERBASE_REGISTRY' Dockerfile; then
+    build_args+=(--build-arg "KATSDPDOCKERBASE_REGISTRY=$DOCKER_REGISTRY")
+fi
+if grep -q '^ARG TAG' Dockerfile; then
+    build_args+=(--build-arg "TAG=$LABEL")
+fi
+
 $docker_build --label=org.label-schema.schema-version=1.0 \
               --label=org.label-schema.vcs-ref="$(git rev-parse HEAD)" \
               --label=org.label-schema.vcs-url="$(git remote get-url origin)" \
+              ${build_args[@]} \
               --pull=true --no-cache=true --force-rm=true \
               -t "$DOCKER_REGISTRY/$NAME:$LABEL" "$@" .
 # Remove the image, whether push is successful or not, to avoid accumulating

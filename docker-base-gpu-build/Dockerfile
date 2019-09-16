@@ -1,4 +1,7 @@
-FROM sdp-docker-registry.kat.ac.za:5000/docker-base-build
+ARG KATSDPDOCKERBASE_REGISTRY=sdp-docker-registry.kat.ac.za:5000
+ARG TAG=latest
+
+FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-build:$TAG
 MAINTAINER Bruce Merry "bmerry@ska.ac.za"
 
 USER root

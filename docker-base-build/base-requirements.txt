@@ -44,7 +44,7 @@ Jinja2==2.10.1
 jmespath==0.9.3
 jsonschema==2.6.0
 katcp==0.6.3; python_version<'3'
-katportalclient==0.2.0
+katportalclient==0.2.1
 katversion==0.9
 linecache2==1.0.0
 llvmlite==0.25.0

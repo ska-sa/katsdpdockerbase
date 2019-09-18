@@ -5,7 +5,7 @@
 
 set -e
 if [ "$#" -lt 1 ]; then
-    echo "Usage: build-docker-image.sh image-name [args]" 1>&2
+    echo "Usage: build-docker-image.sh [--push-external] image-name [args]" 1>&2
     exit 1
 fi
 if [ -z "$DOCKER_REGISTRY" ]; then
@@ -16,6 +16,16 @@ if [ -z "$BRANCH_NAME" ]; then
     echo "BRANCH_NAME is not set" 1>&2
     exit 1
 fi
+push_external=0
+if [ "$1" = "--push-external" ]; then
+    if [ -z "$DOCKER_EXTERNAL_REGISTRY" ]; then
+        echo "DOCKER_EXTERNAL_REGISTRY must be set when using --push-external" 1>& 2
+        exit 1
+    fi
+    push_external=1
+    shift
+fi
+
 NAME="$1"
 shift
 LABEL="${BRANCH_NAME#origin/}"
@@ -62,3 +72,8 @@ if [[ "$NAME" != jenkins-* || "$NAME" != latest ]]; then
 fi
 rm -f ___version___
 docker push "$DOCKER_REGISTRY/$NAME:$LABEL"
+if [ "$push_external" -eq 1 ]; then
+    trap "docker rmi $DOCKER_EXTERNAL_REGISTRY/$NAME:$LABEL" EXIT
+    docker tag "$DOCKER_REGISTRY/$NAME:$LABEL" "$DOCKER_EXTERNAL_REGISTRY/$NAME:$LABEL"
+    docker push "$DOCKER_EXTERNAL_REGISTRY/$NAME:$LABEL"
+fi

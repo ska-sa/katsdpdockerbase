@@ -2,7 +2,7 @@ ARG KATSDPDOCKERBASE_REGISTRY=sdp-docker-registry.kat.ac.za:5000
 ARG TAG=latest
 
 FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
-MAINTAINER Bruce Merry "bmerry@ska.ac.za"
+LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root
 

@@ -11,7 +11,7 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
         g++ ocl-icd-libopencl1 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=sdp-docker-registry.kat.ac.za:5000/docker-base-gpu-build /usr/local/cuda-10.0 /usr/local/cuda-10.0
+COPY --from=$KATSDPDOCKERBASE_REGISTRY/docker-base-gpu-build /usr/local/cuda-10.0 /usr/local/cuda-10.0
 RUN ln -s /usr/local/cuda-10.0 /usr/local/cuda
 
 ENV PATH="$PATH:/usr/local/cuda/bin" \

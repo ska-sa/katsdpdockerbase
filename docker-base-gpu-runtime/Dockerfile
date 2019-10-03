@@ -1,6 +1,9 @@
 ARG KATSDPDOCKERBASE_REGISTRY=sdp-docker-registry.kat.ac.za:5000
 ARG TAG=latest
 
+# Just to give it a name to refer to for the later COPY step
+FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-gpu-build as gpu-build
+
 FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
@@ -11,7 +14,7 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
         g++ ocl-icd-libopencl1 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=sdp-docker-registry.kat.ac.za:5000/docker-base-gpu-build /usr/local/cuda-10.0 /usr/local/cuda-10.0
+COPY --from=gpu-build /usr/local/cuda-10.0 /usr/local/cuda-10.0
 RUN ln -s /usr/local/cuda-10.0 /usr/local/cuda
 
 ENV PATH="$PATH:/usr/local/cuda/bin" \

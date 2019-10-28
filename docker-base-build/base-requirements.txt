@@ -64,7 +64,7 @@ packaging==19.1
 pandas==0.23.4
 pbr==1.8.1
 pkginfo==1.4.2
-pillow==5.3.0
+pillow==6.2.1
 ply==3.11
 pycparser==2.14
 pyephem==3.7.6.0

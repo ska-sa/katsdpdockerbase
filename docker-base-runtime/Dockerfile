@@ -40,16 +40,16 @@ COPY mirror_wget /usr/local/bin/mirror_wget
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
 
 # Install some components of MLNX_OFED
-ENV MLNX_OFED_VERSION=4.3-1.0.1.0
+ENV MLNX_OFED_VERSION=4.7-1.0.0.1
 RUN cd /tmp && \
     MLNX_OFED_PATH=MLNX_OFED_LINUX-$MLNX_OFED_VERSION-ubuntu18.04-x86_64 && \
     mirror_wget --progress=dot:mega https://www.mellanox.com/downloads/ofed/MLNX_OFED-$MLNX_OFED_VERSION/$MLNX_OFED_PATH.tgz && \
     tar -zxf $MLNX_OFED_PATH.tgz && \
-    echo "deb file:///tmp/$MLNX_OFED_PATH/DEBS ./" > /etc/apt/sources.list.d/mlnx-ofed.list && \
+    echo "deb file:///tmp/$MLNX_OFED_PATH/DEBS/MLNX_LIBS ./" > /etc/apt/sources.list.d/mlnx-ofed.list && \
     mirror_wget -qO - https://www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | apt-key add - && \
     apt-get -y update && \
     apt-get install -y --no-install-recommends \
-        libibverbs1 librdmacm1 libvma libmlx4-1 libmlx5-1 && \
+        libibverbs1 librdmacm1 libmlx4-1 libmlx5-1 && \
     rm -rf "/tmp/$MLNX_OFED_PATH" \
         "/tmp/$MLNX_OFED_PATH.tgz" \
         /etc/apt/sources.list.d/mlnx-ofed.list \

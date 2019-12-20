@@ -8,7 +8,7 @@ USER root
 
 RUN apt-get -y update && apt-get --no-install-recommends -y install \
     build-essential pkg-config git-core ssh \
-    python-dev python3-dev \
+    python3-dev \
     libboost-program-options-dev \
     libboost-python-dev \
     libboost-system-dev \
@@ -50,22 +50,13 @@ RUN mkdir ~/.ssh && \
 COPY --chown=kat:kat *-requirements.txt /home/kat/docker-base/
 COPY install-requirements.py /usr/local/bin/
 # Pre-build a number of wheels to speed up building of dependent images.
-RUN virtualenv ~/tmp-ve && \
-    . ~/tmp-ve/bin/activate && \
-    pip install -r ~/docker-base/pre-requirements.txt && \
-    install-requirements.py -r ~/docker-base/base-requirements.txt && \
-    rm -r ~/tmp-ve
-# Same again for Python 3
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
     pip install -r ~/docker-base/pre-requirements.txt && \
     install-requirements.py -r ~/docker-base/base-requirements.txt && \
     rm -r ~/tmp-ve3
 
-# Create empty virtual environments for child images to install to
-RUN virtualenv ~/ve && \
-    . ~/ve/bin/activate && \
-    pip install -r ~/docker-base/pre-requirements.txt
+# Create empty virtual environment for child images to install to
 RUN virtualenv -p /usr/bin/python3 ~/ve3 && \
     . ~/ve3/bin/activate && \
     pip install -r ~/docker-base/pre-requirements.txt

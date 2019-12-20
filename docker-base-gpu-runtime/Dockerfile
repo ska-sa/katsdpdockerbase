@@ -18,7 +18,6 @@ COPY --from=gpu-build /usr/local/cuda-10.0 /usr/local/cuda-10.0
 RUN ln -s /usr/local/cuda-10.0 /usr/local/cuda
 
 ENV PATH="$PATH:/usr/local/cuda/bin" \
-    PATH_PYTHON2="$PATH_PYTHON2:/usr/local/cuda/bin" \
     PATH_PYTHON3="$PATH_PYTHON3:/usr/local/cuda/bin"
 # /usr/lib/x86_64-linux-gnu is explicitly added to the front to prevent the
 # CUDA version of libOpenCL.so.1 (which is older) from overriding the version
@@ -32,8 +31,6 @@ RUN mkdir -p /etc/OpenCL/vendors && \
 
 USER kat
 
-# For nvidia-docker 1.0
-LABEL com.nvidia.volumes.needed="nvidia_driver" com.nvidia.cuda.version="10.0"
 # For nvidia-container-runtime
 ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=10.0
 

@@ -28,10 +28,7 @@ def main():
     args = parser.parse_args()
 
     if args.create:
-        try:
-            os.mkdir(args.path)
-        except FileExistsError:
-            pass
+        pathlib.Path(args.path).mkdir(parents=True, exist_ok=True)
 
     atexit.register(cleanup, args.path)
 

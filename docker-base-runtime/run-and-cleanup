@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import os
 import signal
 import subprocess
 import sys
@@ -20,13 +21,22 @@ def main():
         description='Run a command and delete a path when it terminates. '
                     'Signals are forwarded to the executed process.',
         usage='%(prog)s path -- command [args...]')
+    parser.add_argument('-c', '--create', action='store_true', help='Create the path')
+    parser.add_argument('-t', '--tmp', action='store_true', help='Set as TMPDIR for child')
     parser.add_argument('path', help='Path to clean up')
     parser.add_argument('command', nargs='+', help='Command to run')
     args = parser.parse_args()
+
+    if args.create:
+        pathlib.Path(args.path).mkdir(parents=True, exist_ok=True)
+
     atexit.register(cleanup, args.path)
 
     try:
-        sub = subprocess.Popen(args.command)
+        env = dict(os.environ)
+        if args.tmp:
+            env['TMPDIR'] = args.path
+        sub = subprocess.Popen(args.command, env=env)
     except OSError as exc:
         print(exc, file=sys.stderr)
         sys.exit(127)

@@ -19,7 +19,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y update && apt-get --no-install-recommends -y install \
         apt-transport-https gpg-agent \
         software-properties-common wget curl \
-        python python3 virtualenv \
+        python3 virtualenv \
         libboost-program-options1.65 \
         libboost-python1.65 \
         libboost-system1.65 \
@@ -76,6 +76,4 @@ USER kat
 # Define environment variables that child images can copy to PATH and
 # VIRTUAL_ENV to activate a virtual environment.
 ENV PATH_PYTHON3="/home/kat/ve3/bin:$PATH" \
-    PATH_PYTHON2="/home/kat/ve/bin:$PATH" \
-    VIRTUAL_ENV_PYTHON2="/home/kat/ve" \
     VIRTUAL_ENV_PYTHON3="/home/kat/ve3"

@@ -25,7 +25,6 @@ RUN CUDA_RUN_FILE=cuda_10.0.130_410.48_linux && \
     rm -r /usr/local/cuda/libnvvp
 
 ENV PATH="$PATH:/usr/local/cuda/bin" \
-    PATH_PYTHON2="$PATH_PYTHON2:/usr/local/cuda/bin" \
     PATH_PYTHON3="$PATH_PYTHON3:/usr/local/cuda/bin"
 # /usr/lib/x86_64-linux-gnu is explicitly added to the front to prevent the
 # CUDA version of libOpenCL.so.1 (which is older) from overriding the version
@@ -42,19 +41,11 @@ USER kat
 
 # Create wheels for GPU-related packages
 COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
-RUN virtualenv ~/tmp-ve && \
-    . ~/tmp-ve/bin/activate && \
-    pip install -r ~/docker-base/pre-requirements.txt && \
-    install-requirements.py -d ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
-    rm -rf ~/tmp-ve
-# Same for Python3
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
     pip install -r ~/docker-base/pre-requirements.txt && \
     install-requirements.py -d ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
     rm -rf ~/tmp-ve3
 
-# For nvidia-docker 1.0
-LABEL com.nvidia.volumes.needed="nvidia_driver" com.nvidia.cuda.version="10.0"
 # For nvidia-container-runtime
 ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=10.0

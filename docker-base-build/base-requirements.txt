@@ -5,7 +5,7 @@ aiomonitor==0.4.5
 alabaster==0.7.12                      # via sphinx
 ansicolors==1.1.8
 appdirs==1.4.3
-argparse==1.4.0                        # via unittest2, python-casacore
+argparse==1.4.0                        # via python-casacore
 async-timeout==3.0.1
 asynctest==0.13.0
 attrs==19.3.0
@@ -29,7 +29,6 @@ funcsigs==1.0.2                        # TODO: is it used? (formerly needed by m
 future==0.17.1
 h5py==2.10.0                           # TODO: can we get rid of it (does katdal still need it?)
 hiredis==1.0.1
-iniparse==0.5                          # TODO: can probably be eliminated
 idna==2.8                              # via requests, idna-ssl, yarl
 idna-ssl==1.1.0                        # via aiohttp
 imagesize==1.2.0                       # via sphinx
@@ -40,7 +39,6 @@ jsonschema==3.2.0
 katportalclient==0.2.1
 katversion==0.9
 kiwisolver==1.1.0                      # via matplotlib
-linecache2==1.0.0                      # via traceback2
 llvmlite==0.31.0                       # via numba
 Mako==1.1.1                            # TODO: could move to the GPU image?
 manhole==1.6.0                         # TODO: only used by katsdpdisp - could remove
@@ -92,11 +90,9 @@ Sphinx==2.4.1
 terminaltables==3.1.0                  # via aiomonitor
 toolz==0.10.0                          # via dask
 tornado==6.0.3
-traceback2==1.4.0                      # via unittest2
 typing==3.7.4.1
 typing_extensions==3.7.4.1
 ujson==1.35                            # via katportalclient
-unittest2==1.1.0                       # TODO: is it still used?
 urllib3==1.25.8                        # via requests
 yarl==1.4.2                            # via aiohttp
 zipp==2.2.0                            # via importlib-metadata

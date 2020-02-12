@@ -7,7 +7,7 @@ RUN gcc -o /usr/local/bin/schedrr /usr/local/src/schedrr.c -Wall -Wextra -s -O2
 
 #######################################################################
 
-FROM ubuntu:bionic-20191202
+FROM ubuntu:bionic-20190807
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 # Suppress debconf warnings

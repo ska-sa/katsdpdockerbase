@@ -20,6 +20,7 @@ botocore==1.10.78
 certifi==2018.10.15
 cffi==1.11.5
 chardet==3.0.4
+cityhash==0.2.3.post9
 coverage==4.5.1
 cycler==0.10.0
 Cython==0.29

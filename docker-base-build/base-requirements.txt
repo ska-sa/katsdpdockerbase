@@ -16,6 +16,7 @@ botocore==1.14.15
 certifi==2019.11.28                    # via requests
 cffi==1.14.0                           # TODO: is it used?
 chardet==3.0.4                         # via requests, aiohttp
+cityhash==0.2.3.post9
 coverage==5.0.3
 cycler==0.10.0                         # via matplotlib
 Cython==0.29.15                        # TODO: is it used (aplpy does use it)

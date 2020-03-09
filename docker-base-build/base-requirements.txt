@@ -19,7 +19,7 @@ chardet==3.0.4                         # via requests, aiohttp
 coverage==5.0.3
 cycler==0.10.0                         # via matplotlib
 Cython==0.29.15                        # TODO: is it used (aplpy does use it)
-dask==2.10.1
+dask==2.12.0
 decorator==4.4.1
 defusedxml==0.6.0
 docutils==0.15                         # Not the latest due to botocore restriction

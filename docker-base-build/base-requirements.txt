@@ -25,7 +25,7 @@ decorator==4.4.1
 defusedxml==0.6.0
 docutils==0.15                         # Not the latest due to botocore restriction
 ephem==3.7.7.0
-fakeredis==1.2.0
+fakeredis==1.2.1
 funcsigs==1.0.2                        # TODO: is it used? (formerly needed by mock)
 future==0.17.1
 h5py==2.10.0                           # TODO: can we get rid of it (does katdal still need it?)

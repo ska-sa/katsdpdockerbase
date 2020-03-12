@@ -1,7 +1,7 @@
 appdirs                                # via pyopencl, pycuda, pytools
 decorator                              # via pyopencl, pycuda, pytools
-Mako                                   # via pycuda
-MarkupSafe                             # via markupsafe
+Mako==1.1.1                            # via pycuda
+MarkupSafe                             # via mako
 numpy
 pycuda==2019.1.2
 pyopencl==2019.1.2

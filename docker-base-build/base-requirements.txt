@@ -37,8 +37,9 @@ katportalclient==0.2.1
 katversion==0.9
 kiwisolver==1.1.0                      # via matplotlib
 llvmlite==0.31.0                       # via numba
+mako==1.1.1
 manhole==1.6.0                         # TODO: only used by katsdpdisp - could remove
-MarkupSafe==1.1.1                      # via jinja2
+MarkupSafe==1.1.1                      # via jinja2, mako
 matplotlib==3.1.3
 msgpack==0.6.2
 multidict==4.7.4                       # via yarl, aiohttp

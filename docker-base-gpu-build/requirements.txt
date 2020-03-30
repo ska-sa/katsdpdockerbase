@@ -1,14 +1,10 @@
-appdirs
-cffi
-decorator
-Mako
-MarkupSafe
+appdirs                                # via pyopencl, pycuda, pytools
+decorator                              # via pyopencl, pycuda, pytools
+Mako                                   # via pycuda
+MarkupSafe                             # via mako
 numpy
-py==1.5.3
-pycparser
-pycuda==2017.1.1
-pyopencl==2018.1.1
-pytest==3.0.3
-pytools==2018.4
-scikit-cuda==0.5.2
+pycuda==2019.1.2
+pyopencl==2019.1.2
+pytools==2020.1
+scikit-cuda==0.5.3
 six

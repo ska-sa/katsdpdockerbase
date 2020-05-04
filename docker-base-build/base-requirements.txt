@@ -33,7 +33,7 @@ importlib-metadata==1.5.0              # via jsonschema
 Jinja2==2.10.3
 jmespath==0.9.4                        # via botocore
 jsonschema==3.2.0
-katportalclient==0.2.1
+katportalclient==0.2.2
 katversion==0.9
 kiwisolver==1.1.0                      # via matplotlib
 llvmlite==0.31.0                       # via numba
@@ -85,7 +85,7 @@ toolz==0.10.0                          # via dask
 tornado==6.0.3
 typing==3.7.4.1
 typing_extensions==3.7.4.1
-ujson==1.35                            # via katportalclient
+ujson==2.0.3                           # via katportalclient
 urllib3==1.25.8                        # via requests
 yarl==1.4.2                            # via aiohttp
 zipp==2.2.0                            # via importlib-metadata

@@ -12,8 +12,8 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
 
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
 
-RUN CUDA_RUN_FILE=cuda_10.0.130_410.48_linux && \
-    mirror_wget --progress=dot:mega "https://developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/$CUDA_RUN_FILE" && \
+RUN CUDA_RUN_FILE=cuda_10.2.89_440.33.01_linux.run && \
+    mirror_wget --progress=dot:mega "http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
     rm -- $CUDA_RUN_FILE /tmp/cuda* && \
     rm -r /usr/local/cuda/doc && \
@@ -48,4 +48,4 @@ RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     rm -rf ~/tmp-ve3
 
 # For nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=10.0
+ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=10.2

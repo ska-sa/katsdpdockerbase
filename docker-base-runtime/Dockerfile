@@ -1,5 +1,5 @@
 # A temporary stage just to compile schedrr
-FROM ubuntu:bionic-20200112 as build-schedrr
+FROM ubuntu:focal-20200423 as build-schedrr
 RUN apt-get -y update && apt-get -y install gcc
 # Create a setuid binary to assist with realtime scheduling
 COPY schedrr.c /usr/local/src
@@ -7,7 +7,7 @@ RUN gcc -o /usr/local/bin/schedrr /usr/local/src/schedrr.c -Wall -Wextra -s -O2
 
 #######################################################################
 
-FROM ubuntu:bionic-20200112
+FROM ubuntu:focal-20200423
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 # Suppress debconf warnings
@@ -20,29 +20,29 @@ RUN apt-get -y update && apt-get --no-install-recommends -y install \
         apt-transport-https gpg-agent \
         software-properties-common wget curl \
         python3 virtualenv \
-        libboost-program-options1.65 \
-        libboost-python1.65 \
-        libboost-system1.65 \
-        libboost-regex1.65 \
+        libboost-program-options1.71.0 \
+        libboost-python1.71.0 \
+        libboost-system1.71.0 \
+        libboost-regex1.71.0 \
         netbase && \
     rm -rf /var/lib/apt/lists/*
 
 # Install python-casacore run-time dependencies. Note that this cannot be
 # combined into the previous step because apt-add-repository is part of
 # software-properties-common, installed above.
-RUN add-apt-repository -y ppa:kernsuite/kern-5 && \
-    apt-get -y update && \
-    apt-get --no-install-recommends -y install \
-        casacore-data && \
-    rm -rf /var/lib/apt/lists/*
+#RUN add-apt-repository -y ppa:kernsuite/kern-5 && \
+#    apt-get -y update && \
+#    apt-get --no-install-recommends -y install \
+#        casacore-data && \
+#    rm -rf /var/lib/apt/lists/*
 
 COPY mirror_wget /usr/local/bin/mirror_wget
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
 
 # Install some components of MLNX_OFED
-ENV MLNX_OFED_VERSION=4.7-1.0.0.1
+ENV MLNX_OFED_VERSION=4.9-0.1.7.0
 RUN cd /tmp && \
-    MLNX_OFED_PATH=MLNX_OFED_LINUX-$MLNX_OFED_VERSION-ubuntu18.04-x86_64 && \
+    MLNX_OFED_PATH=MLNX_OFED_LINUX-$MLNX_OFED_VERSION-ubuntu20.04-x86_64 && \
     mirror_wget --progress=dot:mega https://www.mellanox.com/downloads/ofed/MLNX_OFED-$MLNX_OFED_VERSION/$MLNX_OFED_PATH.tgz && \
     tar -zxf $MLNX_OFED_PATH.tgz && \
     echo "deb file:///tmp/$MLNX_OFED_PATH/DEBS/MLNX_LIBS ./" > /etc/apt/sources.list.d/mlnx-ofed.list && \

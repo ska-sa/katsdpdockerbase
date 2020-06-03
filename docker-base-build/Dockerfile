@@ -21,7 +21,7 @@ ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
 
 # Install dev libraries from MLNX OFED
 RUN cd /tmp && \
-    MLNX_OFED_PATH=MLNX_OFED_LINUX-$MLNX_OFED_VERSION-ubuntu18.04-x86_64 && \
+    MLNX_OFED_PATH=MLNX_OFED_LINUX-$MLNX_OFED_VERSION-ubuntu20.04-x86_64 && \
     mirror_wget --progress=dot:mega https://www.mellanox.com/downloads/ofed/MLNX_OFED-$MLNX_OFED_VERSION/$MLNX_OFED_PATH.tgz && \
     tar -zxf $MLNX_OFED_PATH.tgz && \
     echo "deb file:///tmp/$MLNX_OFED_PATH/DEBS/MLNX_LIBS ./" > /etc/apt/sources.list.d/mlnx-ofed.list && \

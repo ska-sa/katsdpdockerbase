@@ -34,7 +34,7 @@ Jinja2==2.10.3
 jmespath==0.9.4                        # via botocore
 jsonschema==3.2.0
 katportalclient==0.2.2
-katversion==0.9
+katversion==1.0
 kiwisolver==1.1.0                      # via matplotlib
 llvmlite==0.31.0                       # via numba
 mako==1.1.1

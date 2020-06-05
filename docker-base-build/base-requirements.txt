@@ -6,6 +6,7 @@ alabaster==0.7.12                      # via sphinx
 ansicolors==1.1.8
 appdirs==1.4.3
 argparse==1.4.0                        # via python-casacore
+astropy==4.0.1.post1
 async-timeout==3.0.1
 asynctest==0.13.0
 attrs==19.3.0

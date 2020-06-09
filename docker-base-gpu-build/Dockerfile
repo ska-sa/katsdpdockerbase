@@ -12,10 +12,10 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
 
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
 
-RUN CUDA_RUN_FILE=cuda_10.2.89_440.33.01_linux.run && \
-    mirror_wget --progress=dot:mega "http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/$CUDA_RUN_FILE" && \
+RUN CUDA_RUN_FILE=cuda_11.0.1_450.36.06_linux.run && \
+    mirror_wget --progress=dot:mega "http://developer.download.nvidia.com/compute/cuda/11.0.1/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
-    rm -- $CUDA_RUN_FILE /tmp/cuda* && \
+    rm -- $CUDA_RUN_FILE && \
     rm -r /usr/local/cuda/doc && \
     rm -r /usr/local/cuda/samples && \
     rm -r /usr/local/cuda/tools && \

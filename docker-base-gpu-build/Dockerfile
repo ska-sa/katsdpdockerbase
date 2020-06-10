@@ -19,7 +19,6 @@ RUN CUDA_RUN_FILE=cuda_11.0.1_450.36.06_linux.run && \
     rm -r /usr/local/cuda/doc && \
     rm -r /usr/local/cuda/tools && \
     rm -r /usr/local/cuda/extras && \
-    rm -r /usr/local/cuda/jre && \
     rm -r /usr/local/cuda/libnsight && \
     rm -r /usr/local/cuda/libnvvp
 

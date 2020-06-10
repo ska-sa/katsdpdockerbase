@@ -17,7 +17,6 @@ RUN CUDA_RUN_FILE=cuda_11.0.1_450.36.06_linux.run && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
     rm -- $CUDA_RUN_FILE && \
     rm -r /usr/local/cuda/doc && \
-    rm -r /usr/local/cuda/samples && \
     rm -r /usr/local/cuda/tools && \
     rm -r /usr/local/cuda/extras && \
     rm -r /usr/local/cuda/jre && \

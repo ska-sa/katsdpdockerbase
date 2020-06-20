@@ -62,7 +62,7 @@ py==1.8.1                              # via pytest
 pyjwt==1.7.1
 pyparsing==2.4.6                       # via packaging, matplotlib
 pyrsistent==0.15.5                     # via jsonschema
-pytest==5.3.5
+pytest==5.4.3
 pytest-cov==2.9.0
 python-casacore==3.2.0
 python-dateutil==2.8.1

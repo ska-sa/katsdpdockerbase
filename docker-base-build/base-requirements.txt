@@ -53,7 +53,7 @@ numpy==1.18.1
 omnijson==0.1.2                        # via katportalclient
 packaging==20.1                        # via sphinx, bokeh
 pandas==1.0.1
-pillow==7.0.0                          # via bokeh
+pillow==7.2.0                          # via bokeh
 pluggy==0.13.1                         # via pytest
 pyephem==3.7.7.0                       # via pyephem
 pygelf==0.3.6

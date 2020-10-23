@@ -5,6 +5,35 @@ RUN apt-get -y update && apt-get -y install gcc
 COPY schedrr.c /usr/local/src
 RUN gcc -o /usr/local/bin/schedrr /usr/local/src/schedrr.c -Wall -Wextra -s -O2
 
+# A temporary stage just to compile rdma-core
+# The steps are loosely based on the rdma-core README.md and debian/rules.
+FROM ubuntu:bionic-20200112 as build-rdma-core
+RUN apt-get -y update && apt-get -y install \
+    wget \
+    build-essential cmake gcc libudev-dev libnl-3-dev libnl-route-3-dev \
+    ninja-build pkg-config valgrind python3-dev cython3 python3-docutils pandoc
+WORKDIR /tmp
+RUN wget https://github.com/linux-rdma/rdma-core/releases/download/v31.0/rdma-core-31.0.tar.gz
+RUN tar -zxf rdma-core-31.0.tar.gz && \
+    mkdir rdma-core-31.0/build && \
+    cd rdma-core-31.0/build && \
+    cmake \
+        -GNinja \
+        -DDISTRO_FLAVOUR=Debian \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+        -DCMAKE_INSTALL_SYSCONFDIR:PATH=/etc \
+        -DCMAKE_INSTALL_SYSTEMD_SERVICEDIR:PATH=/lib/systemd/system \
+        -DCMAKE_INSTALL_INITDDIR:PATH=/etc/init.d \
+        -DCMAKE_INSTALL_LIBEXECDIR:PATH=/usr/lib \
+        -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=/var/lib \
+        -DCMAKE_INSTALL_RUNDIR:PATH=/run \
+        -DCMAKE_INSTALL_UDEV_RULESDIR:PATH=/lib/udev/rules.d \
+        -DCMAKE_INSTALL_PERLDIR:PATH=/usr/share/perl5 \
+        -DNO_PYVERBS=1 \
+        .. && \
+    DESTDIR=/tmp/rdma-core ninja install
+
 #######################################################################
 
 FROM ubuntu:bionic-20200112
@@ -24,7 +53,8 @@ RUN apt-get -y update && apt-get --no-install-recommends -y install \
         libboost-python1.65 \
         libboost-system1.65 \
         libboost-regex1.65 \
-        netbase && \
+        netbase \
+        libnl-3-200 libnl-route-3-200 && \
     rm -rf /var/lib/apt/lists/*
 
 # Install python-casacore run-time dependencies. Note that this cannot be
@@ -39,23 +69,6 @@ RUN add-apt-repository -y ppa:kernsuite/kern-5 && \
 COPY mirror_wget /usr/local/bin/mirror_wget
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
 
-# Install some components of MLNX_OFED
-ENV MLNX_OFED_VERSION=4.7-1.0.0.1
-RUN cd /tmp && \
-    MLNX_OFED_PATH=MLNX_OFED_LINUX-$MLNX_OFED_VERSION-ubuntu18.04-x86_64 && \
-    mirror_wget --progress=dot:mega https://www.mellanox.com/downloads/ofed/MLNX_OFED-$MLNX_OFED_VERSION/$MLNX_OFED_PATH.tgz && \
-    tar -zxf $MLNX_OFED_PATH.tgz && \
-    echo "deb file:///tmp/$MLNX_OFED_PATH/DEBS/MLNX_LIBS ./" > /etc/apt/sources.list.d/mlnx-ofed.list && \
-    mirror_wget -qO - https://www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | apt-key add - && \
-    apt-get -y update && \
-    apt-get install -y --no-install-recommends \
-        libibverbs1 librdmacm1 libmlx4-1 libmlx5-1 && \
-    rm -rf "/tmp/$MLNX_OFED_PATH" \
-        "/tmp/$MLNX_OFED_PATH.tgz" \
-        /etc/apt/sources.list.d/mlnx-ofed.list \
-        /var/lib/apt/lists/* \
-        /tmp/vma
-
 # Install tini (a mini-init) and set it as entrypoint so that we don't
 # accumulate zombie processes.
 RUN mirror_wget https://github.com/krallin/tini/releases/download/v0.18.0/tini -O /sbin/tini && \
@@ -67,6 +80,8 @@ COPY --from=build-schedrr /usr/local/bin/schedrr /usr/local/bin/schedrr
 RUN chmod u+s /usr/local/bin/schedrr
 # A helper script to run a program then clean up its scratch space
 COPY run-and-cleanup /usr/local/bin/run-and-cleanup
+# Install rdma-core from build image
+COPY --from=build-rdma-core /tmp/rdma-core/ /
 
 # Create and switch to a user which will be used to run commands with reduced
 # privileges.

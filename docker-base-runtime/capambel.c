@@ -71,12 +71,12 @@ int main(int argc, char * const argv[])
         {0, 0, 0, 0}
     };
 
-    cap_t cap = NULL;
+    cap_t cap;
+    cap_t req_cap = NULL;
     cap_value_t value;
     int opt;
     bool verbose = false;
 
-    /* No options yet, but make provision for them */
     do
     {
         switch (opt = getopt_long(argc, argv, "vc:", options, NULL))
@@ -87,8 +87,8 @@ int main(int argc, char * const argv[])
             verbose = true;
             break;
         case 'c':
-            cap = cap_from_text(optarg);
-            check_ptr(cap, "cap_from_text");
+            req_cap = cap_from_text(optarg);
+            check_ptr(req_cap, "cap_from_text");
             break;
         default:
             usage();
@@ -97,21 +97,36 @@ int main(int argc, char * const argv[])
     if (optind >= argc)
         usage();
 
-    if (!cap)
+    cap = cap_get_proc();
+    check_ptr(cap, "cap_get_proc");
+
+    for (value = 0; value <= CAP_LAST_CAP; value++)
     {
-        cap = cap_get_proc();
-        check_ptr(cap, "cap_get_proc");
+        cap_flag_value_t state;
+        check(cap_get_flag(req_cap ? req_cap : cap, value, CAP_PERMITTED, &state), "cap_get_flag");
+        if (state)
+        {
+            /* Ambient flag can only be raised if the flag is permitted and inheritable. */
+            check(cap_set_flag(cap, CAP_PERMITTED, 1, &value, CAP_SET), "cap_set_flag");
+            check(cap_set_flag(cap, CAP_INHERITABLE, 1, &value, CAP_SET), "cap_set_flag");
+        }
+    }
+    check(cap_set_proc(cap), "cap_set_proc");
+    if (verbose)
+    {
+        char *text;
+        text = cap_to_text(cap, NULL);
+        check_ptr(text, "cap_to_text");
+        fprintf(stderr, "Set process capabilities to %s\n", text);
+        cap_free(text);
     }
 
     for (value = 0; value <= CAP_LAST_CAP; value++)
     {
         cap_flag_value_t state;
-        check(cap_get_flag(cap, value, CAP_PERMITTED, &state), "cap_get_flag");
+        check(cap_get_flag(req_cap ? req_cap : cap, value, CAP_PERMITTED, &state), "cap_get_flag");
         if (state)
         {
-            /* Ambient flag can only be raised if the flag is inheritable. */
-            check(cap_set_flag(cap, CAP_INHERITABLE, 1, &value, CAP_SET), "cap_set_flag");
-            check(cap_set_proc(cap), "cap_set_proc");
             /* Older versions of libcap don't support cap_set_ambient, so use
              * prctl directly.
              */
@@ -127,6 +142,8 @@ int main(int argc, char * const argv[])
         }
     }
     cap_free(cap);
+    if (req_cap)
+        cap_free(req_cap);
 
     execvp(argv[optind], argv + optind);
     perror("execvp");

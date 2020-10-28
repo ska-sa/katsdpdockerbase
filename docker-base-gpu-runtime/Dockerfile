@@ -19,13 +19,13 @@ RUN ln -s /usr/local/cuda-10.0 /usr/local/cuda
 
 ENV PATH="$PATH:/usr/local/cuda/bin" \
     PATH_PYTHON3="$PATH_PYTHON3:/usr/local/cuda/bin"
-# /usr/lib/x86_64-linux-gnu is explicitly added to the front to prevent the
-# CUDA version of libOpenCL.so.1 (which is older) from overriding the version
-# installed by ocl-icd-opencl-dev.
-ENV LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64"
+# Calling the file z_cuda puts it behind the system libraries in search
+# order, which ensures that the system version of libOpenCL.so.1 (which is
+# newer) is found in preference to the one provided with CUDA).
+RUN echo '/usr/local/cuda/lib64' > /etc/ld.so.conf.d/z_cuda.conf && ldconfig
 
 # Create information for locating the NVIDIA driver components. This isn't handled
-# by nvidia-docker.
+# by nvidia-container-runtime.
 RUN mkdir -p /etc/OpenCL/vendors && \
     echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd
 

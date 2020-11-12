@@ -77,7 +77,7 @@ scipy==1.4.1
 six==1.14.0
 snowballstemmer==2.0.0                 # via sphinx
 sortedcontainers==2.1.0                # via fakeredis
-spead2==3.0.1
+spead2==3.1.2
 sphinxcontrib-applehelp==1.0.1         # via sphinx
 sphinxcontrib-devhelp==1.0.1           # via shpinx
 sphinxcontrib-htmlhelp==1.0.2          # via sphinx

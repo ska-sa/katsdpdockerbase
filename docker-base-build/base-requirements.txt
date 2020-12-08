@@ -1,5 +1,6 @@
 aioconsole==0.1.15                     # via aiomonitor
 aiohttp==3.6.2
+aiohttp-retry==2.0
 aiokatcp==0.8.0
 aiomonitor==0.4.5
 alabaster==0.7.12                      # via sphinx
@@ -53,7 +54,7 @@ numpy==1.18.1
 omnijson==0.1.2                        # via katportalclient
 packaging==20.1                        # via sphinx, bokeh
 pandas==1.0.1
-pillow==7.0.0                          # via bokeh
+pillow==7.2.0                          # via bokeh
 pluggy==0.13.1                         # via pytest
 pyephem==3.7.7.0                       # via pyephem
 pygelf==0.3.6
@@ -76,7 +77,7 @@ scipy==1.4.1
 six==1.14.0
 snowballstemmer==2.0.0                 # via sphinx
 sortedcontainers==2.1.0                # via fakeredis
-spead2==2.0.2
+spead2==3.2.0
 sphinxcontrib-applehelp==1.0.1         # via sphinx
 sphinxcontrib-devhelp==1.0.1           # via shpinx
 sphinxcontrib-htmlhelp==1.0.2          # via sphinx

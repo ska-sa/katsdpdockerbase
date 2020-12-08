@@ -1,6 +1,6 @@
 # A temporary stage just for compiling things
 FROM ubuntu:focal-20201106 as build
-RUN apt-get -y update && apt-get -y install \
+RUN apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y install \
     wget \
     build-essential cmake gcc libudev-dev libnl-3-dev libnl-route-3-dev \
     ninja-build pkg-config valgrind python3-dev cython3 python3-docutils pandoc \
@@ -92,7 +92,12 @@ COPY --from=build /usr/local/bin/capambel /usr/local/bin/capambel
 # A helper script to run a program then clean up its scratch space
 COPY run-and-cleanup /usr/local/bin/run-and-cleanup
 # Install rdma-core from build image
-COPY --from=build /tmp/rdma-core/ /
+# We have to copy each subdirectory individually, because the 20.04 image
+# symlinks /lib -> /usr/lib etc, and https://github.com/moby/moby/issues/41035
+# causes the symlinks to be overwritten if we try to copy to the root.
+COPY --from=build /tmp/rdma-core/etc /etc
+COPY --from=build /tmp/rdma-core/lib /lib
+COPY --from=build /tmp/rdma-core/usr /usr
 
 # Create and switch to a user which will be used to run commands with reduced
 # privileges.

@@ -1,5 +1,5 @@
 # A temporary stage just for compiling things
-FROM ubuntu:focal-2020423 as build
+FROM ubuntu:focal-20201106 as build
 RUN apt-get -y update && apt-get -y install \
     wget \
     build-essential cmake gcc libudev-dev libnl-3-dev libnl-route-3-dev \
@@ -43,7 +43,7 @@ RUN tar -zxf rdma-core-31.0.tar.gz && \
 
 #######################################################################
 
-FROM ubuntu:focal-20200423
+FROM ubuntu:focal-20201106
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 # Suppress debconf warnings

@@ -1,5 +1,5 @@
 aioconsole==0.1.15                     # via aiomonitor
-aiohttp==3.6.2
+aiohttp==3.7.3
 aiohttp-retry==2.0
 aiokatcp==0.8.0
 aiomonitor==0.4.5

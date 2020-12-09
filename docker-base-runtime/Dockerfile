@@ -63,17 +63,9 @@ RUN apt-get -y update && apt-get --no-install-recommends -y install \
         netbase \
         libcap2 \
         libcap2-bin \
-        libnl-3-200 libnl-route-3-200 && \
+        libnl-3-200 libnl-route-3-200 \
+        casacore-data && \
     rm -rf /var/lib/apt/lists/*
-
-# Install python-casacore run-time dependencies. Note that this cannot be
-# combined into the previous step because apt-add-repository is part of
-# software-properties-common, installed above.
-#RUN add-apt-repository -y ppa:kernsuite/kern-5 && \
-#    apt-get -y update && \
-#    apt-get --no-install-recommends -y install \
-#        casacore-data && \
-#    rm -rf /var/lib/apt/lists/*
 
 COPY mirror_wget /usr/local/bin/mirror_wget
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror

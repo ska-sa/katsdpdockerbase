@@ -3,6 +3,7 @@ aiohttp==3.7.3
 aiohttp-retry==2.0
 aiokatcp==0.8.0
 aiomonitor==0.4.5
+aioredis==1.3.1
 alabaster==0.7.12                      # via sphinx
 ansicolors==1.1.8
 appdirs==1.4.3

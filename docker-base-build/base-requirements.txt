@@ -61,7 +61,7 @@ pyephem==3.7.7.0                       # via pyephem
 pygelf==0.3.6
 Pygments==2.5.2                        # via sphinx
 py==1.8.1                              # via pytest
-pyjwt==1.7.1
+pyjwt==2.0.1
 pyparsing==2.4.6                       # via packaging, matplotlib
 pyrsistent==0.15.5                     # via jsonschema
 pytest==5.4.3

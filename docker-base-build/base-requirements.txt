@@ -1,101 +1,97 @@
-aioconsole==0.1.15                     # via aiomonitor
+aioconsole==0.3.1                      # via aiomonitor
 aiohttp==3.7.4
-aiohttp-retry==2.0
+aiohttp-retry==2.3.3
 aiokatcp==0.8.0
 aiomonitor==0.4.5
 aioredis==1.3.1
 alabaster==0.7.12                      # via sphinx
 ansicolors==1.1.8
-appdirs==1.4.3
+appdirs==1.4.4
 argparse==1.4.0                        # via python-casacore
-astropy==4.0.1.post1
+astropy==4.2
 async-timeout==3.0.1
 asynctest==0.13.0
-attrs==19.3.0
-Babel==2.8.0                           # via sphinx
-bokeh==1.4.0
-botocore==1.14.15
-certifi==2019.11.28                    # via requests
-chardet==3.0.4                         # via requests, aiohttp
+attrs==20.3.0
+Babel==2.9.0                           # via sphinx
+bokeh==2.3.0
+botocore==1.19.52                      # Not the latest due to aiobotocore restriction
+certifi==2020.12.5                     # via requests
+chardet==3.0.4                         # via requests, aiohttp (not 4.x due to aiohttp restriction)
 cityhash==0.2.3.post9
-coverage==5.0.3
+coverage==5.5
 cycler==0.10.0                         # via matplotlib
-dask==2.12.0
-decorator==4.4.1
+dask==2021.2.0
+decorator==4.4.2
 defusedxml==0.6.0
-docutils==0.15                         # Not the latest due to botocore restriction
-ephem==3.7.7.0
-fakeredis==1.2.1
-future==0.17.1
-h5py==2.10.0
-hiredis==1.0.1
-idna==2.8                              # via requests, idna-ssl, yarl
-idna-ssl==1.1.0                        # via aiohttp
+docutils==0.16
+ephem==3.7.7.1
+fakeredis==1.4.5
+future==0.18.2
+h5py==3.1.0
+hiredis==1.1.0
+idna==2.10                             # via requests, yarl
 imagesize==1.2.0                       # via sphinx
-importlib-metadata==1.5.0              # via jsonschema
-Jinja2==2.10.3
-jmespath==0.9.4                        # via botocore
+iniconfig==1.1.1                       # via pytest
+jinja2==2.11.3
+jmespath==0.10.0                       # via botocore
 jsonschema==3.2.0
 katportalclient==0.2.2
-katversion==1.0
-kiwisolver==1.1.0                      # via matplotlib
-llvmlite==0.31.0                       # via numba
-mako==1.1.1
+katversion==1.1
+kiwisolver==1.3.1                      # via matplotlib
+llvmlite==0.35.0                       # via numba
+mako==1.1.4
 manhole==1.6.0                         # TODO: only used by katsdpdisp - could remove
-MarkupSafe==1.1.1                      # via jinja2, mako
-matplotlib==3.1.3
-more-itertools==8.3.0                  # via pytest
-msgpack==0.6.2
-multidict==4.7.4                       # via yarl, aiohttp
+markupsafe==1.1.1                      # via jinja2, mako
+matplotlib==3.3.4
+msgpack==1.0.2
+multidict==5.1.0                       # via yarl, aiohttp
 netifaces==0.10.9
 nose==1.3.7
-# Avoid numba 0.48.0 due to https://github.com/numba/numba/issues/5371
-numba==0.47.0
-numpy==1.18.1
+numba==0.52.0
+numpy==1.20.1
 omnijson==0.1.2                        # via katportalclient
-packaging==20.9                        # via sphinx, bokeh
-pandas==1.0.1
-pillow==7.2.0                          # via bokeh
+packaging==20.9                        # via sphinx, bokeh, pytest
+pandas==1.2.2
+pillow==8.1.0                          # via bokeh, matplotlib
 pluggy==0.13.1                         # via pytest
-pyephem==3.7.7.0                       # via pyephem
-pygelf==0.3.6
-Pygments==2.5.2                        # via sphinx
-py==1.8.1                              # via pytest
+pygelf==0.4.0
+pygments==2.8.0                        # via sphinx
+py==1.10.0                             # via pytest
+pyerfa==1.7.2                          # via astropy
 pyjwt==2.0.1
-pyparsing==2.4.6                       # via packaging, matplotlib
-pyrsistent==0.15.5                     # via jsonschema
-pytest==5.4.3
-pytest-cov==2.9.0
-python-casacore==3.2.0
+pyparsing==2.4.7                       # via packaging, matplotlib
+pyrsistent==0.17.3                     # via jsonschema
+pytest==6.2.2
+pytest-cov==2.11.1
+python-casacore==3.3.1
 python-dateutil==2.8.1
 python-lzf==0.2.4
-pytz==2019.3                           # via pandas, Babel
-pyyaml==5.3
-rdbtools==0.1.14
-redis==3.4.1
-requests==2.22.0
-scipy==1.4.1
+pytz==2021.1                           # via pandas, Babel
+pyyaml==5.4.1
+rdbtools==0.1.15
+redis==3.5.3
+requests==2.25.1
+scipy==1.6.1
 six==1.15.0
-snowballstemmer==2.0.0                 # via sphinx
-sortedcontainers==2.1.0                # via fakeredis
+snowballstemmer==2.1.0                 # via sphinx
+sortedcontainers==2.3.0                # via fakeredis
 spead2==3.2.0
-sphinxcontrib-applehelp==1.0.1         # via sphinx
-sphinxcontrib-devhelp==1.0.1           # via shpinx
-sphinxcontrib-htmlhelp==1.0.2          # via sphinx
+sphinxcontrib-applehelp==1.0.2         # via sphinx
+sphinxcontrib-devhelp==1.0.2           # via shpinx
+sphinxcontrib-htmlhelp==1.0.3          # via sphinx
 sphinxcontrib-jsmath==1.0.1            # via sphinx
-sphinxcontrib-qthelp==1.0.2            # via sphinx
-sphinxcontrib-serializinghtml==1.1.3   # via sphinx
-sphinxcontrib-websupport==1.2.0        # via sphinx
-sphinx-rtd-theme==0.4.3
-Sphinx==2.4.1
+sphinxcontrib-qthelp==1.0.3            # via sphinx
+sphinxcontrib-serializinghtml==1.1.4   # via sphinx
+sphinxcontrib-websupport==1.2.4        # via sphinx
+sphinx-rtd-theme==0.5.1
+sphinx==3.5.1
 strict-rfc3339==0.7
 terminaltables==3.1.0                  # via aiomonitor
+toml==0.10.2                           # via pytest
 toolz==0.10.0                          # via dask
-tornado==6.0.3
-typing==3.7.4.1
-typing_extensions==3.7.4.1
-ujson==2.0.3                           # via katportalclient
-urllib3==1.25.8                        # via requests
-wcwidth==0.2.3                         # via pytest
-yarl==1.4.2                            # via aiohttp
-zipp==2.2.0                            # via importlib-metadata
+tornado==6.1
+typing==3.7.4.3
+typing_extensions==3.7.4.3
+ujson==4.0.2                           # via katportalclient
+urllib3==1.26.3                        # via requests
+yarl==1.6.3                            # via aiohttp

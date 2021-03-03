@@ -43,7 +43,7 @@ COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
     pip install -r ~/docker-base/pre-requirements.txt && \
-    install-requirements.py -d ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
+    install_pinned.py -c ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
     rm -rf ~/tmp-ve3
 
 # For nvidia-container-runtime

@@ -1,6 +1,8 @@
-pip==20.0.2
-setuptools==45.2.0
-wheel==0.34.2
-packaging==20.1
-pyparsing==2.4.6
-six==1.14.0
+click==7.1.2            # via pip-tools
+packaging==20.9
+pip==21.0.1
+pip-tools==5.5.0        # via install_pinned.py
+pyparsing==2.4.7
+setuptools==54.0.0
+six==1.15.0             # via install-requirements.py (remove in future)
+wheel==0.36.2

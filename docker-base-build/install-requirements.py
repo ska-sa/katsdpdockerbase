@@ -220,5 +220,6 @@ def main():
     # Check that all dependencies were found
     run_pip(['check'], args.dry_run)
 
+
 if __name__ == '__main__':
     sys.exit(main())

@@ -278,8 +278,7 @@ def resolve(items: Iterable[Union[Package, str]]) -> Sequence[Union[Requirement,
 
     errors = []
     while q:
-        req = q[0]
-        q.popleft()
+        req = q.popleft()
         try:
             if req.marker and not req.marker.evaluate():
                 continue      # Skip if marker doesn't apply

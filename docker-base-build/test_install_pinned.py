@@ -202,7 +202,6 @@ def test_merge_packages_mixed_urls() -> None:
 )
 def test_version_from_requirement(requirement: str) -> None:
     assert install_pinned.version_from_requirement(Requirement(requirement)) == '1.2'
-    assert install_pinned.version_from_requirement(Requirement(requirement)) == '1.2'
 
 
 @pytest.mark.parametrize(

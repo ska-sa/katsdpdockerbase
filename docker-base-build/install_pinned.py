@@ -219,7 +219,7 @@ def version_from_requirement(requirement: Requirement) -> str:
     return pin
 
 
-def evaluate_marker(requirement: Requirement, parent: Requirement) -> bool:
+def evaluate_marker(requirement: Requirement, extras: Iterable[str]) -> bool:
     """Evaluate whether `requirement` should be applied.
 
     This handles the special behaviour of ``extra`` in the marker spec, which
@@ -231,7 +231,7 @@ def evaluate_marker(requirement: Requirement, parent: Requirement) -> bool:
     try:
         return requirement.marker.evaluate()
     except UndefinedEnvironmentName:
-        extras = parent.extras or ['']
+        extras = set(extras) or {''}
         for extra in extras:
             if requirement.marker.evaluate({'extra': extra}):
                 return True
@@ -246,7 +246,8 @@ def get_dependencies(requirement: Requirement) -> Sequence[Requirement]:
         pypi = piptools.repositories.PyPIRepository([], cache_dir)
         # Map from InstallRequirement back to packaging Requirement
         deps = [Requirement(str(r.req)) for r in pypi.get_dependencies(ireq)]
-        deps = [dep for dep in deps if evaluate_marker(dep, requirement)]
+        # Note: ireq.extras is normalised, unlike req.extras
+        deps = [dep for dep in deps if evaluate_marker(dep, ireq.extras)]
         for dep in deps:
             dep.name = canonicalize_name(dep.name)
             # We've checked it, and 'extra' markers can cause problems later

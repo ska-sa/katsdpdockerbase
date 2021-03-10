@@ -1,5 +1,5 @@
 import io
-from typing import List, Union
+from typing import List, Union, Iterable
 
 from packaging.requirements import Requirement
 from packaging.specifiers import SpecifierSet
@@ -225,17 +225,17 @@ def test_version_from_requirement_inconsistent() -> None:
 
 
 @pytest.mark.parametrize(
-    'requirement, parent, result',
+    'requirement, extras, result',
     [
-        ('foo', 'parent', True),
-        ('foo; python_version >= "2.7"', 'parent', True),
-        ('foo; extra == "test"', 'parent', False),
-        ('foo; extra == "test"', 'parent[other]', False),
-        ('foo; extra == "test"', 'parent[test,other]', True)
+        ('foo', set(), True),
+        ('foo; python_version >= "2.7"', set(), True),
+        ('foo; extra == "test"', set(), False),
+        ('foo; extra == "test"', {'other'}, False),
+        ('foo; extra == "test"', {'test', 'other'}, True)
     ]
 )
-def test_evaluate_marker(requirement: str, parent: str, result: bool) -> None:
-    assert install_pinned.evaluate_marker(Requirement(requirement), Requirement(parent)) == result
+def test_evaluate_marker(requirement: str, extras: Iterable[str], result: bool) -> None:
+    assert install_pinned.evaluate_marker(Requirement(requirement), extras) == result
 
 
 @pytest.mark.internet

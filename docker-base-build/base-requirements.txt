@@ -57,6 +57,7 @@ pluggy==0.13.1                         # via pytest
 pygelf==0.4.0
 pygments==2.8.0                        # via sphinx
 py==1.10.0                             # via pytest
+pyephem==9.99                          # backwards compatibility for katpoint 0.9
 pyerfa==1.7.2                          # via astropy
 pyjwt==2.0.1
 pyparsing==2.4.7                       # via packaging, matplotlib

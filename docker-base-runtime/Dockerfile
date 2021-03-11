@@ -52,6 +52,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Install some system packages used by multiple images.
 # (netbase installs /etc/services and /etc/protocols, which some packages
 # fail without).
+# libtbb is needed due to https://github.com/numba/numba/issues/6108
 RUN apt-get -y update && apt-get --no-install-recommends -y install \
         apt-transport-https gpg-agent \
         software-properties-common wget curl \
@@ -64,6 +65,7 @@ RUN apt-get -y update && apt-get --no-install-recommends -y install \
         libcap2 \
         libcap2-bin \
         libnl-3-200 libnl-route-3-200 \
+        libtbb2 \
         casacore-data && \
     rm -rf /var/lib/apt/lists/*
 

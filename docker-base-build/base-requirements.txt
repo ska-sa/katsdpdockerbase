@@ -20,7 +20,7 @@ chardet==3.0.4                         # via requests, aiohttp (not 4.x due to a
 cityhash==0.2.3.post9
 coverage==5.5
 cycler==0.10.0                         # via matplotlib
-dask==2021.2.0
+dask==2.30                             # Not the latest due to https://github.com/dask/dask/issues/7402
 decorator==4.4.2
 defusedxml==0.6.0
 docutils==0.16

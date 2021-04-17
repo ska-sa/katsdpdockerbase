@@ -193,13 +193,14 @@ def merge_packages(pkg1: Package, pkg2: Package) -> Package:
         new_req.specifier &= req2.specifier
     if req1.url is None and req2.url is not None:
         new_req.url = req2.url
-    # Cannot have both URL and specifiers. Assume URLs represent some
-    # infinitely high version number, so that they always satisfy >=
-    # specifiers but not others.
+    # Cannot have both URL and specifiers. For version ranges, assume URLs
+    # always have satisfactory versions, and let "pip check" complain if it
+    # goes wrong. But also assume URLs are never exactly equal to release
+    # versions.
     if new_req.url is not None:
-        for spec in new_req.specifier:
-            if '999999999' not in spec:
-                raise ValueError(f'Cannot combine URL {new_req.url!r} with specifier {spec}')
+        if has_exact(new_req.specifier):
+            raise ValueError(
+                f'Cannot combine URL {new_req.url!r} with exact specifier {new_req.specifier}')
         new_req.specifier = SpecifierSet('')
     return Package(new_req, constraint=pkg1.constraint and pkg2.constraint, weak=pkg1.weak)
 

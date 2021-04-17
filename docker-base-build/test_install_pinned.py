@@ -159,12 +159,12 @@ def test_merge_packages_markers() -> None:
 
 def test_merge_packages_url_and_specifier() -> None:
     pkg = install_pinned.merge_packages(
-        Package('foo[bar] >= 2.0'),
+        Package('foo[bar] >= 2.0, < 3'),
         Package('foo @ https://invalid.com')
     )
     assert pkg == Package('foo[bar] @ https://invalid.com')
 
-    with pytest.raises(ValueError, match='Cannot combine URL .* with specifier ==2.0'):
+    with pytest.raises(ValueError, match='Cannot combine URL .* with exact specifier ==2.0'):
         install_pinned.merge_packages(
             Package('foo[bar] == 2.0'),
             Package('foo @ https://invalid.com')

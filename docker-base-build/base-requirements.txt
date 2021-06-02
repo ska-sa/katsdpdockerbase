@@ -97,5 +97,5 @@ tornado==6.1
 typing==3.7.4.3
 typing_extensions==3.7.4.3
 ujson==4.0.2                           # via katportalclient
-urllib3==1.26.4                        # via requests
+urllib3==1.26.5                        # via requests
 yarl==1.6.3                            # via aiohttp

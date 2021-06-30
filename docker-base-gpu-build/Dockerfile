@@ -12,15 +12,14 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
 
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
 
-RUN CUDA_RUN_FILE=cuda_11.0.2_450.51.05_linux.run && \
-    mirror_wget --progress=dot:mega "http://developer.download.nvidia.com/compute/cuda/11.0.2/local_installers/$CUDA_RUN_FILE" && \
+RUN CUDA_RUN_FILE=cuda_11.3.1_465.19.01_linux.run && \
+    mirror_wget --progress=dot:mega "http://developer.download.nvidia.com/compute/cuda/11.3.1/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
     rm -- $CUDA_RUN_FILE && \
-    rm -r /usr/local/cuda/doc && \
     rm -r /usr/local/cuda/extras && \
     rm -r /usr/local/cuda/libnvvp && \
     rm -r /usr/local/cuda/nsight* && \
-    rm -r /usr/local/cuda/Sanitizer && \
+    rm -r /usr/local/cuda/compute-sanitizer && \
     rm -r /usr/local/cuda/tools
 
 ENV PATH="$PATH:/usr/local/cuda/bin" \

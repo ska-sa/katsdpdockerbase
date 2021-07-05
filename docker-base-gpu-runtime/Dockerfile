@@ -32,7 +32,7 @@ RUN mkdir -p /etc/OpenCL/vendors && \
 USER kat
 
 # For nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=11.3
+ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=11.0
 
 # Just so that if the user passes the --build-arg they don't get a warning
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror

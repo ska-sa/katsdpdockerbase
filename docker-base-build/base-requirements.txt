@@ -23,7 +23,7 @@ cycler==0.10.0                         # via matplotlib
 # Not the latest dask due to several bugs:
 # https://github.com/dask/dask/issues/7402
 # https://github.com/dask/dask/issues/7632
-dask==2.27
+dask==2021.10.0
 decorator==4.4.2
 defusedxml==0.6.0
 docutils==0.16

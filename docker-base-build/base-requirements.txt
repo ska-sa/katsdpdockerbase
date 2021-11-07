@@ -18,17 +18,16 @@ botocore==1.19.52                      # Not the latest due to aiobotocore restr
 certifi==2020.12.5                     # via requests
 chardet==3.0.4                         # via requests, aiohttp (not 4.x due to aiohttp restriction)
 cityhash==0.2.3.post9
+cloudpickle==2.0.0                     # via dask
 coverage==5.5
 cycler==0.10.0                         # via matplotlib
-# Not the latest dask due to several bugs:
-# https://github.com/dask/dask/issues/7402
-# https://github.com/dask/dask/issues/7632
-dask==2021.10.0
+dask==2021.11.0
 decorator==4.4.2
 defusedxml==0.6.0
 docutils==0.16
 ephem==3.7.7.1
 fakeredis==1.4.5
+fsspec==2021.11.0                      # via dask
 future==0.18.2
 h5py==3.1.0
 hiredis==1.1.0
@@ -42,6 +41,7 @@ katportalclient==0.2.2
 katversion==1.1
 kiwisolver==1.3.1                      # via matplotlib
 llvmlite==0.34.0                       # via numba
+locket==0.2.1                          # via partd
 mako==1.1.4
 manhole==1.6.0                         # TODO: only used by katsdpdisp - could remove
 markupsafe==1.1.1                      # via jinja2, mako
@@ -55,6 +55,7 @@ numpy==1.20.1
 omnijson==0.1.2                        # via katportalclient
 packaging==20.9                        # via sphinx, bokeh, pytest
 pandas==1.2.2
+partd==1.2.0                           # via dask
 pillow==8.3.2                          # via bokeh, matplotlib
 pluggy==0.13.1                         # via pytest
 pygelf==0.4.0

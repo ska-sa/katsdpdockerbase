@@ -28,7 +28,7 @@ decorator==4.4.2
 defusedxml==0.6.0
 docutils==0.16
 ephem==3.7.7.1
-fakeredis==1.4.5
+fakeredis==1.6.1
 future==0.18.2
 h5py==3.1.0
 hiredis==1.1.0

@@ -1,8 +1,10 @@
-click==7.1.2            # via pip-tools
-packaging==20.9
-pip==21.0.1
-pip-tools==5.5.0        # via install_pinned.py
-pyparsing==2.4.7
-setuptools==54.0.0
-six==1.15.0             # via install-requirements.py (remove in future)
-wheel==0.36.2
+click==8.0.3            # via pip-tools
+packaging==21.3
+pep517==0.12.0          # via pip-tools
+pip==21.3.1
+pip-tools==6.4.0        # via install_pinned.py
+pyparsing==3.0.6        # via packaging
+setuptools==59.4.0
+six==1.16.0             # via install-requirements.py (remove in future)
+tomli==1.2.2            # via pep517
+wheel==0.37.0

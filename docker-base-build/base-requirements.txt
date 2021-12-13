@@ -53,7 +53,7 @@ nose==1.3.7
 numba==0.51.2                          # Not the latest due to https://github.com/numba/numba/issues/6819
 numpy==1.20.1
 omnijson==0.1.2                        # via katportalclient
-packaging==20.9                        # via sphinx, bokeh, pytest
+packaging==21.3                        # via sphinx, bokeh, pytest
 pandas==1.2.2
 pillow==8.3.2                          # via bokeh, matplotlib
 pluggy==0.13.1                         # via pytest
@@ -63,7 +63,7 @@ py==1.10.0                             # via pytest
 pyephem==9.99                          # backwards compatibility for katpoint 0.9
 pyerfa==1.7.2                          # via astropy
 pyjwt==2.0.1
-pyparsing==2.4.7                       # via packaging, matplotlib
+pyparsing==3.0.6                       # via packaging, matplotlib
 pyrsistent==0.17.3                     # via jsonschema
 pytest==6.2.2
 pytest-cov==2.11.1
@@ -76,7 +76,7 @@ rdbtools==0.1.15
 redis==3.5.3
 requests==2.25.1
 scipy==1.6.1
-six==1.15.0
+six==1.16.0
 snowballstemmer==2.1.0                 # via sphinx
 sortedcontainers==2.3.0                # via fakeredis
 spead2==3.2.1

@@ -55,7 +55,7 @@ numpy==1.20.1
 omnijson==0.1.2                        # via katportalclient
 packaging==21.3                        # via sphinx, bokeh, pytest
 pandas==1.2.2
-pillow==8.3.2                          # via bokeh, matplotlib
+pillow==9.0.0                          # via bokeh, matplotlib
 pluggy==0.13.1                         # via pytest
 pygelf==0.4.0
 pygments==2.8.0                        # via sphinx

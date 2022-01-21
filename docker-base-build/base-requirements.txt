@@ -96,6 +96,6 @@ toolz==0.10.0                          # via dask
 tornado==6.1
 typing==3.7.4.3
 typing_extensions==3.7.4.3
-ujson==4.0.2                           # via katportalclient
+ujson==5.1.0                           # via katportalclient
 urllib3==1.26.5                        # via requests
 yarl==1.6.3                            # via aiohttp

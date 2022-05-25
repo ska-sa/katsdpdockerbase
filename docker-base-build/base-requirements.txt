@@ -65,7 +65,7 @@ pygments==2.8.0                        # via sphinx
 py==1.10.0                             # via pytest
 pyephem==9.99                          # backwards compatibility for katpoint 0.9
 pyerfa==1.7.2                          # via astropy
-pyjwt==2.0.1
+pyjwt==2.4.0
 pyparsing==3.0.6                       # via packaging, matplotlib
 pyrsistent==0.17.3                     # via jsonschema
 pytest==6.2.2

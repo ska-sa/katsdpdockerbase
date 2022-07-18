@@ -12,8 +12,8 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
 
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
 
-RUN CUDA_RUN_FILE=cuda_11.7.0_515.43.04_linux.run && \
-    mirror_wget --progress=dot:mega "http://developer.download.nvidia.com/compute/cuda/11.7.0/local_installers/$CUDA_RUN_FILE" && \
+RUN CUDA_RUN_FILE=cuda_11.4.1_470.57.02_linux.run && \
+    mirror_wget --progress=dot:mega "http://developer.download.nvidia.com/compute/cuda/11.4.1/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
     rm -- $CUDA_RUN_FILE && \
     rm -r /usr/local/cuda/doc && \
@@ -54,5 +54,5 @@ RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
 # For nvidia-container-runtime 
 # driver backwards compatability not guaranteed across minor versions when using PTX:
 # https://docs.nvidia.com/deploy/cuda-compatibility/index.html#application-considerations
-ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=11.7 
+ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=11.4 
 

@@ -20,7 +20,7 @@ RUN CUDA_RUN_FILE=cuda_11.4.1_470.57.02_linux.run && \
     rm -r /usr/local/cuda/extras && \
     rm -r /usr/local/cuda/libnvvp && \
     rm -r /usr/local/cuda/nsight* && \
-    rm -r /usr/local/cuda/Sanitizer && \
+    rm -r /usr/local/cuda/compute-sanitizer && \
     rm -r /usr/local/cuda/tools
 
 ENV PATH="$PATH:/usr/local/cuda/bin" \

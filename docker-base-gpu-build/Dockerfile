@@ -16,7 +16,7 @@ RUN CUDA_RUN_FILE=cuda_11.4.1_470.57.02_linux.run && \
     mirror_wget --progress=dot:mega "http://developer.download.nvidia.com/compute/cuda/11.4.1/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
     rm -- $CUDA_RUN_FILE && \
-    rm -r /usr/local/cuda/doc && \
+    rm -r /usr/local/cuda/[Dd][Oo][cC]* && \
     rm -r /usr/local/cuda/extras && \
     rm -r /usr/local/cuda/libnvvp && \
     rm -r /usr/local/cuda/nsight* && \

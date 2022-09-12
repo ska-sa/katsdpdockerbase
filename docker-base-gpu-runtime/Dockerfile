@@ -14,8 +14,8 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
         g++ ocl-icd-libopencl1 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=gpu-build /usr/local/cuda-11.4 /usr/local/cuda-11.4
-RUN ln -s /usr/local/cuda-11.4 /usr/local/cuda
+COPY --from=gpu-build /usr/local/cuda-11.7 /usr/local/cuda-11.7
+RUN ln -s /usr/local/cuda-11.7 /usr/local/cuda
 
 ENV PATH="$PATH:/usr/local/cuda/bin" \
     PATH_PYTHON3="$PATH_PYTHON3:/usr/local/cuda/bin"
@@ -32,7 +32,7 @@ RUN mkdir -p /etc/OpenCL/vendors && \
 USER kat
 
 # For nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=11.4
+ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=11.7
 
 # Just so that if the user passes the --build-arg they don't get a warning
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror

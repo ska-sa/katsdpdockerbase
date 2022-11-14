@@ -189,7 +189,8 @@ def merge_packages(pkg1: Package, pkg2: Package) -> Package:
     new_req = Requirement(str(req1))
     new_req.extras |= req2.extras
     # Strong specifier only replaces weak if it has an exact version pinned
-    if pkg1.weak == pkg2.weak or not has_exact(new_req.specifier):
+    # (also allow a strong URL to replace a weak specifier)
+    if pkg1.weak == pkg2.weak or (new_req.url is None and not has_exact(new_req.specifier)):
         new_req.specifier &= req2.specifier
     if req1.url is None and req2.url is not None:
         new_req.url = req2.url

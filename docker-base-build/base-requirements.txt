@@ -1,7 +1,7 @@
 aioconsole==0.3.1                      # via aiomonitor
 aiohttp==3.8.1
 aiohttp-retry==2.3.3
-aiokatcp==1.6.0
+aiokatcp==1.6.1
 aiomonitor==0.4.5
 aioredis==2.0.0
 aiosignal==1.2.0                       # via aiohttp

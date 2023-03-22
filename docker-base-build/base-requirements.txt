@@ -44,6 +44,7 @@ katportalclient==0.2.2
 katversion==1.1
 kiwisolver==1.3.1                      # via matplotlib
 llvmlite==0.34.0                       # via numba
+lupa==1.14.1                           # via fakeredis[lua]
 mako==1.2.2
 manhole==1.6.0                         # TODO: only used by katsdpdisp - could remove
 markupsafe==1.1.1                      # via jinja2, mako

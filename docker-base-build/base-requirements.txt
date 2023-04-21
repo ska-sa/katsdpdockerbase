@@ -1,7 +1,7 @@
 aioconsole==0.3.1                      # via aiomonitor
 aiohttp==3.8.1
 aiohttp-retry==2.3.3
-aiokatcp==1.6.1
+aiokatcp==1.7.0
 aiomonitor==0.4.5
 aiosignal==1.2.0                       # via aiohttp
 alabaster==0.7.12                      # via sphinx

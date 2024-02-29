@@ -4,79 +4,79 @@ aiohttp-retry==2.8.3
 aiokatcp==1.8.0
 aiomonitor==0.7.0
 aiosignal==1.3.1
-
-
-
-
+alabaster==0.7.12
+ansicolors==1.1.8
+appdirs==1.4.4
+argparse==1.4.0  
 astropy==5.2.2
 async-timeout==4.0.3
-
-
-
-
-
+asynctest==0.13.0
+attrs==20.3.0
+Babel==2.9.1      
+bokeh==2.3.0
+botocore==1.19.52 
 certifi==2024.2.2
-
-
-
-
-
-
-
-
-dask==2023.5.0
+chardet==3.0.4            
+charset-normalizer==2.0.12
+cityhash==0.2.3.post9
+coverage==5.5
+cycler==0.10.0            
+# Not the latest dask due to several bugs:
+# https://github.com/dask/dask/issues/7402
+# https://github.com/dask/dask/issues/7632
+dask==2.27  # dask==2023.5.0 
 decorator==5.1.1
-
-
+defusedxml==0.6.0
+docutils==0.16
 ephem==4.1.5
-
+fakeredis==2.10.0
 frozenlist==1.4.1
 future==0.18.3
 h5py==3.10.0
 hiredis==2.3.2
 idna==3.6
-
+imagesize==1.2.0 
 importlib-resources==6.1.1
-
+iniconfig==1.1.1                       # via pytest
 jinja2==3.1.3
-
+jmespath==0.10.0                       # via botocore
 jsonschema==4.21.1
 katportalclient==0.2.2
-
-
+katversion==1.1
+kiwisolver==1.3.1                      # via matplotlib
 llvmlite==0.41.1
-
-
-
+lupa==1.14.1                           # via fakeredis[lua]
+mako==1.2.2
+manhole==1.6.0                         # TODO: only used by katsdpdisp - could remove
 markupsafe==2.1.5
-
-
+matplotlib==3.3.4
+msgpack==1.0.2
 multidict==6.0.5
-
-
+mypy==0.991
+mypy-extensions==0.4.3                 # via mypy
 netifaces==0.11.0
-
+nose==1.3.7
 numba==0.58.1
 numpy==1.24.4
 omnijson==0.1.2
 packaging==23.2
-
-
-
+pandas==1.2.2
+pillow==9.3.0                          # via bokeh, matplotlib
+pluggy==0.13.1                         # via pytest
 pygelf==0.4.2
-
-
-
-
-
-
-
-
-
-
-
+pygments==2.8.0        
+py==1.10.0             
+pyephem==9.99          
+pyerfa==1.7.2          
+pyjwt==2.4.0
+pyparsing==3.0.6       
+pyrsistent==0.17.3     
+pytest==6.2.2
+pytest-cov==2.11.1
+python-casacore==3.3.1
+python-dateutil==2.8.1
 python-lzf==0.2.4
-
+pytz==2021.1                           # via pandas, Babel
 pyyaml==6.0.1
 rdbtools==0.1.15
 redis==5.0.1
@@ -97,11 +97,11 @@ sphinx-rtd-theme==0.5.1
 sphinx==3.5.1
 strict-rfc3339==0.7
 terminaltables==3.1.10
-
-
+toml==0.10.2                           # via pytest
+tomli==1.2.2                           # via mypy
 toolz==0.12.1
 tornado==6.4
-
+typing==3.7.4.3
 typing-extensions==4.9.0
 ujson==5.9.0
 urllib3==2.2.0

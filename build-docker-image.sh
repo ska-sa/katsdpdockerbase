@@ -77,3 +77,8 @@ if [ "$push_external" -eq 1 ]; then
     docker tag "$DOCKER_REGISTRY/$NAME:$LABEL" "$DOCKER_EXTERNAL_REGISTRY/$NAME:$LABEL"
     docker push "$DOCKER_EXTERNAL_REGISTRY/$NAME:$LABEL"
 fi
+if [ -n "$DOCKER_REGISTRY2" ]; then
+    trap "docker rmi $DOCKER_REGISTRY2/$NAME:$LABEL" EXIT
+    docker tag "$DOCKER_REGISTRY/$NAME:$LABEL" "$DOCKER_REGISTRY2/$NAME:$LABEL"
+    docker push "$DOCKER_REGISTRY2/$NAME:$LABEL"
+fi

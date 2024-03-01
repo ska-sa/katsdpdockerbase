@@ -1,4 +1,4 @@
-ARG KATSDPDOCKERBASE_REGISTRY=sdp-docker-registry.kat.ac.za:5000
+ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
 ARG TAG=latest
 
 # Just to give it a name to refer to for the later COPY step

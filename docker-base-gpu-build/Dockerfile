@@ -1,4 +1,4 @@
-ARG KATSDPDOCKERBASE_REGISTRY=sdp-docker-registry.kat.ac.za:5000
+ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
 ARG TAG=latest
 
 FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-build:$TAG

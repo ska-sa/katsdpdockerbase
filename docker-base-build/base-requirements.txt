@@ -1,14 +1,3 @@
-No version pinned for importlib-metadata
-No version pinned for backports-strenum>=1.2.4
-No version pinned for trafaret>=2.1.1
-No version pinned for janus>=1.0
-No version pinned for prompt-toolkit>=3.0
-No version pinned for click>=8.0
-
-
-
-
-
 aioconsole==0.7.0                      # via aiomonitor
 aiohttp==3.9.3
 aiohttp-retry==2.8.3

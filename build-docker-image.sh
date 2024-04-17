@@ -61,6 +61,8 @@ fi
 $docker_build --label=org.label-schema.schema-version=1.0 \
               --label=org.label-schema.vcs-ref="$(git rev-parse HEAD)" \
               --label=org.label-schema.vcs-url="$(git remote get-url origin)" \
+              --label=org.opencontainers.image.revision="$(git rev-parse HEAD)" \
+              --label=org.opencontainers.image.source="$(git remote get-url origin)" \
               ${build_args[@]} \
               --pull=true --no-cache=true --force-rm=true \
               -t "$DOCKER_REGISTRY/$NAME:$LABEL" "$@" .

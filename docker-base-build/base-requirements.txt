@@ -94,6 +94,7 @@ referencing==0.28.4
 requests==2.31.0
 rpds-py==0.7.1
 scipy==1.10.1
+scikits.fitting==0.7.2
 six==1.16.0
 snowballstemmer==2.1.0                 # via sphinx
 sortedcontainers==2.4.0                # via fakeredis

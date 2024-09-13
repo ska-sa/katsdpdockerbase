@@ -31,7 +31,7 @@ decorator==5.1.1
 defusedxml==0.6.0
 docutils==0.20.1                       # via sphinx
 ephem==4.1.5
-fakeredis==2.22.0
+fakeredis==2.10.0
 frozenlist==1.4.1                      # via aiohttp, aiosignal
 future==0.18.3
 h5py==3.10.0
@@ -89,7 +89,7 @@ pytools==2021.1
 pytz==2021.1                           # via pandas, Babel
 pyyaml==6.0.1
 rdbtools==0.1.15
-redis==4.6.0
+redis==4.5.1
 referencing==0.28.4
 requests==2.31.0
 rpds-py==0.7.1

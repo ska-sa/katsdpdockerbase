@@ -1,7 +1,8 @@
-ARG KATSDPDOCKERBASE_REGISTRY=sdp-docker-registry.kat.ac.za:5000
-ARG TAG=latest
+#ARG KATSDPDOCKERBASE_REGISTRY=sdp-docker-registry.kat.ac.za:5000
+#ARG TAG=latest
 
-FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
+#FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
+FROM temp  
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root
@@ -37,9 +38,10 @@ COPY install_pinned.py /usr/local/bin
 # Pre-build a number of wheels to speed up building of dependent images.
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
-    pip install -r ~/docker-base/pre-requirements.txt && \
-    install_pinned.py -r ~/docker-base/base-requirements.txt && \
-    rm -r ~/tmp-ve3
+    pip install -r ~/docker-base/pre-requirements.txt
+# && \
+#    install_pinned.py -r ~/docker-base/base-requirements.txt && \
+#    rm -r ~/tmp-ve3
 
 # Create empty virtual environment for child images to install to
 RUN virtualenv -p /usr/bin/python3 ~/ve3 && \

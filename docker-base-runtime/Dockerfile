@@ -1,5 +1,7 @@
 # A temporary stage just for compiling things
-FROM ubuntu:focal-20201106 as build
+ARG UBUNTU_BASE=ubuntu:jammy-20240911.1
+#ubuntu:noble-20241011
+FROM $UBUNTU_BASE as build
 RUN apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y install \
     wget \
     build-essential cmake gcc libudev-dev libnl-3-dev libnl-route-3-dev \
@@ -43,7 +45,7 @@ RUN tar -zxf rdma-core-31.0.tar.gz && \
 
 #######################################################################
 
-FROM ubuntu:focal-20201106
+FROM $UBUNTU_BASE
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 # Suppress debconf warnings
@@ -57,10 +59,10 @@ RUN apt-get -y update && apt-get --no-install-recommends -y install \
         apt-transport-https gpg-agent \
         software-properties-common wget curl \
         python3 virtualenv \
-        libboost-program-options1.71.0 \
-        libboost-python1.71.0 \
-        libboost-system1.71.0 \
-        libboost-regex1.71.0 \
+        libboost-program-options1.74.0 \
+        libboost-python1.74.0 \
+        libboost-system1.74.0 \
+        libboost-regex1.74.0 \
         netbase \
         libcap2 \
         libcap2-bin \

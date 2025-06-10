@@ -4,7 +4,11 @@ mako                                   # via pycuda
 markupsafe                             # via mako
 numpy
 pycuda==2020.1
-pyopencl==2021.1.2
-pytools==2021.1
+pyopencl==2025.2.1
+pytools==2025.1.6
 scikit-cuda==0.5.3
 six
+siphash==0.0.1
+siphash24==1.7
+typing-extensions>=4.6
+platformdirs

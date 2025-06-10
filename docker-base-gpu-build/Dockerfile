@@ -1,7 +1,9 @@
-ARG KATSDPDOCKERBASE_REGISTRY=sdp-docker-registry.kat.ac.za:5000
-ARG TAG=latest
+#ARG KATSDPDOCKERBASE_REGISTRY=sdp-docker-registry.kat.ac.za:5000
+#ARG TAG=latest
 
-FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-build:$TAG
+#FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-build:$TAG
+
+FROM docker-base-build-temp
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root
@@ -47,7 +49,12 @@ COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
     pip install -r ~/docker-base/pre-requirements.txt && \
-    install_pinned.py -c ~/docker-base/base-requirements.txt numpy && \
+#    install_pinned.py -c ~/docker-base/base-requirements.txt numpy && \
+#    install_pinned.py -c ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
+#    rm -rf ~/tmp-ve3
+    install_pinned.py -c ~/docker-base/base-requirements.txt
+
+RUN . ~/tmp-ve3/bin/activate && \
     install_pinned.py -c ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
     rm -rf ~/tmp-ve3
 

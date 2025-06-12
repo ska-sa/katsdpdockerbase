@@ -3,7 +3,7 @@
 
 #FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-build:$TAG
 
-FROM docker-base-build-temp
+FROM docker-base-build-24
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root
@@ -14,8 +14,8 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
 
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
 
-RUN CUDA_RUN_FILE=cuda_11.4.1_470.57.02_linux.run && \
-    mirror_wget --progress=dot:mega "http://developer.download.nvidia.com/compute/cuda/11.4.1/local_installers/$CUDA_RUN_FILE" && \
+RUN CUDA_RUN_FILE=cuda_12.9.0_575.51.03_linux.run && \
+    mirror_wget --progress=dot:mega "https://developer.download.nvidia.com/compute/cuda/12.9.0/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
     rm -- $CUDA_RUN_FILE && \
     rm -r /usr/local/cuda/[Dd][Oo][cC]* && \

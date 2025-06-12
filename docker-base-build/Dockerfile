@@ -2,7 +2,7 @@
 #ARG TAG=latest
 
 #FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
-FROM temp  
+FROM docker-base-runtime-24  
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root

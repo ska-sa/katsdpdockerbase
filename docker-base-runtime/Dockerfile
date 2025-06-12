@@ -1,6 +1,6 @@
 # A temporary stage just for compiling things
-ARG UBUNTU_BASE=ubuntu:jammy-20240911.1
-#ubuntu:noble-20241011
+#ARG UBUNTU_BASE=ubuntu:jammy-20240911.1
+ARG UBUNTU_BASE=ubuntu:noble-20241011
 FROM $UBUNTU_BASE as build
 RUN apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y install \
     wget \
@@ -67,7 +67,7 @@ RUN apt-get -y update && apt-get --no-install-recommends -y install \
         libcap2 \
         libcap2-bin \
         libnl-3-200 libnl-route-3-200 \
-        libtbb2 \
+        libtbbmalloc2 \
         casacore-data && \
     rm -rf /var/lib/apt/lists/*
 

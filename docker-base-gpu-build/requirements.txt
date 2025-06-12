@@ -11,4 +11,4 @@ six
 siphash==0.0.1
 siphash24==1.7
 typing-extensions>=4.6
-platformdirs
+#platformdirs

@@ -35,10 +35,12 @@ COPY --chown=kat:kat *-requirements.txt /home/kat/docker-base/
 COPY install-requirements.py /usr/local/bin/
 COPY install_pinned.py /usr/local/bin
 # Pre-build a number of wheels to speed up building of dependent images.
+# First use pip to install uv in pre-requirements.txt, then use uv to manage dependencies
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
     pip install -r ~/docker-base/pre-requirements.txt && \
-    install_pinned.py -r ~/docker-base/base-requirements.txt && \
+    uv pip compile ~/docker-base/base-requirements.txt -o ~/lock.txt && \
+    uv pip sync ~/lock.txt --strict && \
     rm -r ~/tmp-ve3
 
 # Create empty virtual environment for child images to install to

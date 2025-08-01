@@ -39,16 +39,14 @@ RUN mkdir -p /etc/OpenCL/vendors && \
 USER kat
 
 # Create wheels for GPU-related packages.
-# numpy is installed first because pycuda doesn't use PEP 518 and so if numpy
-# isn't installed before pycuda, setuptools will suck in the latest version
-# while building it and the resulting wheel will break when used with older
-# versions of numpy (specifically, older C_API_VERSION).
 COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
     pip install -r ~/docker-base/pre-requirements.txt && \
-    install_pinned.py -c ~/docker-base/base-requirements.txt numpy && \
-    install_pinned.py -c ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
+    uv pip compile ~/docker-base/base-requirements.txt -o ~/lock.txt && \
+    uv pip compile ~/docker-base/gpu-requirements.txt -o ~/lock.txt && \
+    uv pip sync ~/lock.txt --strict && \
+    uv pip freeze && \
     rm -rf ~/tmp-ve3
 
 # For nvidia-container-runtime 

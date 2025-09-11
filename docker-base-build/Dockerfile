@@ -1,7 +1,8 @@
 ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
-ARG TAG=latest
+ARG TAG=new-reqs-uv
 
-FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
+#FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
+FROM br:$TAG
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root
@@ -33,17 +34,17 @@ RUN mkdir ~/.ssh && \
 
 COPY --chown=kat:kat *-requirements.txt /home/kat/docker-base/
 COPY install-requirements.py /usr/local/bin/
-COPY install_pinned.py /usr/local/bin
 # Pre-build a number of wheels to speed up building of dependent images.
 # First use pip to install uv in pre-requirements.txt, then use uv to manage dependencies
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
-    pip install -r ~/docker-base/pre-requirements.txt && \
-    uv pip compile ~/docker-base/base-requirements.txt -o ~/lock.txt && \
+    pip install -r ~/docker-base/new-pre-requirements.txt && \
+    uv pip compile ~/docker-base/new-base-requirements.txt -o ~/lock.txt && \
     uv pip sync ~/lock.txt --strict && \
+    python -m pip check && \
     rm -r ~/tmp-ve3
 
 # Create empty virtual environment for child images to install to
 RUN virtualenv -p /usr/bin/python3 ~/ve3 && \
     . ~/ve3/bin/activate && \
-    pip install -r ~/docker-base/pre-requirements.txt
+    pip install -r ~/docker-base/new-pre-requirements.txt

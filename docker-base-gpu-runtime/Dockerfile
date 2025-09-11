@@ -1,10 +1,12 @@
 ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
-ARG TAG=latest
+ARG TAG=new-reqs-uv
 
 # Just to give it a name to refer to for the later COPY step
-FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-gpu-build:$TAG as gpu-build
+#FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-gpu-build:$TAG as gpu-build
+FROM bgb:$TAG as gpu-build
 
-FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
+#FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
+FROM br:$TAG
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root

@@ -1,0 +1,10 @@
+appdirs                                # via pyopencl, pycuda, pytools
+decorator                              # via pyopencl, pycuda, pytools
+mako                                   # via pycuda
+markupsafe                             # via mako
+numpy
+pycuda==2020.1
+pyopencl #pyopencl==2021.1.2
+pytools
+scikit-cuda
+six

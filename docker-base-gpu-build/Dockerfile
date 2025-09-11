@@ -1,7 +1,9 @@
 ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
-ARG TAG=latest
+ARG TAG=new-reqs-uv
+#jammy-uv
 
-FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-build:$TAG
+FROM bb:$TAG
+#FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-build:$TAG
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root
@@ -39,14 +41,13 @@ RUN mkdir -p /etc/OpenCL/vendors && \
 USER kat
 
 # Create wheels for GPU-related packages.
-COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
+COPY new-requirements.txt /home/kat/docker-base/new-gpu-requirements.txt
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
-    pip install -r ~/docker-base/pre-requirements.txt && \
-    uv pip compile ~/docker-base/base-requirements.txt -o ~/lock.txt && \
-    uv pip compile ~/docker-base/gpu-requirements.txt -o ~/lock.txt && \
+    pip install -r ~/docker-base/new-pre-requirements.txt && \
+    uv pip compile ~/docker-base/new-base-requirements.txt ~/docker-base/new-gpu-requirements.txt -o ~/lock.txt && \
     uv pip sync ~/lock.txt --strict && \
-    uv pip freeze && \
+    python -m pip check && \
     rm -rf ~/tmp-ve3
 
 # For nvidia-container-runtime 

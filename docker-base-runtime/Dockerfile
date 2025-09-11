@@ -1,5 +1,6 @@
 # A temporary stage just for compiling things
-FROM ubuntu:focal-20201106 as build
+#FROM ubuntu:focal-20201106 as build
+FROM ubuntu:jammy-20250714 as build
 RUN apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y install \
     wget \
     build-essential cmake gcc libudev-dev libnl-3-dev libnl-route-3-dev \
@@ -43,7 +44,8 @@ RUN tar -zxf rdma-core-31.0.tar.gz && \
 
 #######################################################################
 
-FROM ubuntu:focal-20201106
+#FROM ubuntu:focal-20201106
+FROM ubuntu:jammy-20250714
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 # Suppress debconf warnings
@@ -57,10 +59,10 @@ RUN apt-get -y update && apt-get --no-install-recommends -y install \
         apt-transport-https gpg-agent \
         software-properties-common wget curl \
         python3 virtualenv \
-        libboost-program-options1.71.0 \
-        libboost-python1.71.0 \
-        libboost-system1.71.0 \
-        libboost-regex1.71.0 \
+        libboost-program-options1.74.0 \
+        libboost-python1.74.0 \
+        libboost-system1.74.0 \
+        libboost-regex1.74.0 \
         netbase \
         libcap2 \
         libcap2-bin \
@@ -74,9 +76,16 @@ ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
 
 # Install tini (a mini-init) and set it as entrypoint so that we don't
 # accumulate zombie processes.
-RUN mirror_wget https://github.com/krallin/tini/releases/download/v0.18.0/tini -O /sbin/tini && \
-    chmod +x /sbin/tini
-ENTRYPOINT ["/sbin/tini", "--"]
+#RUN mirror_wget https://github.com/krallin/tini/releases/download/v0.18.0/tini -O /sbin/tini && \
+#    chmod +x /sbin/tini
+#ENTRYPOINT ["/sbin/tini", "--"]
+
+# Add Tini
+ENV TINI_VERSION=v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
+
 
 # Create a setuid binary to assist with realtime scheduling
 COPY --from=build /usr/local/bin/schedrr /usr/local/bin/schedrr

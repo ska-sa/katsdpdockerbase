@@ -1,9 +1,7 @@
-#ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
+ARG KATSDPDOCKERBASE_REGISTRY=127.0.0.1:5000
 ARG TAG=latest
 
-#FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
-#FROM br
-FROM docker-base-runtime:$TAG 
+FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG 
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root

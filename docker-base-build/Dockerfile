@@ -1,8 +1,9 @@
-ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
+#ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
 ARG TAG=latest
 
 #FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
-FROM br
+#FROM br
+FROM docker-base-runtime:$TAG 
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root

@@ -1,12 +1,14 @@
-ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
+#ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
 ARG TAG=latest
 
 # Just to give it a name to refer to for the later COPY step
 #FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-gpu-build:$TAG as gpu-build
-FROM bgb:latest as gpu_build 
+#FROM bgb:latest as gpu_build
+FROM docker-base-gpu-build:$TAG as gpu_build
 
 #FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
-FROM br
+#FROM br
+FROM docker-base-runtime:$TAG
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root

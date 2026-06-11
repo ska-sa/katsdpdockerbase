@@ -3,8 +3,8 @@ decorator                              # via pyopencl, pycuda, pytools
 mako                                   # via pycuda
 markupsafe                             # via mako
 numpy
-pycuda==2020.1
-pyopencl==2021.1.2
-pytools==2021.1
+pycuda==2022.2.2
+pyopencl==2023.1.4
+pytools==2022.1.14
 scikit-cuda==0.5.3
 six

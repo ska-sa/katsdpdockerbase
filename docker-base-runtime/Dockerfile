@@ -1,5 +1,12 @@
 # A temporary stage just for compiling things
-FROM ubuntu:focal-20201106 as build
+#FROM ubuntu:focal-20201106 as build
+FROM ubuntu:22.04 as build
+#RUN apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y install \
+#    wget \
+#    build-essential cmake gcc libudev-dev libnl-3-dev libnl-route-3-dev \
+#    ninja-build pkg-config valgrind python3-dev cython3 python3-docutils pandoc \
+#    libcap-dev
+
 RUN apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y install \
     wget \
     build-essential cmake gcc libudev-dev libnl-3-dev libnl-route-3-dev \
@@ -43,7 +50,8 @@ RUN tar -zxf rdma-core-31.0.tar.gz && \
 
 #######################################################################
 
-FROM ubuntu:focal-20201106
+FROM ubuntu:22.04 
+#ubuntu:focal-20201106
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 # Suppress debconf warnings
@@ -57,10 +65,11 @@ RUN apt-get -y update && apt-get --no-install-recommends -y install \
         apt-transport-https gpg-agent \
         software-properties-common wget curl \
         python3 virtualenv \
-        libboost-program-options1.71.0 \
-        libboost-python1.71.0 \
-        libboost-system1.71.0 \
-        libboost-regex1.71.0 \
+	#python3 python3-venv python3-pip \
+        libboost-program-options1.74.0 \
+        libboost-python1.74.0 \
+        libboost-system1.74.0 \
+        libboost-regex1.74.0 \
         netbase \
         libcap2 \
         libcap2-bin \

@@ -1,7 +1,7 @@
-ARG KATSDPDOCKERBASE_REGISTRY=127.0.0.1:5000
-ARG TAG=latest
+ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
+ARG TAG=jammyuvpip
 
-FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG 
+FROM $KATSDPDOCKERBASE_REGISTRY/base-runtime:$TAG 
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root
@@ -9,6 +9,7 @@ USER root
 RUN apt-get -y update && apt-get --no-install-recommends -y install \
     build-essential pkg-config git-core ssh \
     python3-dev \
+    python3 python3.10-venv python3-pip \
     libboost-program-options-dev \
     libboost-python-dev \
     libboost-system-dev \
@@ -33,10 +34,11 @@ RUN mkdir ~/.ssh && \
 
 COPY --chown=kat:kat *-requirements.txt /home/kat/docker-base/
 COPY install-requirements.py /usr/local/bin/
-COPY install_pinned.py /usr/local/bin
+#COPY install_pinned.py /usr/local/bin
 # Pre-build a number of wheels to speed up building of dependent images.
 # First use pip to install uv in pre-requirements.txt, then use uv to manage dependencies
-RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
+#RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
+RUN python3 -m venv ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
     pip install -r ~/docker-base/pre-requirements.txt && \
     uv pip compile ~/docker-base/base-requirements.txt -o ~/lock.txt && \
@@ -44,6 +46,6 @@ RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     rm -r ~/tmp-ve3
 
 # Create empty virtual environment for child images to install to
-RUN virtualenv -p /usr/bin/python3 ~/ve3 && \
+RUN python3 -m venv ~/ve3 && \
     . ~/ve3/bin/activate && \
     pip install -r ~/docker-base/pre-requirements.txt

@@ -1,7 +1,7 @@
-ARG KATSDPDOCKERBASE_REGISTRY=127.0.0.1:5000
-ARG TAG=latest
+ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
+ARG TAG=jammyuvpip
 
-FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-build:$TAG
+FROM $KATSDPDOCKERBASE_REGISTRY/base-build:$TAG
 
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
@@ -41,7 +41,7 @@ USER kat
 
 # Create wheels for GPU-related packages.
 COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
-RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
+RUN python3 -m venv ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
     pip install -r ~/docker-base/pre-requirements.txt && \
     uv pip compile ~/docker-base/base-requirements.txt ~/docker-base/gpu-requirements.txt -o ~/lock.txt && \

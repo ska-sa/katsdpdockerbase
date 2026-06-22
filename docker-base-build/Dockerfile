@@ -1,5 +1,5 @@
 ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
-ARG TAG=jammyuvpip
+ARG TAG=uvpipjammy
 
 FROM $KATSDPDOCKERBASE_REGISTRY/base-runtime:$TAG 
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"

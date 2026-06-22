@@ -2,9 +2,9 @@ ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
 ARG TAG=uvpipjammy
 
 # Just to give it a name to refer to for the later COPY step
-FROM $KATSDPDOCKERBASE_REGISTRY/base-gpu-build:$TAG AS gpu-build
+FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-gpu-build:$TAG AS gpu-build
 
-FROM $KATSDPDOCKERBASE_REGISTRY/base-runtime:$TAG
+FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
 
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 

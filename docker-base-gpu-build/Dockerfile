@@ -1,7 +1,7 @@
 ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
 ARG TAG=uvpipjammy
 
-FROM $KATSDPDOCKERBASE_REGISTRY/base-build:$TAG
+FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-build:$TAG
 
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 

@@ -33,19 +33,16 @@ RUN mkdir ~/.ssh && \
     git lfs install --skip-smudge
 
 COPY --chown=kat:kat *-requirements.txt /home/kat/docker-base/
-COPY install-requirements.py /usr/local/bin/
-#COPY install_pinned.py /usr/local/bin
-# Pre-build a number of wheels to speed up building of dependent images.
-# First use pip to install uv in pre-requirements.txt, then use uv to manage dependencies
-#RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
-RUN python3 -m venv ~/tmp-ve3 && \
-    . ~/tmp-ve3/bin/activate && \
-    pip install -r ~/docker-base/pre-requirements.txt && \
-    uv pip compile ~/docker-base/base-requirements.txt -o ~/lock.txt && \
-    uv pip sync ~/lock.txt --strict && \
-    rm -r ~/tmp-ve3
+# Install uv from pre-requirements. Using --user to avoids virtual env just to bootstrap
+RUN pip install --user -r ~/docker-base/pre-requirements.txt
 
-# Create empty virtual environment for child images to install to
+# add path so that uv is available on subsequent steps and inherited by the child images
+ENV PATH="/home/kat/.local/bin:${PATH}"
+
+# Create the main virtualenv and install all depencies into it
 RUN python3 -m venv ~/ve3 && \
-    . ~/ve3/bin/activate && \
-    pip install -r ~/docker-base/pre-requirements.txt
+    uv pip compile ~/docker-base/base-requirements.txt \
+        -o ~/docker-base/base-requirements.lock && \
+    uv pip sync ~/docker-base/base-requirements.lock \
+    --strict --python ~/ve3/bin/python
+

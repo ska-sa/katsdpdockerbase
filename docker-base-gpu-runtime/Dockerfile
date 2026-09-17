@@ -15,8 +15,8 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
         g++ ocl-icd-libopencl1 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=gpu-build /usr/local/cuda-11.4 /usr/local/cuda-11.4
-RUN ln -s /usr/local/cuda-11.4 /usr/local/cuda
+COPY --from=gpu-build /usr/local/cuda-12.5 /usr/local/cuda-12.5
+RUN ln -s /usr/local/cuda-12.5 /usr/local/cuda
 
 ENV PATH="$PATH:/usr/local/cuda/bin" \
     PATH_PYTHON3="$PATH_PYTHON3:/usr/local/cuda/bin"

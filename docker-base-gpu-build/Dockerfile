@@ -13,8 +13,11 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
 
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
 
-RUN CUDA_RUN_FILE=cuda_11.4.1_470.57.02_linux.run && \
-    mirror_wget --progress=dot:mega "http://developer.download.nvidia.com/compute/cuda/11.4.1/local_installers/$CUDA_RUN_FILE" && \
+# RUN CUDA_RUN_FILE=cuda_11.4.1_470.57.02_linux.run && \
+#     mirror_wget --progress=dot:mega "http://developer.download.nvidia.com/compute/cuda/11.4.1/local_installers/$CUDA_RUN_FILE" && \
+RUN CUDA_RUN_FILE=cuda_12.5.1_555.42.06_linux.run && \
+    mirror_wget --progress=dot:mega \
+     "https://developer.download.nvidia.com/compute/cuda/12.5.1/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
     rm -- $CUDA_RUN_FILE && \
     rm -r /usr/local/cuda/[Dd][Oo][cC]* && \
@@ -41,13 +44,19 @@ USER kat
 
 # Create wheels for GPU-related packages.
 COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
-RUN python3 -m venv ~/tmp-ve3 && \
-    . ~/tmp-ve3/bin/activate && \
-    pip install -r ~/docker-base/pre-requirements.txt && \
-    uv pip compile ~/docker-base/base-requirements.txt ~/docker-base/gpu-requirements.txt -o ~/lock.txt && \
-    uv pip sync ~/lock.txt --strict && \
-    uv pip freeze && \
-    rm -rf ~/tmp-ve3
+RUN uv pip compile ~/docker-base/gpu-requirements.txt \
+        --constraint ~/docker-base/base-requirements.lock \
+        -o ~/docker-base/gpu-requirements.lock && \
+    uv pip sync ~/docker-base/base-requirements.lock \
+                ~/docker-base/gpu-requirements.lock \
+        --strict --python ~/ve3/bin/python
+#RUN python3 -m venv ~/tmp-ve3 && \
+#    . ~/tmp-ve3/bin/activate && \
+#    pip install -r ~/docker-base/pre-requirements.txt && \
+#    uv pip compile ~/docker-base/base-requirements.txt ~/docker-base/gpu-requirements.txt -o ~/lock.txt && \
+#    uv pip sync ~/lock.txt --strict && \
+#    uv pip freeze && \
+#    rm -rf ~/tmp-ve3
 
 # For nvidia-container-runtime 
 # driver backwards compatability not guaranteed across minor versions when using PTX:

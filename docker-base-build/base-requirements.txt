@@ -8,7 +8,11 @@ alabaster==0.7.12                      # via sphinx
 ansicolors==1.1.8
 appdirs==1.4.4
 argparse==1.4.0                        # via python-casacore
-astropy==5.2.2    # 5.2.2
+astropy==5.3.1                         # Upgraded from astropy==5.2.2 to astropy>=5.3.1 to fix a case-sensitivity
+                                       #  bug in fitswcs.py where FITS headers supply 'UTC' (uppercase) but
+                                       # astropy.time.Time() requires lowercase 'utc', causing ScaleValueError
+                                       # at runtime when rendering FITS images with WCS axes. Fixed in astropy 5.3.1.
+                                       # This problem was in katsdpimager
 async-timeout==4.0.3
 asynctest==0.13.0
 attrs==22.2.0

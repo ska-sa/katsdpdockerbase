@@ -47,12 +47,14 @@ COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
     pip install -r ~/docker-base/pre-requirements.txt && \
-    install_pinned.py -c ~/docker-base/base-requirements.txt numpy && \
-    install_pinned.py -c ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
+    uv pip compile -c ~/docker-base/base-requirements.txt ~/docker-base/gpu-requirements.txt -o ~/docker-base/gpu-requirements.lock && \
+    uv pip install --no-deps -c ~/docker-base/gpu-requirements.lock numpy && \
+    uv pip install --no-cache --no-deps --no-binary pycuda --no-build-isolation -c ~/docker-base/gpu-requirements.lock pycuda && \
+    uv pip install --no-deps -r ~/docker-base/gpu-requirements.lock && \
+    uv pip check && \
     rm -rf ~/tmp-ve3
 
 # For nvidia-container-runtime 
 # driver backwards compatability not guaranteed across minor versions when using PTX:
 # https://docs.nvidia.com/deploy/cuda-compatibility/index.html#application-considerations
 ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=11.4 
-

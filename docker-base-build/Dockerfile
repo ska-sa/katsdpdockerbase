@@ -38,7 +38,9 @@ COPY install_pinned.py /usr/local/bin
 RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
     . ~/tmp-ve3/bin/activate && \
     pip install -r ~/docker-base/pre-requirements.txt && \
-    install_pinned.py -r ~/docker-base/base-requirements.txt && \
+    uv pip compile ~/docker-base/base-requirements.txt -o ~/docker-base/base-requirements.lock && \
+    uv pip install --no-deps -r ~/docker-base/base-requirements.lock && \
+    uv pip check && \
     rm -r ~/tmp-ve3
 
 # Create empty virtual environment for child images to install to

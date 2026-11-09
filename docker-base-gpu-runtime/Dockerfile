@@ -1,5 +1,5 @@
 ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
-ARG TAG=uvpipjammy
+ARG TAG=production-tag28102026
 
 # Just to give it a name to refer to for the later COPY step
 FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-gpu-build:$TAG AS gpu-build
@@ -33,7 +33,7 @@ RUN mkdir -p /etc/OpenCL/vendors && \
 USER kat
 
 # For nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=11.4
+ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=12.5
 
 # Just so that if the user passes the --build-arg they don't get a warning
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror

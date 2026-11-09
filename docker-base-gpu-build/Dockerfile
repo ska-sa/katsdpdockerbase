@@ -1,5 +1,5 @@
 ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
-ARG TAG=uvpipjammy
+ARG TAG=production-tag28102026
 
 FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-build:$TAG
 
@@ -61,5 +61,5 @@ RUN uv pip compile ~/docker-base/gpu-requirements.txt \
 # For nvidia-container-runtime 
 # driver backwards compatability not guaranteed across minor versions when using PTX:
 # https://docs.nvidia.com/deploy/cuda-compatibility/index.html#application-considerations
-ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=11.4 
+ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=12.5 
 

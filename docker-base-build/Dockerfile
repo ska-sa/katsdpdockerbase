@@ -1,5 +1,5 @@
 ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
-ARG TAG=uvpipjammy
+ARG TAG=production-tag28102026
 
 FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG 
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"

@@ -1,5 +1,5 @@
 ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
-ARG TAG=production-tag28102026
+ARG TAG=latest
 
 FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-build:$TAG
 
@@ -12,10 +12,6 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
         opencl-headers ocl-icd-libopencl1 ocl-icd-opencl-dev
 
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
-
-# RUN CUDA_RUN_FILE=cuda_11.4.1_470.57.02_linux.run && \
-#     mirror_wget --progress=dot:mega "http://developer.download.nvidia.com/compute/cuda/11.4.1/local_installers/$CUDA_RUN_FILE" && \
-RUN CUDA_RUN_FILE=cuda_12.5.1_555.42.06_linux.run && \
     mirror_wget --progress=dot:mega \
      "https://developer.download.nvidia.com/compute/cuda/12.5.1/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
@@ -44,22 +40,25 @@ USER kat
 
 # Create wheels for GPU-related packages.
 COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
+
 RUN uv pip compile ~/docker-base/gpu-requirements.txt \
         --constraint ~/docker-base/base-requirements.lock \
         -o ~/docker-base/gpu-requirements.lock && \
     uv pip sync ~/docker-base/base-requirements.lock \
                 ~/docker-base/gpu-requirements.lock \
         --strict --python ~/ve3/bin/python
-#RUN python3 -m venv ~/tmp-ve3 && \
-#    . ~/tmp-ve3/bin/activate && \
-#    pip install -r ~/docker-base/pre-requirements.txt && \
-#    uv pip compile ~/docker-base/base-requirements.txt ~/docker-base/gpu-requirements.txt -o ~/lock.txt && \
-#    uv pip sync ~/lock.txt --strict && \
-#    uv pip freeze && \
-#    rm -rf ~/tmp-ve3
+    . ~/tmp-ve3/bin/activate && \
+    pip install -r ~/docker-base/pre-requirements.txt && \
+    uv pip compile -c ~/docker-base/base-requirements.txt ~/docker-base/gpu-requirements.txt -o ~/docker-base/gpu-requirements.lock && \
+    uv pip install --no-deps -c ~/docker-base/gpu-requirements.lock numpy && \
+    uv pip install --no-cache --no-deps --no-binary pycuda --no-build-isolation -c ~/docker-base/gpu-requirements.lock pycuda && \
+    uv pip install --no-deps -r ~/docker-base/gpu-requirements.lock && \
+    uv pip check && \
+    rm -rf ~/tmp-ve3
+
 
 # For nvidia-container-runtime 
 # driver backwards compatability not guaranteed across minor versions when using PTX:
 # https://docs.nvidia.com/deploy/cuda-compatibility/index.html#application-considerations
-ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=12.5 
 
+ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=12.5 

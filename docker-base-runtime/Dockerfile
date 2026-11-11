@@ -45,7 +45,7 @@ RUN tar -zxf rdma-core-31.0.tar.gz && \
 #######################################################################
 
 FROM ubuntu:22.04 
-#ubuntu:focal-20201106
+
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 # Suppress debconf warnings

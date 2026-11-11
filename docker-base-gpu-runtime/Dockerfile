@@ -1,5 +1,5 @@
 ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
-ARG TAG=production-tag28102026
+ARG TAG=latest
 
 # Just to give it a name to refer to for the later COPY step
 FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-gpu-build:$TAG AS gpu-build

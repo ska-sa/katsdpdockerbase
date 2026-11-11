@@ -1,5 +1,5 @@
 ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
-ARG TAG=production-tag28102026
+ARG TAG=latest
 
 FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG 
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
@@ -33,6 +33,7 @@ RUN mkdir ~/.ssh && \
     git lfs install --skip-smudge
 
 COPY --chown=kat:kat *-requirements.txt /home/kat/docker-base/
+
 # Install uv from pre-requirements. Using --user to avoids virtual env just to bootstrap
 RUN pip install --user -r ~/docker-base/pre-requirements.txt
 
@@ -45,4 +46,16 @@ RUN python3 -m venv ~/ve3 && \
         -o ~/docker-base/base-requirements.lock && \
     uv pip sync ~/docker-base/base-requirements.lock \
     --strict --python ~/ve3/bin/python
+
+COPY install-requirements.py /usr/local/bin/
+COPY install_pinned.py /usr/local/bin
+# Pre-build a number of wheels to speed up building of dependent images.
+RUN virtualenv -p /usr/bin/python3 ~/tmp-ve3 && \
+    . ~/tmp-ve3/bin/activate && \
+    pip install -r ~/docker-base/pre-requirements.txt && \
+    uv pip compile ~/docker-base/base-requirements.txt -o ~/docker-base/base-requirements.lock && \
+    uv pip install --no-deps -r ~/docker-base/base-requirements.lock && \
+    uv pip check && \
+    rm -r ~/tmp-ve3
+
 

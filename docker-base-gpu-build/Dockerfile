@@ -12,8 +12,10 @@ RUN apt-get -y update && apt-get install --no-install-recommends -y \
         opencl-headers ocl-icd-libopencl1 ocl-icd-opencl-dev
 
 ARG KATSDPDOCKERBASE_MIRROR=http://sdp-services.kat.ac.za/mirror
+
+RUN CUDA_RUN_FILE=cuda_12.5.1_555.42.06_linux.run && \
     mirror_wget --progress=dot:mega \
-     "https://developer.download.nvidia.com/compute/cuda/12.5.1/local_installers/$CUDA_RUN_FILE" && \
+    "https://developer.download.nvidia.com/compute/cuda/12.5.1/local_installers/$CUDA_RUN_FILE" && \
     sh ./$CUDA_RUN_FILE --silent --toolkit && \
     rm -- $CUDA_RUN_FILE && \
     rm -r /usr/local/cuda/[Dd][Oo][cC]* && \
@@ -47,14 +49,6 @@ RUN uv pip compile ~/docker-base/gpu-requirements.txt \
     uv pip sync ~/docker-base/base-requirements.lock \
                 ~/docker-base/gpu-requirements.lock \
         --strict --python ~/ve3/bin/python
-    . ~/tmp-ve3/bin/activate && \
-    pip install -r ~/docker-base/pre-requirements.txt && \
-    uv pip compile -c ~/docker-base/base-requirements.txt ~/docker-base/gpu-requirements.txt -o ~/docker-base/gpu-requirements.lock && \
-    uv pip install --no-deps -c ~/docker-base/gpu-requirements.lock numpy && \
-    uv pip install --no-cache --no-deps --no-binary pycuda --no-build-isolation -c ~/docker-base/gpu-requirements.lock pycuda && \
-    uv pip install --no-deps -r ~/docker-base/gpu-requirements.lock && \
-    uv pip check && \
-    rm -rf ~/tmp-ve3
 
 
 # For nvidia-container-runtime 

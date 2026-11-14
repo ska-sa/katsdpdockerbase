@@ -469,7 +469,10 @@ trafaret==2.1.1
     # via
     #   -r base-requirements.txt
     #   aiomonitor
-typing==3.10.0.0
+#typing==3.10.0.0
+    # it’s been built into the standard library since
+    # Python 3.5 so it should not be in the requirements
+    # at all for Python 3.10.
     # via -r base-requirements.txt
 typing-extensions==4.16.0
     # via

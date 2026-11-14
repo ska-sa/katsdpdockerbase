@@ -3,7 +3,8 @@ decorator                              # via pyopencl, pycuda, pytools
 mako                                   # via pycuda
 markupsafe                             # via mako
 numpy
-pycuda==2024.1
+pycuda==2024.1                         # pycuda is pinned because it must be built from source against
+                                       # CUDA 12.5
 pyopencl
 pytools
 scikit-cuda

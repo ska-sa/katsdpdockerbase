@@ -32,17 +32,20 @@ RUN mkdir ~/.ssh && \
     chmod -R go-rwx ~/.ssh && \
     git lfs install --skip-smudge
 
-COPY --chown=kat:kat *-requirements.txt /home/kat/docker-base/
+COPY --chown=kat:kat *-requirements.txt *-requirements.lock /home/kat/docker-base/
 
-# Install uv from pre-requirements. Using --user to avoids virtual env just to bootstrap
-RUN pip install --user -r ~/docker-base/pre-requirements.txt
+# Install uv from pre-requirements. Using --user to avoid virtual env just to bootstrap
+RUN pip install --user -r /home/kat/docker-base/pre-requirements.lock
 
-# add path so that uv is available on subsequent steps and inherited by the child images
+# Add path so that uv is available on subsequent steps and inherited by child images
 ENV PATH="/home/kat/.local/bin:${PATH}"
 
-# Create the main virtualenv and install all depencies into it
-RUN python3 -m venv ~/ve3 && \
-    uv pip compile ~/docker-base/base-requirements.txt \
-        -o ~/docker-base/base-requirements.lock && \
-    uv pip sync ~/docker-base/base-requirements.lock \
-    --strict --python ~/ve3/bin/python
+# Create the main virtualenv and install all dependencies into it
+RUN python3 -m venv /home/kat/ve3 && \
+    uv pip compile /home/kat/docker-base/base-requirements.txt \
+        --python-version 3.10 \
+        -o /home/kat/docker-base/base-requirements.lock && \
+    uv pip install --no-deps \
+        -r /home/kat/docker-base/base-requirements.lock \
+        --python /home/kat/ve3/bin/python && \
+    uv pip check --python /home/kat/ve3/bin/python

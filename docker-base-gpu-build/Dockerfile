@@ -43,12 +43,14 @@ USER kat
 # Create wheels for GPU-related packages.
 COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
 
-RUN uv pip compile ~/docker-base/gpu-requirements.txt \
-        --constraint ~/docker-base/base-requirements.lock \
-        -o ~/docker-base/gpu-requirements.lock && \
-    uv pip sync ~/docker-base/base-requirements.lock \
-                ~/docker-base/gpu-requirements.lock \
-        --strict --python ~/ve3/bin/python
+RUN uv pip compile /home/kat/docker-base/gpu-requirements.txt \
+        --constraint /home/kat/docker-base/base-requirements.lock \
+        -o /home/kat/docker-base/gpu-requirements.lock && \
+    uv pip install --no-deps \
+        -r /home/kat/docker-base/base-requirements.lock \
+        -r /home/kat/docker-base/gpu-requirements.lock \
+        --python /home/kat/ve3/bin/python && \
+    uv pip check --python /home/kat/ve3/bin/python
 
 
 # For nvidia-container-runtime 

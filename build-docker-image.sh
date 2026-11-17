@@ -38,10 +38,9 @@ fi
 # the directory containing the Dockerfile isn't the top-level directory, or if
 # .git is listed in .Dockerignore, then it won't find it. It has a fallback of
 # consulting a file called ___version___, so we extract the version from
-# outside Docker and create that file. Note that this code needs to work on
-# Python 2 and 3.
+# outside Docker and create that file.
 if [ -n "$VIRTUAL_ENV" ]; then
-    pip install katversion
+    uv pip install katversion
     python -c 'import katversion; print(katversion.get_version())' > ___version___
 fi
 if [ -x "scripts/docker_build.sh" ]; then

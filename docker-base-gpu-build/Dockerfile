@@ -43,14 +43,18 @@ USER kat
 # Create wheels for GPU-related packages.
 COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
 
+# Warm the uv wheel cache with GPU packages into a temporary virtualenv,
+# then delete it. Downstream images reuse cached wheels.
 RUN uv pip compile /home/kat/docker-base/gpu-requirements.txt \
         --constraint /home/kat/docker-base/base-requirements.lock \
         -o /home/kat/docker-base/gpu-requirements.lock && \
+    python3 -m venv /tmp/warm-cache-gpu && \
     uv pip install --no-deps \
         -r /home/kat/docker-base/base-requirements.lock \
         -r /home/kat/docker-base/gpu-requirements.lock \
-        --python /home/kat/ve3/bin/python && \
-    uv pip check --python /home/kat/ve3/bin/python
+        --python /tmp/warm-cache-gpu/bin/python && \
+    uv pip check --python /tmp/warm-cache-gpu/bin/python && \
+    rm -rf /tmp/warm-cache-gpu
 
 
 # For nvidia-container-runtime 

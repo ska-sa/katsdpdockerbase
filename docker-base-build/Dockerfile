@@ -40,12 +40,21 @@ RUN pip install --user -r /home/kat/docker-base/pre-requirements.lock
 # Add path so that uv is available on subsequent steps and inherited by child images
 ENV PATH="/home/kat/.local/bin:${PATH}"
 
-# Create the main virtualenv and install all dependencies into it
-RUN python3 -m venv /home/kat/ve3 && \
+# Warm the uv wheel cache by installing all base dependencies into a
+# temporary virtualenv, then delete it. Downstream images install only
+# their own dependencies into /home/kat/ve3, reusing cached wheels.
+RUN python3 -m venv /tmp/warm-cache && \
     uv pip compile /home/kat/docker-base/base-requirements.txt \
         --python-version 3.10 \
         -o /home/kat/docker-base/base-requirements.lock && \
     uv pip install --no-deps \
         -r /home/kat/docker-base/base-requirements.lock \
-        --python /home/kat/ve3/bin/python && \
-    uv pip check --python /home/kat/ve3/bin/python
+        --python /tmp/warm-cache/bin/python && \
+    uv pip check --python /tmp/warm-cache/bin/python && \
+    rm -rf /tmp/warm-cache
+
+# Create the main virtualenv with only bootstrap tools.
+# Downstream images install their own dependencies into this venv.
+RUN python3 -m venv /home/kat/ve3 && \
+    uv pip install --python /home/kat/ve3/bin/python \
+        setuptools wheel pip

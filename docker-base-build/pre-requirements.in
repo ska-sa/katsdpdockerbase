@@ -1,0 +1,10 @@
+# uv is pinned for reproducibility of the tool itself.
+# Everything else is unpinned and resolved by uv.
+uv==0.8.4
+
+# Unpinned bootstrap tools - let uv resolve
+pip
+setuptools
+wheel
+packaging
+tomli

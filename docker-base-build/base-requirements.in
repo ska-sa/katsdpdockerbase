@@ -1,0 +1,73 @@
+# numpy<2.0: katsdpsigproc was compiled against NumPy 1.x
+# and is incompatible with NumPy 2.x
+numpy<2.0
+
+# aiohttp, multidict and botocore are constrained to be compatible
+# with aiobotocore (latest version 3.10.0 at time of writing) which
+# katsdpmetawriter installs on top. aiobotocore requires:
+# aiohttp>=3.14.0,<4.0.0, multidict>=6.0.0,<8.0.0 and
+# botocore>=1.43.115,<1.43.118
+aiohttp>=3.14.0,<4.0.0
+multidict>=6.0.0,<8.0.0
+botocore>=1.43.115,<1.43.118
+
+# healpy>=1.17.3: older versions use scipy.integrate.trapz
+# which was removed in scipy 1.14
+healpy>=1.17.3
+
+
+# Direct dependencies - unpinned, let uv resolve
+aiohttp-retry
+aiokatcp
+aiomonitor
+astropy
+asynctest
+bokeh
+chardet
+cityhash
+coverage
+dask
+defusedxml
+ephem
+fakeredis
+h5py
+hiredis
+importlib-resources
+jsonschema
+katportalclient
+katversion
+llvmlite
+lupa
+mako
+manhole
+matplotlib
+msgpack
+mypy
+netifaces
+netifaces-plus
+nose
+numba
+pandas
+py
+pyephem
+pygelf
+pyjwt
+pytest
+pytest-cov
+python-casacore
+python-lzf
+pytools
+pyyaml
+rdbtools
+redis
+scipy
+setuptools
+spead2
+sphinx
+sphinx-rtd-theme
+sphinxcontrib-websupport
+strict-rfc3339
+tbb
+toml
+trafaret
+ujson

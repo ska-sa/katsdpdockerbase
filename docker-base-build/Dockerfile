@@ -32,10 +32,10 @@ RUN mkdir ~/.ssh && \
     chmod -R go-rwx ~/.ssh && \
     git lfs install --skip-smudge
 
-COPY --chown=kat:kat *-requirements.txt *-requirements.lock /home/kat/docker-base/
+COPY --chown=kat:kat *-requirements.txt /home/kat/docker-base/
 
 # Install uv from pre-requirements. Using --user to avoid virtual env just to bootstrap
-RUN pip install --user -r /home/kat/docker-base/pre-requirements.lock
+RUN pip install --user -r /home/kat/docker-base/pre-requirements.txt
 
 # Add path so that uv is available on subsequent steps and inherited by child images
 ENV PATH="/home/kat/.local/bin:${PATH}"
@@ -43,12 +43,10 @@ ENV PATH="/home/kat/.local/bin:${PATH}"
 # Warm the uv wheel cache by installing all base dependencies into a
 # temporary virtualenv, then delete it. Downstream images install only
 # their own dependencies into /home/kat/ve3, reusing cached wheels.
+# No compile step needed — base-requirements.txt is pre-compiled and committed
 RUN python3 -m venv /tmp/warm-cache && \
-    uv pip compile /home/kat/docker-base/base-requirements.txt \
-        --python-version 3.10 \
-        -o /home/kat/docker-base/base-requirements.lock && \
     uv pip install --no-deps \
-        -r /home/kat/docker-base/base-requirements.lock \
+        -r /home/kat/docker-base/base-requirements.txt \
         --python /tmp/warm-cache/bin/python && \
     uv pip check --python /tmp/warm-cache/bin/python && \
     rm -rf /tmp/warm-cache

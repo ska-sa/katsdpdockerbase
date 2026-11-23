@@ -1,0 +1,10 @@
+appdirs        
+decorator      
+mako           
+markupsafe     
+numpy
+pycuda
+pyopencl
+pytools
+scikit-cuda
+six

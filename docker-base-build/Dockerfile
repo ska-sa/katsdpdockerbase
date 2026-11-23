@@ -34,25 +34,23 @@ RUN mkdir ~/.ssh && \
 
 COPY --chown=kat:kat *-requirements.txt /home/kat/docker-base/
 
-# Install uv from pre-requirements. Using --user to avoid virtual env just to bootstrap
-RUN pip install --user -r /home/kat/docker-base/pre-requirements.txt
 
-# Add path so that uv is available on subsequent steps and inherited by child images
-ENV PATH="/home/kat/.local/bin:${PATH}"
-
-# Warm the uv wheel cache by installing all base dependencies into a
-# temporary virtualenv, then delete it. Downstream images install only
-# their own dependencies into /home/kat/ve3, reusing cached wheels.
-# No compile step needed — base-requirements.txt is pre-compiled and committed
+# Warm the uv wheel cache using a temporary virtualenv then delete it.
+# pip bootstraps uv from pre-requirements, then uv warms the base cache.
+# No compile step needed — all .txt files are pre-compiled and committed.
 RUN python3 -m venv /tmp/warm-cache && \
+    . /tmp/warm-cache/bin/activate && \
+    pip install --no-deps \
+        -r /home/kat/docker-base/pre-requirements.txt && \
     uv pip install --no-deps \
         -r /home/kat/docker-base/base-requirements.txt \
         --python /tmp/warm-cache/bin/python && \
     uv pip check --python /tmp/warm-cache/bin/python && \
     rm -rf /tmp/warm-cache
-
-# Create the main virtualenv with only bootstrap tools.
-# Downstream images install their own dependencies into this venv.
+    
+# Create the main virtualenv with bootstrap tools including uv.
+# Downstream images install their own dependencies into this venv
+# and use /home/kat/ve3/bin/uv directly.
 RUN python3 -m venv /home/kat/ve3 && \
-    uv pip install --python /home/kat/ve3/bin/python \
-        setuptools wheel pip
+    /home/kat/ve3/bin/pip install --no-deps \
+        -r /home/kat/docker-base/pre-requirements.txt

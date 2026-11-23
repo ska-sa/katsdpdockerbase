@@ -14,34 +14,37 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="${SCRIPT_DIR}/docker-base-build"
 GPU_DIR="${SCRIPT_DIR}/docker-base-gpu-build"
 
+# Python version used for compiling requirements.
+# Change this if the base image Python version changes.
+PYTHON_VERSION="3.10"
+
 compile_pre() {
     echo "Compiling pre-requirements.in -> pre-requirements.txt..."
     uv pip compile \
-        --python-version 3.10 \
+        --python-version "${PYTHON_VERSION}" \
         "${BASE_DIR}/pre-requirements.in" \
         -o "${BASE_DIR}/pre-requirements.txt"
-    echo "Done: pre-requirements.lock"
+    echo "Done: pre-requirements.txt"
 }
 
 compile_base() {
     echo "Compiling base-requirements.in -> base-requirements.txt..."
     uv pip compile \
-        --python-version 3.10 \
-        --no-binary pycuda \
+        --python-version "${PYTHON_VERSION}" \
         "${BASE_DIR}/base-requirements.in" \
         -o "${BASE_DIR}/base-requirements.txt"
     echo "Done: base-requirements.txt"
 }
 
 compile_gpu() {
-    echo "Compiling requirements.in -> gpu-requirements.txt..."
+    echo "Compiling gpu-requirements.in -> gpu-requirements.txt..."
     uv pip compile \
-        --python-version 3.10 \
+        --python-version "${PYTHON_VERSION}" \
         --no-binary pycuda \
         --constraint "${BASE_DIR}/base-requirements.txt" \
-        "${GPU_DIR}/gpu-requirements.in" \
-        -o "${GPU_DIR}/gpu-requirements.txt"
-    echo "Done: gpu-requirements.txt"
+        "${GPU_DIR}/requirements.in" \
+        -o "${GPU_DIR}/requirements.txt"
+    echo "Done: requirements.txt"
 }
 
 TARGET="${1:-all}"

@@ -41,7 +41,7 @@ fi
 # outside Docker and create that file. Note that this code needs to work on
 # Python 2 and 3.
 if [ -n "$VIRTUAL_ENV" ]; then
-    pip install katversion
+    uv pip install katversion
     python -c 'import katversion; print(katversion.get_version())' > ___version___
 fi
 if [ -x "scripts/docker_build.sh" ]; then

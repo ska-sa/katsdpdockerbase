@@ -1,11 +1,6 @@
 
-# aiohttp, multidict and botocore are constrained to be compatible
-# with aiobotocore (latest version 3.10.0 at time of writing) which
-# katsdpmetawriter installs on top. Hence it is added to the base requirements.
-aiobotocore==3.10.0
-
-
 # Direct dependencies - unpinned, let uv resolve
+aiobotocore
 aiohttp-retry
 aiohttp
 aiokatcp
@@ -32,7 +27,6 @@ lupa
 mako
 manhole
 matplotlib
-multidict
 msgpack
 mypy
 netifaces
@@ -60,7 +54,6 @@ sphinx
 sphinx-rtd-theme
 sphinxcontrib-websupport
 strict-rfc3339
-tbb
 toml
 trafaret
 ujson

@@ -37,14 +37,14 @@ compile_base() {
 }
 
 compile_gpu() {
-    echo "Compiling gpu-requirements.in -> gpu-requirements.txt..."
+    echo "Compiling GPU requirements.in -> GPU requirements.txt..."
     uv pip compile \
         --python-version "${PYTHON_VERSION}" \
         --no-binary pycuda \
         --constraint "${BASE_DIR}/base-requirements.txt" \
         "${GPU_DIR}/requirements.in" \
         -o "${GPU_DIR}/requirements.txt"
-    echo "Done: requirements.txt"
+    echo "Done: GPU requirements.txt"
 }
 
 TARGET="${1:-all}"

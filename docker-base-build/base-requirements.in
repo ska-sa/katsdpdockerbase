@@ -1,4 +1,6 @@
-
+# numpy<2.0: pycuda==2024.1 was compiled against NumPy 1.x C API.
+# NumPy 2.0 changed the C API causing pycuda._driver to fail on import
+numpy < 2.0
 # Direct dependencies - unpinned, let uv resolve
 aiobotocore
 aiohttp-retry
@@ -33,7 +35,6 @@ netifaces
 netifaces-plus
 nose
 numba
-numpy
 pandas
 py
 pyephem

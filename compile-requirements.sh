@@ -22,6 +22,7 @@ compile_pre() {
     echo "Compiling pre-requirements.in -> pre-requirements.txt..."
     uv pip compile \
         --python-version "${PYTHON_VERSION}" \
+         --upgrade \
         "${BASE_DIR}/pre-requirements.in" \
         -o "${BASE_DIR}/pre-requirements.txt"
     echo "Done: pre-requirements.txt"
@@ -31,6 +32,7 @@ compile_base() {
     echo "Compiling base-requirements.in -> base-requirements.txt..."
     uv pip compile \
         --python-version "${PYTHON_VERSION}" \
+        --upgrade \
         "${BASE_DIR}/base-requirements.in" \
         -o "${BASE_DIR}/base-requirements.txt"
     echo "Done: base-requirements.txt"
@@ -40,6 +42,7 @@ compile_gpu() {
     echo "Compiling GPU requirements.in -> GPU requirements.txt..."
     uv pip compile \
         --python-version "${PYTHON_VERSION}" \
+         --upgrade \
         --no-binary pycuda \
         --constraint "${BASE_DIR}/base-requirements.txt" \
         "${GPU_DIR}/requirements.in" \

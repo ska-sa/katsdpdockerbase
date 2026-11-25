@@ -1,0 +1,5 @@
+# pycuda==2024.1: pinned because it must be built from source against CUDA 12.5
+pycuda==2024.1
+
+pyopencl
+scikit-cuda

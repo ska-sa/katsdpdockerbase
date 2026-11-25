@@ -1,5 +1,0 @@
-# requirements.in — just names, plus any lower bounds you actually need
-numpy
-h5py
-pytest
-pytest-cov

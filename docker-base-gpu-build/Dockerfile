@@ -45,8 +45,7 @@ COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
 
 # Warm the uv wheel cache with GPU packages into a temporary virtualenv,
 # then delete it. Downstream images reuse cached wheels.
-# No compile step needed — gpu-requirements.txt is pre-compiled and committed.
-ENV PATH="/home/kat/ve3/bin:${PATH}"
+# No compile step needed — GPU requirements.txt is pre-compiled and committed.
 
 RUN python3 -m venv /tmp/warm-cache-gpu && \
     uv pip install --no-deps \

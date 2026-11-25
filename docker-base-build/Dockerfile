@@ -39,18 +39,19 @@ COPY --chown=kat:kat *-requirements.txt /home/kat/docker-base/
 # pip bootstraps uv from pre-requirements, then uv warms the base cache.
 # No compile step needed — all .txt files are pre-compiled and committed.
 RUN python3 -m venv /tmp/warm-cache && \
-    . /tmp/warm-cache/bin/activate && \
-    pip install --no-deps \
+    /tmp/warm-cache/bin/pip install --no-deps \
         -r /home/kat/docker-base/pre-requirements.txt && \
-    uv pip install --no-deps \
+    /tmp/warm-cache/bin/uv pip install --no-deps \
         -r /home/kat/docker-base/base-requirements.txt \
         --python /tmp/warm-cache/bin/python && \
-    uv pip check --python /tmp/warm-cache/bin/python && \
+    /tmp/warm-cache/bin/uv pip check --python /tmp/warm-cache/bin/python && \
     rm -rf /tmp/warm-cache
-    
 # Create the main virtualenv with bootstrap tools including uv.
 # Downstream images install their own dependencies into this venv
 # and use /home/kat/ve3/bin/uv directly.
 RUN python3 -m venv /home/kat/ve3 && \
     /home/kat/ve3/bin/pip install --no-deps \
         -r /home/kat/docker-base/pre-requirements.txt
+
+ENV VIRTUAL_ENV=/home/kat/ve3
+ENV PATH="/home/kat/ve3/bin:${PATH}"

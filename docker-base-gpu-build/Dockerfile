@@ -41,22 +41,20 @@ RUN mkdir -p /etc/OpenCL/vendors && \
 USER kat
 
 # Create wheels for GPU-related packages.
+# numpy is installed first because pycuda doesn't use PEP 518 and so if numpy
+# isn't installed before pycuda, setuptools will suck in the latest version
+# while building it and the resulting wheel will break when used with older
+# versions of numpy (specifically, older C_API_VERSION).
 COPY requirements.txt /home/kat/docker-base/gpu-requirements.txt
-
-# Warm the uv wheel cache with GPU packages into a temporary virtualenv,
-# then delete it. Downstream images reuse cached wheels.
-# No compile step needed — GPU requirements.txt is pre-compiled and committed.
-
 RUN python3 -m venv /tmp/warm-cache-gpu && \
-    uv pip install --no-deps \
-        -r /home/kat/docker-base/gpu-requirements.txt \
-        --python /tmp/warm-cache-gpu/bin/python && \
-    uv pip check --python /tmp/warm-cache-gpu/bin/python && \
+    . /tmp/warm-cache-gpu/bin/activate && \
+    pip install -r ~/docker-base/pre-requirements.txt && \
+    install_pinned.py -c ~/docker-base/base-requirements.txt numpy && \
+    install_pinned.py -c ~/docker-base/base-requirements.txt -r ~/docker-base/gpu-requirements.txt && \
     rm -rf /tmp/warm-cache-gpu
 
-
-# For nvidia-container-runtime 
+# For nvidia-container-runtime
 # driver backwards compatability not guaranteed across minor versions when using PTX:
 # https://docs.nvidia.com/deploy/cuda-compatibility/index.html#application-considerations
 
-ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=12.5 
+ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=compute,utility NVIDIA_REQUIRE_CUDA=cuda>=12.5

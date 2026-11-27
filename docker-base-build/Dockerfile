@@ -1,7 +1,7 @@
 ARG KATSDPDOCKERBASE_REGISTRY=harbor.sdp.kat.ac.za/dpp
 ARG TAG=latest
 
-FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG 
+FROM $KATSDPDOCKERBASE_REGISTRY/docker-base-runtime:$TAG
 LABEL maintainer="sdpdev+katsdpdockerbase@ska.ac.za"
 
 USER root
@@ -33,25 +33,18 @@ RUN mkdir ~/.ssh && \
     git lfs install --skip-smudge
 
 COPY --chown=kat:kat *-requirements.txt /home/kat/docker-base/
-
-
+COPY install-requirements.py /usr/local/bin/
+COPY install_pinned.py /usr/local/bin
 # Warm the uv wheel cache using a temporary virtualenv then delete it.
 # pip bootstraps uv from pre-requirements, then uv warms the base cache.
 # No compile step needed — all .txt files are pre-compiled and committed.
 RUN python3 -m venv /tmp/warm-cache && \
-    /tmp/warm-cache/bin/pip install --no-deps \
-        -r /home/kat/docker-base/pre-requirements.txt && \
-    /tmp/warm-cache/bin/uv pip install --no-deps \
-        -r /home/kat/docker-base/base-requirements.txt \
-        --python /tmp/warm-cache/bin/python && \
-    /tmp/warm-cache/bin/uv pip check --python /tmp/warm-cache/bin/python && \
-    rm -rf /tmp/warm-cache
-# Create the main virtualenv with bootstrap tools including uv.
-# Downstream images install their own dependencies into this venv
-# and use /home/kat/ve3/bin/uv directly.
-RUN python3 -m venv /home/kat/ve3 && \
-    /home/kat/ve3/bin/pip install --no-deps \
-        -r /home/kat/docker-base/pre-requirements.txt
+    . /tmp/warm-cache/bin/activate && \
+    pip install -r ~/docker-base/pre-requirements.txt && \
+    install_pinned.py -r ~/docker-base/base-requirements.txt && \
+    rm -r /tmp/warm-cache
 
-ENV VIRTUAL_ENV=/home/kat/ve3
-ENV PATH="/home/kat/ve3/bin:${PATH}"
+# Create empty virtual environment for child images to install to
+RUN python3 -m venv ~/ve3 && \
+    . ~/ve3/bin/activate && \
+    pip install -r ~/docker-base/pre-requirements.txt
